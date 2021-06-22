@@ -31,13 +31,13 @@ namespace PlrDesktop.ApiInteraction.Connection
 
                 if (_authProvider != null)
                 {
-                    _authProvider.ChangeInfo(AuthInfo);
-                }
+                _authProvider.ChangeInfo(AuthInfo);
+            }
                 else
                 {
                     _authProvider = new AuthProvider(AuthInfo, _serverInfo.Address + _authApiRelativePath, _requester);
                 }
-            }
+        }
         }
 
         public ApiServerConnection(ApiServerInfo serverInfo)
