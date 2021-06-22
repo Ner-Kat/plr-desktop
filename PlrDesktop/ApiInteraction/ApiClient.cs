@@ -16,11 +16,16 @@ namespace PlrDesktop.ApiInteraction
         public ApiMethods Methods { get; }
 
 
-        public ApiClient(ApiServerInfo apiServer)
+        public ApiClient(ApiServerInfo apiServerInfo)
         {
-            _serverInfo = apiServer;
+            _serverInfo = apiServerInfo;
             _server = new ApiServerConnection(_serverInfo);
             Methods = new ApiMethods(_server);
+        }
+
+        public ApiClient(ApiServerInfo apiServerInfo, AuthInfo authInfo) : this(apiServerInfo)
+        {
+            _server.AuthInfo = authInfo;
         }
     }
 }
