@@ -9,11 +9,12 @@ namespace PlrDesktop.ApiInteraction.Methods
 {
     public class CharactersMethods
     {
-        private string _apiAddress;
+        private ApiServerConnection _server;
+        private const string _methodsAddress = "characters/";
 
-        public CharactersMethods(ApiServerInfo apiServer)
+        public CharactersMethods(ApiServerConnection server)
         {
-            _apiAddress = apiServer.Address;
+            _server = server;
         }
     }
 }

@@ -19,25 +19,34 @@ namespace PlrDesktop.ApiInteraction.Connection
         private ApiServerRequester _requester;
         private AuthProvider _authProvider;
 
+        public ApiServerInfo ApiServerInfo 
+        { 
+            get
+            {
+                return _serverInfo;
+            } 
+        }
+
+        private AuthInfo _authInfo;
         public AuthInfo AuthInfo
         {
             get
             {
-                return AuthInfo;
+                return _authInfo;
             }
             set
             {
-                AuthInfo = value;
+                _authInfo = value;
 
                 if (_authProvider != null)
                 {
-                _authProvider.ChangeInfo(AuthInfo);
-            }
+                    _authProvider.ChangeInfo(_authInfo);
+                }
                 else
                 {
-                    _authProvider = new AuthProvider(AuthInfo, _serverInfo.Address + _authApiRelativePath, _requester);
+                    _authProvider = new AuthProvider(_authInfo, _serverInfo.Address + _authApiRelativePath, _requester);
                 }
-        }
+            }
         }
 
         public ApiServerConnection(ApiServerInfo serverInfo)

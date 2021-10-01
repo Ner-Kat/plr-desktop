@@ -14,6 +14,7 @@ namespace PlrDesktop.ApiInteraction.Methods
         public RacesMethods Races { get; }
         public SocialFormationsMethods SocForms { get; }
         public GendersMethods Genders { get; }
+        public UsersMethods Users { get; }
 
 
         public ApiMethods(ApiServerConnection serverConnection)
@@ -23,6 +24,7 @@ namespace PlrDesktop.ApiInteraction.Methods
             Races = new RacesMethods(serverConnection);
             SocForms = new SocialFormationsMethods(serverConnection);
             Genders = new GendersMethods(serverConnection);
+            Users = new UsersMethods(serverConnection);
         }
     }
 }

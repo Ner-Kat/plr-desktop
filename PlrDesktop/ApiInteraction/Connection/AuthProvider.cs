@@ -25,6 +25,7 @@ namespace PlrDesktop.ApiInteraction.Connection
             _authApiPath = authApiPath;
             _authInfo = authInfo;
             _requester = requester;
+            _tokens = new AuthTokens();
         }
 
         public void ChangeInfo(AuthInfo newInfo)
@@ -37,8 +38,23 @@ namespace PlrDesktop.ApiInteraction.Connection
             _requester = newRequester;
         }
 
+        public bool IsTokensExists()
+        {
+            return !string.IsNullOrEmpty(_tokens.AccessToken) && !string.IsNullOrEmpty(_tokens.RefreshToken);
+        }
+
         public AuthenticationHeaderValue GetAuthHeader()
         {
+            if (!IsTokensExists())
+            {
+                UpdateTokens();
+            }
+
+            if (string.IsNullOrEmpty(_tokens.AccessToken))
+            {
+                return null;
+            }
+
             return new AuthenticationHeaderValue("Bearer", _tokens.AccessToken);
         }
 

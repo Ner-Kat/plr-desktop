@@ -9,22 +9,29 @@ using PlrDesktop.Datacards.InputCards;
 using System.Net;
 using System.Windows;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PlrDesktop.ApiInteraction.Methods
 {
-    public class LocationsMethods
+    public class LocationsMethods : DataMethods
     {
-        private ApiServerConnection _server;
-        private const string _methodsAddress = "locations/";
+        override public string MethodsAddress { get; } = "locations/";
 
-        public LocationsMethods(ApiServerConnection server)
+        public LocationsMethods(ApiServerConnection server) : base(server)
         {
-            _server = server;
         }
 
-        public Location Get(int id)
+        public async Task<Location> Get(int id)
         {
-            
+            var result = await _server.GetAsync(MethodsAddress + $"get?id={id}");
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                Location location = JsonSerializer.Deserialize<Location>(result.Content);
+                return location;
+            }
+
+            return null;
         }
     }
 }

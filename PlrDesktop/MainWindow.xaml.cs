@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PlrDesktop.ApiInteraction;
+using PlrDesktop.ApiInteraction.Connection;
+using PlrDesktop.Datacards.MainCards;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,20 @@ namespace PlrDesktop
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var info = new ApiServerInfo("https://localhost:16500/api/");
+            var auth = new AuthInfo()
+            {
+                Login = "webUser",
+                Password = "webPass"
+            };
+            ApiClient client = new ApiClient(info, auth);
+
+            Location loc = await client.Methods.Locs.Get(1);
+            MessageBox.Show($"{loc.Name}, {loc.Desc}");
         }
     }
 }

@@ -9,11 +9,12 @@ namespace PlrDesktop.ApiInteraction.Methods
 {
     public class RacesMethods
     {
-        private string _apiAddress;
+        private ApiServerConnection _server;
+        private const string _methodsAddress = "races/";
 
-        public RacesMethods(ApiServerInfo apiServer)
+        public RacesMethods(ApiServerConnection server)
         {
-            _apiAddress = apiServer.Address;
+            _server = server;
         }
     }
 }

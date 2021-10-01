@@ -9,11 +9,12 @@ namespace PlrDesktop.ApiInteraction.Methods
 {
     public class SocialFormationsMethods
     {
-        private string _apiAddress;
+        private ApiServerConnection _server;
+        private const string _methodsAddress = "socforms/";
 
-        public SocialFormationsMethods(ApiServerInfo apiServer)
+        public SocialFormationsMethods(ApiServerConnection server)
         {
-            _apiAddress = apiServer.Address;
+            _server = server;
         }
     }
 }

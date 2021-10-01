@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace PlrDesktop.ApiInteraction.Methods
 {
-    public class GendersMethods
+    public class UsersMethods
     {
         private ApiServerConnection _server;
-        private const string _methodsAddress = "genders/";
+        private const string _methodsAddress = "accounts/";
 
-        public GendersMethods(ApiServerConnection server)
+        public UsersMethods(ApiServerConnection server)
         {
             _server = server;
         }

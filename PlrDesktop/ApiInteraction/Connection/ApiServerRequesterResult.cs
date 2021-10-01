@@ -12,6 +12,27 @@ namespace PlrDesktop.ApiInteraction.Connection
     {
         public HttpStatusCode StatusCode { get; set; }
         public string Content { get; set; }
-        public HttpRequestMessage Request { get; set; }
+
+        private HttpRequestMessage _request;
+        public HttpRequestMessage Request { 
+            get 
+            {
+                return _request;
+            }
+            set 
+            {
+                _request = new HttpRequestMessage()
+                {
+                    Method = value.Method,
+                    Content = value.Content,
+                    RequestUri = value.RequestUri
+                };
+
+                foreach(var header in value.Headers)
+                {
+                    _request.Headers.Add(header.Key, header.Value);
+                }
+            }
+        }
     }
 }
