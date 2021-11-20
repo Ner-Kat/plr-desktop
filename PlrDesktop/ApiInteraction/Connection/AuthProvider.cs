@@ -38,16 +38,19 @@ namespace PlrDesktop.ApiInteraction.Connection
             _requester = newRequester;
         }
 
-        public bool IsTokensExists()
+        public bool TokensExists()
         {
             return !string.IsNullOrEmpty(_tokens.AccessToken) && !string.IsNullOrEmpty(_tokens.RefreshToken);
         }
 
-        public AuthenticationHeaderValue GetAuthHeader()
+        public async Task<AuthenticationHeaderValue> GetAuthHeader()
         {
-            if (!IsTokensExists())
+            if (!TokensExists())
             {
-                UpdateTokens();
+                if (!await UpdateTokens())
+                {
+                    return null;
+                }
             }
 
             if (string.IsNullOrEmpty(_tokens.AccessToken))
@@ -61,9 +64,9 @@ namespace PlrDesktop.ApiInteraction.Connection
         public async Task<ApiServerRequesterResult> GetWithAuth(string address)
         {
             var request = _requester.FormNewRequest(HttpMethod.Get, new Uri(address));
-            _requester.AddAuthHeader(request, GetAuthHeader());
+            _requester.AddAuthHeader(request, await GetAuthHeader());
 
-            ApiServerRequesterResult response = await _requester.Send(request);
+            ApiServerRequesterResult response = await _requester.SendAsync(request);
             response = await EnsureAccess(response);
 
             return response;
@@ -72,12 +75,12 @@ namespace PlrDesktop.ApiInteraction.Connection
         public async Task<ApiServerRequesterResult> PostWithAuth(string address, object data)
         {
             var request = _requester.FormNewRequest(HttpMethod.Post, new Uri(address));
-            _requester.AddAuthHeader(request, GetAuthHeader());
+            _requester.AddAuthHeader(request, await GetAuthHeader());
 
             string jsonData = JsonSerializer.Serialize(data);
             _requester.AddData(request, jsonData);
 
-            ApiServerRequesterResult response = await _requester.Send(request);
+            ApiServerRequesterResult response = await _requester.SendAsync(request);
             response = await EnsureAccess(response);
 
             return response;
@@ -90,23 +93,35 @@ namespace PlrDesktop.ApiInteraction.Connection
                 return response;
             }
 
-            UpdateTokens();
-            var newResponse = await _requester.Send(response.Request);
-            return newResponse;
+            if (await UpdateTokens())
+            {
+                var newResponse = await _requester.SendAsync(response.Request);
+                return newResponse;
+            }
+
+            return new ApiServerRequesterResult { StatusCode = HttpStatusCode.Unauthorized };
         }
 
-        private async void Authenticate()
+        private async Task<bool> Authenticate()
         {
             var request = _requester.FormNewRequest(HttpMethod.Post, new Uri(_authApiPath + "gettoken"));
 
             string requestData = JsonSerializer.Serialize(_authInfo.GetAsDictionary());
             _requester.AddData(request, requestData);
 
-            ApiServerRequesterResult result = await _requester.Send(request);
-            _tokens = JsonSerializer.Deserialize<AuthTokens>(result.Content);
+            ApiServerRequesterResult result = await _requester.SendAsync(request);
+            try
+            {
+                _tokens = JsonSerializer.Deserialize<AuthTokens>(result.Content);
+                return true;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
         }
 
-        private async void UpdateTokens()
+        private async Task<bool> UpdateTokens()
         {
             if (!string.IsNullOrEmpty(_tokens.RefreshToken))
             {
@@ -119,18 +134,20 @@ namespace PlrDesktop.ApiInteraction.Connection
                 string requestData = JsonSerializer.Serialize(refreshTokenData);
                 _requester.AddData(request, requestData);
 
-                ApiServerRequesterResult result = await _requester.Send(request);
+                ApiServerRequesterResult result = await _requester.SendAsync(request);
                 _tokens = JsonSerializer.Deserialize<AuthTokens>(result.Content);
 
                 if (!string.IsNullOrEmpty(_tokens.RefreshToken))
                 {
-                    Authenticate();
+                    return await Authenticate();
                 }
             }
             else
             {
-                Authenticate();
+                return await Authenticate();
             }
+
+            return false;
         }
     }
 }

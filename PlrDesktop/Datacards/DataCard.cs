@@ -9,7 +9,7 @@ namespace PlrDesktop.Datacards
 {
     public abstract class DataCard
     {
-        public int Id { get; } = 0;
+        public int Id { get; set;  } = 0;
         public string Name { get; set; } = "";
 
         public DataCard()

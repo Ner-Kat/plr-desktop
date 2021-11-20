@@ -85,7 +85,7 @@ namespace PlrDesktop.ApiInteraction.Connection
         private async Task<ApiServerRequesterResult> SimpleGet(string address)
         {
             var request = _requester.FormNewRequest(HttpMethod.Get, new Uri(address));
-            ApiServerRequesterResult result = await _requester.Send(request);
+            ApiServerRequesterResult result = await _requester.SendAsync(request);
             return result;
         }
 
@@ -114,7 +114,7 @@ namespace PlrDesktop.ApiInteraction.Connection
             string jsonData = JsonSerializer.Serialize(data);
             _requester.AddData(request, jsonData);
 
-            ApiServerRequesterResult result = await _requester.Send(request);
+            ApiServerRequesterResult result = await _requester.SendAsync(request);
             return result;
         }
     }

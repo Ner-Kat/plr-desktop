@@ -49,7 +49,7 @@ namespace PlrDesktop.ApiInteraction.Connection
             }
         }
 
-        public async Task<ApiServerRequesterResult> Send(HttpRequestMessage request)
+        public async Task<ApiServerRequesterResult> SendAsync(HttpRequestMessage request)
         {
             HttpResponseMessage response = await _httpClient.SendAsync(request);
 
