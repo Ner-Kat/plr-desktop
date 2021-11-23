@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using PlrDesktop.Lib;
 
-namespace PlrDesktop
+namespace PlrDesktop.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -1,4 +1,4 @@
-﻿<Window x:Name="PrimaryWindow" x:Class="PlrDesktop.MainWindow"
+﻿<Window x:Name="PrimaryWindow" x:Class="PlrDesktop.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,7 @@
                     <DataGrid x:Name="CharactersDataGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="CharIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="CharNameColumn" Header="Название локации" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="CharNameColumn" Header="Имя" Binding="{Binding Name}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -36,7 +36,7 @@
                     <DataGrid x:Name="SocFormsDataGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="SocFormIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="SocFormNameColumn" Header="Название локации" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="SocFormNameColumn" Header="Название социального формирования" Binding="{Binding Name}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -46,7 +46,7 @@
                     <DataGrid x:Name="RacesDataGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="RaceIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="RaceNameColumn" Header="Название локации" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="RaceNameColumn" Header="Название расы" Binding="{Binding Name}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

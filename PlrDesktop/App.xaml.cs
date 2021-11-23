@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction.Connection;
+using PlrDesktop.Windows;
 
 namespace PlrDesktop
 {
