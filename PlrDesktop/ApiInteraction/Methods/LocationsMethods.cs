@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using PlrDesktop.Lib;
+using PlrDesktop.Datacards;
 
 namespace PlrDesktop.ApiInteraction.Methods
 {
@@ -26,7 +27,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<Location> Get(int id)
         {
-            var request = new GetRequestString(MethodsAddress, "get");
+            var request = new RequestString(MethodsAddress, "get");
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -46,7 +47,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<List<Location>> List(int? count, int? from = 0)
         {
-            var request = new GetRequestString(MethodsAddress, "list");
+            var request = new RequestString(MethodsAddress, "list");
             if (count.HasValue)
             {
                 request.AddParam("count", count.Value);
@@ -68,7 +69,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<List<Location>> Find(string name)
         {
-            var request = new GetRequestString(MethodsAddress, "find");
+            var request = new RequestString(MethodsAddress, "find");
             request.AddParam("name", name);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -99,7 +100,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<bool> Remove(int id)
         {
-            var request = new GetRequestString(MethodsAddress);
+            var request = new RequestString(MethodsAddress);
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -109,7 +110,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<List<Location>> SortedList(int? count, int? from = 0)
         {
-            var request = new GetRequestString(MethodsAddress);
+            var request = new RequestString(MethodsAddress);
             if (count.HasValue)
             {
                 request.AddParam("count", count.Value);
@@ -131,7 +132,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<List<Location>> Sublocations(int id)
         {
-            var request = new GetRequestString(MethodsAddress);
+            var request = new RequestString(MethodsAddress);
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());

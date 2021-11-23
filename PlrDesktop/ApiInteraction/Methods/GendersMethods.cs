@@ -21,7 +21,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<string> Get(int id)
         {
-            var request = new GetRequestString(MethodsAddress, "get");
+            var request = new RequestString(MethodsAddress, "get");
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -50,7 +50,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<int?> GetId(string name)
         {
-            var request = new GetRequestString(MethodsAddress, "getid");
+            var request = new RequestString(MethodsAddress, "getid");
             request.AddParam("name", name);
 
             var result = await _server.GetAsync(request.GetUrl());

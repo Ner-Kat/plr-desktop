@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using PlrDesktop.Lib;
 
 namespace PlrDesktop
 {
@@ -24,53 +25,56 @@ namespace PlrDesktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<Location> locationsOc;
+        private ObservableCollection<Location> _locationsOc;
+        private ObservableCollection<Race> _raceOc;
+        private ObservableCollection<SocialFormation> _socialFormationOc;
+        private ObservableCollection<Character> _characterOc;
+        private ApiClient _api;
 
-        public MainWindow()
+        public MainWindow(IApiClients apiClients)
         {
             InitializeComponent();
-            
-            // locationsOc = new ObservableCollection<Location>(GetLocations().Result);
+
+            _api = apiClients.Default;
         }
 
-        private async Task<List<Location>> GetLocations()
+        private async Task<List<Location>> GetLocationsList()
         {
-            var info = new ApiServerInfo("https://localhost:16500/api/");
-            var auth = new AuthInfo()
-            {
-                Login = "webUser",
-                Password = "webPass"
-            };
-            ApiClient client = new ApiClient(info, auth);
-
-            // List<Location> locs = await client.Methods.Locs.List(null);
-            // MessageBox.Show($"{locs[0].Desc}");
-            // return locs;
-
-            Location loc = await client.Methods.Locs.Get(1);
-            MessageBox.Show($"{loc.Desc}");
-            return new List<Location>() { loc };
+            List<Location> locations = await _api.Methods.Locs.List(null);
+            return locations;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async Task<List<Race>> GetRaceList()
         {
-            var info = new ApiServerInfo("https://localhost:16500/api/");
-            var auth = new AuthInfo()
-            {
-                Login = "webUser",
-                Password = "webPass"
-            };
-            ApiClient client = new ApiClient(info, auth);
+            List<Race> races = await _api.Methods.Races.List(null);
+            return races;
+        }
 
-            Location loc = await client.Methods.Locs.Get(1);
-            string outStr = $"Id = {loc.Id}\nName = {loc.Name}\nDesc = {loc.Desc}\n" +
-                $"ParentLocId = {(loc.ParentLoc is not null ? loc.ParentLoc.Id : "")}\nParentLocName = {(loc.ParentLoc is not null ? loc.ParentLoc.Name : "")}\n" +
-                $"Children: \n";
-            foreach (var cloc in loc.Children)
-            {
-                outStr += $"\tId = {cloc.Id}, Name = {cloc.Name}\n";
-            }
-            MessageBox.Show(outStr);
+        private async Task<List<SocialFormation>> GetSocialFormationList()
+        {
+            List<SocialFormation> socForm = await _api.Methods.SocForms.List(null);
+            return socForm;
+        }
+
+        private async Task<List<Character>> GetCharacterList()
+        {
+            List<Character> characters = await _api.Methods.Chars.List(null);
+            return characters;
+        }
+
+        private async void PrimaryWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _locationsOc = new ObservableCollection<Location>(await GetLocationsList());
+            LocationsDataGrid.ItemsSource = _locationsOc;
+
+            _raceOc = new ObservableCollection<Race>(await GetRaceList());
+            RacesDataGrid.ItemsSource = _raceOc;
+
+            _socialFormationOc = new ObservableCollection<SocialFormation>(await GetSocialFormationList());
+            SocFormsDataGrid.ItemsSource = _socialFormationOc;
+
+            _characterOc = new ObservableCollection<Character>(await GetCharacterList());
+            CharactersDataGrid.ItemsSource = _characterOc;
         }
     }
 }

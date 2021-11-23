@@ -7,14 +7,14 @@ using System.Web;
 
 namespace PlrDesktop.Lib
 {
-    class GetRequestString
+    public class RequestString
     {
         string _methodUrl = "";
         string _resultString = "";
 
         Dictionary<string, string> _params = new Dictionary<string, string>();
 
-        public GetRequestString(string methodUrl)
+        public RequestString(string methodUrl)
         {
             _methodUrl = methodUrl;
 
@@ -24,7 +24,7 @@ namespace PlrDesktop.Lib
             }
         }
 
-        public GetRequestString(string url, string methodName)
+        public RequestString(string url, string methodName)
         {
             if (!url.EndsWith('/'))
             {
@@ -55,12 +55,12 @@ namespace PlrDesktop.Lib
             }
         }
 
-        public GetRequestString AddParam(string name, int value)
+        public RequestString AddParam(string name, int value)
         {
             return AddParam(name, value.ToString());
         }
 
-        public GetRequestString AddParam(string name, string value)
+        public RequestString AddParam(string name, string value)
         {
             AddParams(new Dictionary<string, string> { { name, value } });
             UpdateResultString();

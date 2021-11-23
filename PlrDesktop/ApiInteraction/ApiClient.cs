@@ -8,7 +8,7 @@ using PlrDesktop.ApiInteraction.Methods;
 
 namespace PlrDesktop.ApiInteraction
 {
-    class ApiClient
+    public class ApiClient
     {
         ApiServerInfo _serverInfo;
         ApiServerConnection _server;
