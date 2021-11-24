@@ -30,12 +30,14 @@ namespace PlrDesktop.Windows
         private ObservableCollection<SocialFormation> _socialFormationOc;
         private ObservableCollection<Character> _characterOc;
         private ApiClient _api;
+        private IWindowsBuilder _windowsBuilder;
 
-        public MainWindow(IApiClients apiClients)
+        public MainWindow(IApiClients apiClients, IWindowsBuilder windowsBuilder)
         {
             InitializeComponent();
 
             _api = apiClients.Default;
+            _windowsBuilder = windowsBuilder;
         }
 
         private async Task<List<Location>> GetLocationsList()
@@ -75,6 +77,17 @@ namespace PlrDesktop.Windows
 
             _characterOc = new ObservableCollection<Character>(await GetCharacterList());
             CharactersDataGrid.ItemsSource = _characterOc;
+        }
+
+        private void LocationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = LocationsDataGrid.SelectedCells[0].Item;
+            var selectedLocation = (Location)selectedItem;
+
+            LocationDetails locationDetails = (LocationDetails)_windowsBuilder
+                .CreateLocationDetailsWindow(selectedLocation.Id);
+
+            locationDetails.Show();
         }
     }
 }

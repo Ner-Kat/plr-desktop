@@ -18,30 +18,31 @@ namespace PlrDesktop
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider serviceProvider;
+        private ServiceProvider _serviceProvider;
 
         App()
         {
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
-            serviceProvider = services.BuildServiceProvider();
+            _serviceProvider = services.BuildServiceProvider();
             
         }
 
         private void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<IApiClients, ApiClients>();
+            services.AddSingleton<IWindowsBuilder, WindowsBuilder>();
 
             services.AddSingleton<MainWindow>();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            serviceProvider.GetService<IApiClients>().CreateClient(
+            _serviceProvider.GetService<IApiClients>().CreateClient(
                 "default", "https://localhost:16500/api/", 
                 new AuthInfo() { Login = "admin", Password = "admin" });
 
-            var mainWindow = serviceProvider.GetService<MainWindow>();
+            var mainWindow = _serviceProvider.GetService<MainWindow>();
             mainWindow.Show();
         }
     }

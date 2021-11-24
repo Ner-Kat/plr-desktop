@@ -6,6 +6,25 @@
         xmlns:local="clr-namespace:PlrDesktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200" Loaded="PrimaryWindow_Loaded">
+
+    <Window.Resources>
+        <Style x:Key="TableCellStyle">
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+            <Setter Property="FrameworkElement.Margin" Value="5 5 5 5"/>
+        </Style>
+        <Style x:Key="TableCellStyleCentered">
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+            <Setter Property="FrameworkElement.Margin" Value="5 5 5 5"/>
+        </Style>
+
+        <Style x:Key="TableColumnHeader" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -13,40 +32,40 @@
         <TabControl x:Name="TabPanel" TabStripPlacement="Left">
             <TabItem x:Name="TabCharacters" Header="Персонажи" IsSelected="True" Height="50">
                 <Grid x:Name="TabCharactersGrid" Background="#FFE5E5E5">
-                    <DataGrid x:Name="CharactersDataGrid" AutoGenerateColumns="False">
+                    <DataGrid x:Name="CharactersDataGrid" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="CharIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="CharNameColumn" Header="Имя" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="CharIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyleCentered}" HeaderStyle="{StaticResource TableColumnHeader}"/>
+                            <DataGridTextColumn x:Name="CharNameColumn" Header="Имя" Binding="{Binding Name}" Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyle}" HeaderStyle="{StaticResource TableColumnHeader}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TabLocations" Header="Локации" Height="50">
                 <Grid x:Name="TabLocationsGrid" Background="#FFE5E5E5">
-                    <DataGrid x:Name="LocationsDataGrid" AutoGenerateColumns="False">
+                    <DataGrid x:Name="LocationsDataGrid" AutoGenerateColumns="False" MouseDoubleClick="LocationsDataGrid_MouseDoubleClick" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="LocIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="LocNameColumn" Header="Название локации" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="LocIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyleCentered}" HeaderStyle="{StaticResource TableColumnHeader}"/>
+                            <DataGridTextColumn x:Name="LocNameColumn" Header="Название локации" Binding="{Binding Name}" Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyle}" HeaderStyle="{StaticResource TableColumnHeader}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TabSocForms" Header="Соц. формирования" Height="50">
                 <Grid x:Name="TabSocFormsGrid" Background="#FFE5E5E5">
-                    <DataGrid x:Name="SocFormsDataGrid" AutoGenerateColumns="False">
+                    <DataGrid x:Name="SocFormsDataGrid" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="SocFormIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="SocFormNameColumn" Header="Название социального формирования" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="SocFormIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyleCentered}" HeaderStyle="{StaticResource TableColumnHeader}"/>
+                            <DataGridTextColumn x:Name="SocFormNameColumn" Header="Название социального формирования" Binding="{Binding Name}" Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyle}" HeaderStyle="{StaticResource TableColumnHeader}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TabRaces" Header="Расы" Height="50">
                 <Grid x:Name="TabRacesGrid" Background="#FFE5E5E5">
-                    <DataGrid x:Name="RacesDataGrid" AutoGenerateColumns="False">
+                    <DataGrid x:Name="RacesDataGrid" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="RaceIdColumn" Header="ID" Binding="{Binding Id}"/>
-                            <DataGridTextColumn x:Name="RaceNameColumn" Header="Название расы" Binding="{Binding Name}"/>
+                            <DataGridTextColumn x:Name="RaceIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyleCentered}" HeaderStyle="{StaticResource TableColumnHeader}"/>
+                            <DataGridTextColumn x:Name="RaceNameColumn" Header="Название расы" Binding="{Binding Name}" Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyle}" HeaderStyle="{StaticResource TableColumnHeader}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
