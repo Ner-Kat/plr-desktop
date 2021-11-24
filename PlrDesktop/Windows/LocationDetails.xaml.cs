@@ -53,6 +53,17 @@ namespace PlrDesktop.Windows
 
                 LocationDescription.Document.Blocks.Clear();
                 LocationDescription.Document.Blocks.Add(new Paragraph(new Run(_location.Desc)));
+
+                if (_location.ParentLoc is not null)
+                    ParentLocationLabel.Content = "Является частью локации: " + _location.ParentLoc.Name;
+                else
+                    ParentLocationLabel.Content = "Корневая локация";
+
+                SublocationsList.Items.Clear();
+                foreach (var loc in _location.Children)
+                {
+                    SublocationsList.Items.Add(loc.Name);
+                }
             }
         }
     }
