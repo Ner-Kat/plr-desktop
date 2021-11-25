@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PlrDesktop.ApiInteraction.Connection;
-using PlrDesktop.ApiInteraction.Methods;
 
 namespace PlrDesktop.ApiInteraction
 {

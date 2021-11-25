@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PlrDesktop.Lib;
+using PlrDesktop.ApiInteraction.Lib;
 using System.Net;
 using System.Text.Json;
 using PlrDesktop.Datacards.AdditionalCards;

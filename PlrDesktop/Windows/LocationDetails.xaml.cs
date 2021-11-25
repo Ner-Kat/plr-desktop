@@ -25,13 +25,15 @@ namespace PlrDesktop.Windows
         private ApiClient _api;
         private int _locId;
         private Location _location;
+        private IWindowsBuilder _windowsBuilder;
 
-        public LocationDetails(IApiClients apiClients, int locId)
+        public LocationDetails(IApiClients apiClients, IWindowsBuilder windowsBuilder, int locId)
         {
             InitializeComponent();
 
             _api = apiClients.Default;
             _locId = locId;
+            _windowsBuilder = windowsBuilder;
         }
 
         private async Task<Location> GetLocation(int id)
@@ -65,6 +67,12 @@ namespace PlrDesktop.Windows
                     SublocationsList.Items.Add(loc.Name);
                 }
             }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var editWindow = _windowsBuilder.CreateLocationEditWindow(_location);
+            editWindow.Show();
         }
     }
 }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PlrDesktop.ApiInteraction.Methods;
 
-namespace PlrDesktop.ApiInteraction.Methods
+namespace PlrDesktop.ApiInteraction
 {
     public class ApiMethods
     {

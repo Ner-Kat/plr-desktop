@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using PlrDesktop.ApiInteraction;
 using PlrDesktop.Windows;
+using PlrDesktop.Datacards.MainCards;
 
 namespace PlrDesktop.Lib
 {
@@ -20,7 +21,13 @@ namespace PlrDesktop.Lib
 
         public Window CreateLocationDetailsWindow(int id)
         {
-            var window = new LocationDetails(_apiClients, id);
+            var window = new LocationDetails(_apiClients, this, id);
+            return window;
+        }
+
+        public Window CreateLocationEditWindow(Location location)
+        {
+            var window = new LocationEdit(_apiClients, location);
             return window;
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace PlrDesktop.Lib
+namespace PlrDesktop.ApiInteraction.Lib
 {
     public class RequestString
     {

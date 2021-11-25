@@ -12,7 +12,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using PlrDesktop.Lib;
+using PlrDesktop.ApiInteraction.Lib;
 using PlrDesktop.Datacards;
 
 namespace PlrDesktop.ApiInteraction.Methods
