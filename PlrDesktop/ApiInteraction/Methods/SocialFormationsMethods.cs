@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PlrDesktop.Datacards.MainCards;
+using PlrDesktop.Datacards;
 using PlrDesktop.ApiInteraction.Lib;
 using System.Text.Json;
 using System.Net;
@@ -74,7 +74,7 @@ namespace PlrDesktop.ApiInteraction.Methods
         public async Task<bool> Add(SocialFormation socForm)
         {
             string url = MethodsAddress + "add";
-            var result = await _server.PostAsync(url, socForm);
+            var result = await _server.PostAsync(url, socForm.ForAdding());
 
             return result.StatusCode == HttpStatusCode.OK;
         }
@@ -82,7 +82,7 @@ namespace PlrDesktop.ApiInteraction.Methods
         public async Task<bool> Change(SocialFormation socForm)
         {
             string url = MethodsAddress + "change";
-            var result = await _server.PostAsync(url, socForm);
+            var result = await _server.PostAsync(url, socForm.ForChanging());
 
             return result.StatusCode == HttpStatusCode.OK;
         }

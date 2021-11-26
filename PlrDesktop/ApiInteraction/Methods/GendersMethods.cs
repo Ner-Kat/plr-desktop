@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using PlrDesktop.ApiInteraction.Lib;
 using System.Net;
 using System.Text.Json;
-using PlrDesktop.Datacards.AdditionalCards;
+using PlrDesktop.Datacards.Utils;
 
 namespace PlrDesktop.ApiInteraction.Methods
 {

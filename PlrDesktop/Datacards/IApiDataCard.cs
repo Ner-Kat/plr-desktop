@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlrDesktop.Datacards.AdditionalCards
+namespace PlrDesktop.Datacards
 {
-    public class ShortDataCard
+    public interface IApiDataCard
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
+
         public string Name { get; set; }
     }
 }

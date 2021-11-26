@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PlrDesktop.Datacards.MainCards;
+using PlrDesktop.Datacards;
 using PlrDesktop.ApiInteraction.Lib;
 using System.Text.Json;
 using System.Net;
@@ -74,7 +74,7 @@ namespace PlrDesktop.ApiInteraction.Methods
         public async Task<bool> Add(Character character)
         {
             string url = MethodsAddress + "add";
-            var result = await _server.PostAsync(url, character);
+            var result = await _server.PostAsync(url, character.ForAdding());
 
             return result.StatusCode == HttpStatusCode.OK;
         }
@@ -82,7 +82,7 @@ namespace PlrDesktop.ApiInteraction.Methods
         public async Task<bool> Change(Character character)
         {
             string url = MethodsAddress + "change";
-            var result = await _server.PostAsync(url, character);
+            var result = await _server.PostAsync(url, character.ForChanging());
 
             return result.StatusCode == HttpStatusCode.OK;
         }
@@ -119,7 +119,7 @@ namespace PlrDesktop.ApiInteraction.Methods
             return null;
         }
 
-        public async Task<CharacterShort> GetShort(int id)
+        public async Task<Character> GetShort(int id)
         {
             var request = new RequestString(MethodsAddress, "get");
             request.AddParam("id", id);
@@ -127,7 +127,7 @@ namespace PlrDesktop.ApiInteraction.Methods
             var result = await _server.GetAsync(request.GetUrl());
             if (result.StatusCode == HttpStatusCode.OK)
             {
-                CharacterShort character = JsonSerializer.Deserialize<CharacterShort>(result.Content);
+                Character character = JsonSerializer.Deserialize<Character>(result.Content);
                 return character;
             }
 

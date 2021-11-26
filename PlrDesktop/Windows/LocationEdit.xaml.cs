@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction;
-using PlrDesktop.Datacards.MainCards;
+using PlrDesktop.Datacards;
 using System.Collections.ObjectModel;
 
 namespace PlrDesktop.Windows

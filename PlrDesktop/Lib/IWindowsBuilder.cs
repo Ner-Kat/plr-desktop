@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using PlrDesktop.Datacards.MainCards;
+using PlrDesktop.Datacards;
 
 namespace PlrDesktop.Lib
 {

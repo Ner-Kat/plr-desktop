@@ -1,6 +1,6 @@
 ﻿using PlrDesktop.ApiInteraction;
 using PlrDesktop.ApiInteraction.Connection;
-using PlrDesktop.Datacards.MainCards;
+using PlrDesktop.Datacards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +85,7 @@ namespace PlrDesktop.Windows
             var selectedLocation = (Location)selectedItem;
 
             LocationDetails locationDetails = (LocationDetails)_windowsBuilder
-                .CreateLocationDetailsWindow(selectedLocation.Id);
+                .CreateLocationDetailsWindow(selectedLocation.Id.Value);
 
             locationDetails.Show();
         }
