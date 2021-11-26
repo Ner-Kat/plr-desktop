@@ -12,5 +12,6 @@ namespace PlrDesktop.Lib
     {
         public Window CreateLocationDetailsWindow(int id);
         public Window CreateLocationEditWindow(Location location);
+        public Window CreateLocationAddWindow();
     }
 }

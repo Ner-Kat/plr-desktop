@@ -89,5 +89,22 @@ namespace PlrDesktop.Windows
 
             locationDetails.Show();
         }
+
+        private void AddLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            LocationEdit locationAdd = (LocationEdit)_windowsBuilder
+                .CreateLocationAddWindow();
+
+            locationAdd.Show();
+        }
+
+        private async void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            _locationsOc.Clear();
+            foreach (var loc in await GetLocationsList())
+            {
+                _locationsOc.Add(loc);
+            }
+        }
     }
 }

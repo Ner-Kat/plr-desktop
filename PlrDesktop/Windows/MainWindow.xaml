@@ -42,7 +42,14 @@
             </TabItem>
             <TabItem x:Name="TabLocations" Header="Локации" Height="50">
                 <Grid x:Name="TabLocationsGrid" Background="#FFE5E5E5">
-                    <DataGrid x:Name="LocationsDataGrid" AutoGenerateColumns="False" MouseDoubleClick="LocationsDataGrid_MouseDoubleClick" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="UpdateLocationsButton" Content="Обновить список локаций" Height="40" FontFamily="Arial" FontWeight="Bold" FontSize="14" Click="UpdateLocationsButton_Click"/>
+                    <Button x:Name="AddLocationButton" Content="Добавить локацию" Height="50" FontFamily="Arial" FontWeight="Bold" FontSize="16" Click="AddLocationButton_Click" Grid.Row="1"/>
+                    <DataGrid x:Name="LocationsDataGrid" AutoGenerateColumns="False" MouseDoubleClick="LocationsDataGrid_MouseDoubleClick" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single" Grid.Row="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="LocIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyleCentered}" HeaderStyle="{StaticResource TableColumnHeader}"/>
                             <DataGridTextColumn x:Name="LocNameColumn" Header="Название локации" Binding="{Binding Name}" Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True" ElementStyle="{StaticResource TableCellStyle}" HeaderStyle="{StaticResource TableColumnHeader}"/>

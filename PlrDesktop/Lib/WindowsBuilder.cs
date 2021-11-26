@@ -30,5 +30,11 @@ namespace PlrDesktop.Lib
             var window = new LocationEdit(_apiClients, location);
             return window;
         }
+
+        public Window CreateLocationAddWindow()
+        {
+            var window = new LocationEdit(_apiClients, null);
+            return window;
+        }
     }
 }

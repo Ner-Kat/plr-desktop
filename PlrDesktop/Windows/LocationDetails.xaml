@@ -32,7 +32,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="EditButton" Content="Изменить" Width="80" Height="36" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,10,2" VerticalAlignment="Center" Click="EditButton_Click"/>
+        <Button x:Name="EditButton" Content="Изменить" Width="80" Height="36" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,10,2" VerticalAlignment="Center" Click="EditButton_Click" Background="#FF3C3C3C" BorderBrush="{x:Null}" Foreground="#FFD2D2D2" UseLayoutRounding="False"/>
 
     </Grid>
 </Window>

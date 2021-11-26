@@ -27,6 +27,8 @@ namespace PlrDesktop.Windows
         private Location _location;
         private ObservableCollection<Location> _avalibleParentLocs;
 
+        private bool _addMode = true;
+
         public LocationEdit(IApiClients apiClients, Location location)
         {
             InitializeComponent();
@@ -52,7 +54,7 @@ namespace PlrDesktop.Windows
         {
             _avalibleParentLocs = new ObservableCollection<Location>(await GetAllLocations());
 
-            if (_location.ParentLoc is not null)
+            if (_location is not null && _location.ParentLoc is not null)
             {
                 var parentLoc = _avalibleParentLocs.FirstOrDefault(loc => loc.Id == _location.ParentLoc.Id);
                 ParentLocComboBox.SelectedItem = parentLoc;
@@ -65,27 +67,40 @@ namespace PlrDesktop.Windows
         {
             if (_location is not null)
             {
+                _addMode = false;
+
                 LocNameTextBox.Text = _location.Name;
                 LocDescField.Document.Blocks.Clear();
                 LocDescField.Document.Blocks.Add(new Paragraph(new Run(_location.Desc)));
-
-                await SetParentLocationsList();
-                ParentLocComboBox.ItemsSource = _avalibleParentLocs;
             }
+
+            await SetParentLocationsList();
+            ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             TextRange descText = new TextRange(LocDescField.Document.ContentStart, LocDescField.Document.ContentEnd);
-            var changedLocation = new
+            var editedLocation = new Location()
             {
-                Id = _location.Id,
                 Name = LocNameTextBox.Text,
                 Desc = descText.Text,
-                ParentLocId = _location.ParentLoc is not null ? _location.ParentLoc.Id : -1,
             };
 
-            // _api.Methods.Locs.Change();
+            var selectedParentLoc = ParentLocComboBox.SelectedItem;
+            editedLocation.ParentLocId = selectedParentLoc is not null ? ((Location)selectedParentLoc).Id : null;
+
+            if (_addMode)
+            {
+                await _api.Methods.Locs.Add(editedLocation);
+            }
+            else
+            {
+                editedLocation.Id = _location.Id;
+                await _api.Methods.Locs.Change(editedLocation);
+            }
+            
+            this.Close();
         }
     }
 }
