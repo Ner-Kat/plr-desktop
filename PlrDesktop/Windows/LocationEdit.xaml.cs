@@ -67,7 +67,7 @@ namespace PlrDesktop.Windows
             return true;
         }
 
-        private async void LocationEditWindow_Loaded(object sender, RoutedEventArgs e)
+        private void LocationEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (_location is not null)
             {
@@ -79,11 +79,11 @@ namespace PlrDesktop.Windows
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
 
-            await SetParentLocationsList();
+            Task.Run(() => SetParentLocationsList());
             ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
 
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var editedLocation = new Location()
             {
@@ -96,12 +96,12 @@ namespace PlrDesktop.Windows
 
             if (_addMode)
             {
-                await _api.Methods.Locs.Add(editedLocation);
+                Task.Run(() => _api.Methods.Locs.Add(editedLocation));
             }
             else
             {
                 editedLocation.Id = _location.Id;
-                await _api.Methods.Locs.Change(editedLocation);
+                Task.Run(() => _api.Methods.Locs.Change(editedLocation));
             }
             
             this.Close();

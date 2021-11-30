@@ -64,18 +64,18 @@ namespace PlrDesktop.Windows
             return characters;
         }
 
-        private async void PrimaryWindow_Loaded(object sender, RoutedEventArgs e)
+        private void PrimaryWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _locationsOc = new ObservableCollection<Location>(await GetLocationsList());
+            _locationsOc = new ObservableCollection<Location>(Task.Run(() => GetLocationsList()).Result);
             LocationsDataGrid.ItemsSource = _locationsOc;
 
-            _raceOc = new ObservableCollection<Race>(await GetRaceList());
+            _raceOc = new ObservableCollection<Race>(Task.Run(() => GetRaceList()).Result);
             RacesDataGrid.ItemsSource = _raceOc;
 
-            _socialFormationOc = new ObservableCollection<SocialFormation>(await GetSocialFormationList());
+            _socialFormationOc = new ObservableCollection<SocialFormation>(Task.Run(() => GetSocialFormationList()).Result);
             SocFormsDataGrid.ItemsSource = _socialFormationOc;
 
-            _characterOc = new ObservableCollection<Character>(await GetCharacterList());
+            _characterOc = new ObservableCollection<Character>(Task.Run(() => GetCharacterList()).Result);
             CharactersDataGrid.ItemsSource = _characterOc;
         }
 
@@ -98,10 +98,10 @@ namespace PlrDesktop.Windows
             locationAdd.Show();
         }
 
-        private async void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
         {
             _locationsOc.Clear();
-            foreach (var loc in await GetLocationsList())
+            foreach (var loc in Task.Run(() => GetLocationsList()).Result)
             {
                 _locationsOc.Add(loc);
             }
