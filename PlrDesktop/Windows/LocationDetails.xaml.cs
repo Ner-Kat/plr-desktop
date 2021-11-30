@@ -26,10 +26,13 @@ namespace PlrDesktop.Windows
         private int _locId;
         private Location _location;
         private IWindowsBuilder _windowsBuilder;
+        private RtbTextHandler _rtbTextHandler;
 
         public LocationDetails(IApiClients apiClients, IWindowsBuilder windowsBuilder, int locId)
         {
             InitializeComponent();
+
+            _rtbTextHandler = new(LocationDescription);
 
             _api = apiClients.Default;
             _locId = locId;
@@ -45,16 +48,17 @@ namespace PlrDesktop.Windows
             return location;
         }
 
-        private async void LocationDetailsWindow_Loaded(object sender, RoutedEventArgs e)
+        private void LocationDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _location = await GetLocation(_locId);
+            _location = Task.Run(() => GetLocation(_locId)).Result;
 
             if (_location is not null)
             {
                 LocationNameLabel.Content = _location.Name;
 
                 LocationDescription.Document.Blocks.Clear();
-                LocationDescription.Document.Blocks.Add(new Paragraph(new Run(_location.Desc)));
+                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
+                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
 
                 if (_location.ParentLoc is not null)
                     ParentLocationLabel.Content = "Является частью локации: " + _location.ParentLoc.Name;

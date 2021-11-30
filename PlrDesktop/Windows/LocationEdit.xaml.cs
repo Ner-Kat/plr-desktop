@@ -15,6 +15,7 @@ using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction;
 using PlrDesktop.Datacards;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace PlrDesktop.Windows
 {
@@ -26,12 +27,15 @@ namespace PlrDesktop.Windows
         private ApiClient _api;
         private Location _location;
         private ObservableCollection<Location> _avalibleParentLocs;
+        private RtbTextHandler _rtbTextHandler;
 
         private bool _addMode = true;
 
         public LocationEdit(IApiClients apiClients, Location location)
         {
             InitializeComponent();
+
+            _rtbTextHandler = new RtbTextHandler(LocDescField);
 
             _api = apiClients.Default;
             _location = location;
@@ -71,7 +75,8 @@ namespace PlrDesktop.Windows
 
                 LocNameTextBox.Text = _location.Name;
                 LocDescField.Document.Blocks.Clear();
-                LocDescField.Document.Blocks.Add(new Paragraph(new Run(_location.Desc)));
+                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
+                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
 
             await SetParentLocationsList();
@@ -80,11 +85,10 @@ namespace PlrDesktop.Windows
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            TextRange descText = new TextRange(LocDescField.Document.ContentStart, LocDescField.Document.ContentEnd);
             var editedLocation = new Location()
             {
                 Name = LocNameTextBox.Text,
-                Desc = descText.Text,
+                Desc = _rtbTextHandler.GetAsString()
             };
 
             var selectedParentLoc = ParentLocComboBox.SelectedItem;

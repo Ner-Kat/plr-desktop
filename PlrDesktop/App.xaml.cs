@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction.Connection;
 using PlrDesktop.Windows;
+using System.Windows.Media.Animation;
 
 namespace PlrDesktop
 {
