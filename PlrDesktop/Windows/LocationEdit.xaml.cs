@@ -80,7 +80,7 @@ namespace PlrDesktop.Windows
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
 
-            var res = Task.Run(() => SetParentLocationsList()).Result;
+            Task.Run(() => SetParentLocationsList());
             ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
 

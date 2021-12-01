@@ -125,8 +125,8 @@
 
                 <RichTextBox x:Name="LocDescField" AcceptsTab="True" BorderThickness="0">
                     <FlowDocument>
-                        <Paragraph>
-                            <Run Text="Описание локации"/>
+                        <Paragraph Margin="0">
+                            
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>

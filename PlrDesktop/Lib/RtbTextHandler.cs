@@ -14,7 +14,7 @@ namespace PlrDesktop.Lib
     public class RtbTextHandler
     {
         private RichTextBox _rtb = null;
-        private string _dataFormat = DataFormats.Xaml;
+        private string _dataFormat = DataFormats.Rtf;
         private TextRange _textRange;
 
         public struct RtbThError
@@ -63,10 +63,16 @@ namespace PlrDesktop.Lib
             DataFormat = dataFormat;
         }
 
+        private void UpdateTextRange()
+        {
+            _textRange = new TextRange(_rtb.Document.ContentStart, _rtb.Document.ContentEnd);
+        }
+
         public string GetAsString(string dataFormat)
         {
             string result = null;
             DoRemoveForegrounds();
+            UpdateTextRange();
 
             using (MemoryStream stream = new MemoryStream())
             {
@@ -82,6 +88,27 @@ namespace PlrDesktop.Lib
             return result;
         }
 
+        private string GetXamlMarkUp()
+        {
+            string result = "";
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                TextRange range = new TextRange(_rtb.Document.ContentStart, _rtb.Document.ContentEnd);
+                range.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+
+                using (StreamReader r = new StreamReader(stream))
+                {
+                    string line;
+                    while ((line = r.ReadLine()) != null)
+                        result += line + "\n";
+                }
+            }
+
+            return result;
+        }
+
         public string GetAsString()
         {
             return GetAsString(DataFormat);
@@ -89,6 +116,7 @@ namespace PlrDesktop.Lib
 
         public RtbThError? SetFromString(string data, string dataFormat)
         {
+            UpdateTextRange();
             LastException = null;
 
             byte[] dataBuffer = ASCIIEncoding.Default.GetBytes(data);
