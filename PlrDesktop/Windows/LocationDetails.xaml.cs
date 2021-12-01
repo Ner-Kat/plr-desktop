@@ -21,7 +21,7 @@ namespace PlrDesktop.Windows
     /// <summary>
     /// Логика взаимодействия для LocationDetails.xaml
     /// </summary>
-    public partial class LocationDetails : Window
+    public partial class LocationDetails : Window, IHasId
     {
         private ApiClient _api;
         private int _locId;
@@ -86,6 +86,22 @@ namespace PlrDesktop.Windows
         {
             var editWindow = _windowsBuilder.CreateLocationEditWindow(_location);
             editWindow.Show();
+        }
+
+        private void SublocationsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = SublocationsList.SelectedCells[0].Item;
+            var selectedLocation = (Location)selectedItem;
+
+            LocationDetails locationDetails = (LocationDetails)_windowsBuilder
+                .CreateLocationDetailsWindow(selectedLocation.Id.Value);
+
+            locationDetails.Show();
+        }
+
+        public int? GetId()
+        {
+            return _location.Id ?? null;
         }
     }
 }

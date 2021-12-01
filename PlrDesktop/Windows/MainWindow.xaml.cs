@@ -38,6 +38,7 @@ namespace PlrDesktop.Windows
 
             _api = apiClients.Default;
             _windowsBuilder = windowsBuilder;
+            _windowsBuilder.MainWindow = this;
         }
 
         private async Task<List<Location>> GetLocationsList()

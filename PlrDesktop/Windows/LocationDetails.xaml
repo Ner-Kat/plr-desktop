@@ -38,7 +38,7 @@
                   CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
                   MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
                   Focusable="False" HorizontalContentAlignment="Stretch" Margin="5,0,10,10" ColumnWidth="*" Width="Auto"
-                  BorderThickness="2,1,1,1" BorderBrush="{StaticResource PlrBlackLite}">
+                  BorderThickness="2,1,1,1" BorderBrush="{StaticResource PlrBlackLite}" MouseDoubleClick="SublocationsList_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SublocsColumn" Binding="{Binding Name}" Header="Подлокации" CanUserResize="False" 
                                     CanUserReorder="False" IsReadOnly="True"/>

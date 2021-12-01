@@ -22,7 +22,7 @@ namespace PlrDesktop.Windows
     /// <summary>
     /// Логика взаимодействия для LocationEdit.xaml
     /// </summary>
-    public partial class LocationEdit : Window
+    public partial class LocationEdit : Window, IHasId
     {
         private ApiClient _api;
         private Location _location;
@@ -122,6 +122,11 @@ namespace PlrDesktop.Windows
             {
                 mainPanelBorder.Margin = new Thickness(0);
             }
+        }
+
+        public int? GetId()
+        {
+            return _location.Id ?? null;
         }
     }
 }

@@ -10,6 +10,8 @@ namespace PlrDesktop.Lib
 {
     public interface IWindowsBuilder
     {
+        public Window MainWindow { get; set; }
+
         public Window CreateLocationDetailsWindow(int id);
         public Window CreateLocationEditWindow(Location location);
         public Window CreateLocationAddWindow();
