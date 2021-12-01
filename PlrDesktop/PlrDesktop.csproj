@@ -6,7 +6,43 @@
     <UseWPF>true</UseWPF>
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
     <StartupObject>PlrDesktop.App</StartupObject>
+    <ApplicationIcon>Images\Icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\ToolbarIcons\AlignCenter.png" />
+    <None Remove="Images\ToolbarIcons\AlignJustify.png" />
+    <None Remove="Images\ToolbarIcons\AlignLeft.png" />
+    <None Remove="Images\ToolbarIcons\AlignRight.png" />
+    <None Remove="Images\ToolbarIcons\Bold.png" />
+    <None Remove="Images\ToolbarIcons\Copy.png" />
+    <None Remove="Images\ToolbarIcons\Cut.png" />
+    <None Remove="Images\ToolbarIcons\GrowFont.png" />
+    <None Remove="Images\ToolbarIcons\Italic.png" />
+    <None Remove="Images\ToolbarIcons\Paste.png" />
+    <None Remove="Images\ToolbarIcons\Redo.png" />
+    <None Remove="Images\ToolbarIcons\ShrinkFont.png" />
+    <None Remove="Images\ToolbarIcons\Underline.png" />
+    <None Remove="Images\ToolbarIcons\Undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Icon.ico" />
+    <Resource Include="Images\ToolbarIcons\AlignCenter.png" />
+    <Resource Include="Images\ToolbarIcons\AlignJustify.png" />
+    <Resource Include="Images\ToolbarIcons\AlignLeft.png" />
+    <Resource Include="Images\ToolbarIcons\AlignRight.png" />
+    <Resource Include="Images\ToolbarIcons\Bold.png" />
+    <Resource Include="Images\ToolbarIcons\Copy.png" />
+    <Resource Include="Images\ToolbarIcons\Cut.png" />
+    <Resource Include="Images\ToolbarIcons\GrowFont.png" />
+    <Resource Include="Images\ToolbarIcons\Italic.png" />
+    <Resource Include="Images\ToolbarIcons\Paste.png" />
+    <Resource Include="Images\ToolbarIcons\Redo.png" />
+    <Resource Include="Images\ToolbarIcons\ShrinkFont.png" />
+    <Resource Include="Images\ToolbarIcons\Underline.png" />
+    <Resource Include="Images\ToolbarIcons\Undo.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />

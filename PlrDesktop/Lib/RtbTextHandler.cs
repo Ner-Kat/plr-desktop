@@ -46,6 +46,9 @@ namespace PlrDesktop.Lib
 
         public RtbThError? LastException { get; set; } = null;
 
+        public bool RemoveForegrounds { get; set; } = true;
+
+
         public RtbTextHandler()
         {
         }
@@ -63,6 +66,7 @@ namespace PlrDesktop.Lib
         public string GetAsString(string dataFormat)
         {
             string result = null;
+            DoRemoveForegrounds();
 
             using (MemoryStream stream = new MemoryStream())
             {
@@ -117,6 +121,7 @@ namespace PlrDesktop.Lib
                 }
             }
 
+            DoRemoveForegrounds();
             return LastException;
         }
 
@@ -129,6 +134,17 @@ namespace PlrDesktop.Lib
         {
             if (error is not null)
                 MessageBox.Show(error.Value.Message, "Text parsing error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        private void DoRemoveForegrounds()
+        {
+            if (RemoveForegrounds)
+            {
+                foreach (var block in _rtb.Document.Blocks)
+                {
+                    block.ClearValue(Block.ForegroundProperty);
+                }
+            }
         }
     }
 }

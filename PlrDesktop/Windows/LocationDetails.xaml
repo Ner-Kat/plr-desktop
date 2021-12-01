@@ -6,33 +6,48 @@
         xmlns:local="clr-namespace:PlrDesktop.Windows"
         mc:Ignorable="d"
         Title="LocationDetails" Height="450" Width="800" Loaded="LocationDetailsWindow_Loaded">
+
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label x:Name="LocationNameLabel" Content="Location Name" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="Bold" Width="138" Grid.ColumnSpan="2"/>
-        <RichTextBox x:Name="LocationDescription" Grid.Row="2" IsReadOnly="True" Margin="10,0,0,10" BorderBrush="{x:Null}">
+
+        <Label x:Name="LocationNameLabel" Content="Название локации" HorizontalAlignment="Center" Margin="0,10,0,0" 
+               VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" 
+               HorizontalContentAlignment="Center"/>
+
+        <RichTextBox x:Name="LocationDescription" Grid.Row="2" IsReadOnly="True" Margin="10,0,0,10" BorderBrush="{x:Null}" 
+                     BorderThickness="0,0,0,0">
             <FlowDocument>
                 <Paragraph>
-                    <Run Text="RichTextBox"/>
+                    <Run Text="Описание локации"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label x:Name="ParentLocationLabel" Content="ParentLocation" Grid.Row="1" Margin="10,0,0,0"/>
-        <ListView x:Name="SublocationsList" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="0,0,10,10" BorderBrush="{x:Null}" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Center">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button x:Name="EditButton" Content="Изменить" Width="80" Height="36" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,10,2" VerticalAlignment="Center" Click="EditButton_Click" Background="#FF3C3C3C" BorderBrush="{x:Null}" Foreground="#FFD2D2D2" UseLayoutRounding="False"/>
+
+        <Label x:Name="ParentLocationLabel" Content="Является частью локации..." Grid.Row="1" Margin="10,0,0,0" 
+               FontFamily="Arial" FontSize="13" BorderBrush="{StaticResource PlrWhiteDark}"/>
+
+        <DataGrid x:Name="SublocationsList" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" AutoGenerateColumns="False" 
+                  CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
+                  MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                  Focusable="False" HorizontalContentAlignment="Stretch" Margin="5,0,10,10" ColumnWidth="*" Width="Auto"
+                  BorderThickness="2,1,1,1" BorderBrush="{StaticResource PlrBlackLite}">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="SublocsColumn" Binding="{Binding Name}" Header="Подлокации" CanUserResize="False" 
+                                    CanUserReorder="False" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="EditButton" Content="⨳ Изменить" HorizontalAlignment="Right" Grid.Column="1" Margin="0,10,10,5" 
+                VerticalAlignment="Center" Click="EditButton_Click" UseLayoutRounding="False" FontFamily="Arial" 
+                FontSize="14" Padding="10,5,10,5"/>
 
     </Grid>
 </Window>

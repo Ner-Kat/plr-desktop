@@ -71,6 +71,7 @@ namespace PlrDesktop.Windows
         {
             if (_location is not null)
             {
+                LocationEditWindow.Title = _location.Name + " – изменение";
                 _addMode = false;
 
                 LocNameTextBox.Text = _location.Name;
@@ -79,7 +80,7 @@ namespace PlrDesktop.Windows
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
 
-            Task.Run(() => SetParentLocationsList());
+            var res = Task.Run(() => SetParentLocationsList()).Result;
             ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
 
@@ -105,6 +106,22 @@ namespace PlrDesktop.Windows
             }
             
             this.Close();
+        }
+
+        private void TextEditingToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            ToolBar toolBar = sender as ToolBar;
+            var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
+            if (overflowGrid != null)
+            {
+                overflowGrid.Visibility = Visibility.Collapsed;
+            }
+
+            var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
+            if (mainPanelBorder != null)
+            {
+                mainPanelBorder.Margin = new Thickness(0);
+            }
         }
     }
 }

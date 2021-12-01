@@ -66,6 +66,8 @@ namespace PlrDesktop.Windows
 
         private void PrimaryWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            PrimaryWindow.Title = "PLR";
+
             _locationsOc = new ObservableCollection<Location>(Task.Run(() => GetLocationsList()).Result);
             LocationsDataGrid.ItemsSource = _locationsOc;
 

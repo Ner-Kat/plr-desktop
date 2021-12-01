@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction;
 using PlrDesktop.Datacards;
+using System.Collections.ObjectModel;
 
 namespace PlrDesktop.Windows
 {
@@ -27,6 +28,7 @@ namespace PlrDesktop.Windows
         private Location _location;
         private IWindowsBuilder _windowsBuilder;
         private RtbTextHandler _rtbTextHandler;
+        private ObservableCollection<Location> _subLocations;
 
         public LocationDetails(IApiClients apiClients, IWindowsBuilder windowsBuilder, int locId)
         {
@@ -54,6 +56,7 @@ namespace PlrDesktop.Windows
 
             if (_location is not null)
             {
+                LocationDetailsWindow.Title = _location.Name + " – карточка";
                 LocationNameLabel.Content = _location.Name;
 
                 LocationDescription.Document.Blocks.Clear();
@@ -65,11 +68,17 @@ namespace PlrDesktop.Windows
                 else
                     ParentLocationLabel.Content = "Корневая локация";
 
-                SublocationsList.Items.Clear();
-                foreach (var loc in _location.Children)
-                {
-                    SublocationsList.Items.Add(loc.Name);
-                }
+                SetSublocations();
+                SublocationsList.ItemsSource = _subLocations;
+            }
+        }
+
+        private void SetSublocations()
+        {
+            _subLocations = new();
+            foreach (var loc in _location.Children)
+            {
+                _subLocations.Add(loc);
             }
         }
 
