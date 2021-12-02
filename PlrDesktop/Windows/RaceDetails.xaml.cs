@@ -19,7 +19,7 @@ using System.Collections.ObjectModel;
 namespace PlrDesktop.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для LocationDetails.xaml
+    /// Логика взаимодействия для RaceDetails.xaml
     /// </summary>
     public partial class RaceDetails : Window, IPlrCardWindow
     {

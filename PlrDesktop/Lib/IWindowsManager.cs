@@ -21,5 +21,10 @@ namespace PlrDesktop.Lib
         public Window CreateRaceDetailsWindow(int id);
         public Window CreateRaceEditWindow(Race race);
         public Window CreateRaceAddWindow();
+
+
+        public Window CreateSocFormDetailsWindow(int id);
+        public Window CreateSocFormEditWindow(SocialFormation socForm);
+        public Window CreateSocFormAddWindow();
     }
 }

@@ -241,18 +241,18 @@ namespace PlrDesktop.Windows
             var selectedItem = SocFormsDataGrid.SelectedCells[0].Item;
             var selectedSocialFormation = (SocialFormation)selectedItem;
 
-            //SocialFormationDetails socFormDetails = (SocialFormationDetails)_windowsManager
-            //    .CreateSocialFormationDetailsWindow(selectedSocialFormation.Id.Value);
+            SocFormDetails socFormDetails = (SocFormDetails)_windowsManager
+                .CreateSocFormDetailsWindow(selectedSocialFormation.Id.Value);
 
-            //socFormDetails.Show();
+            socFormDetails.Show();
         }
 
         private void AddSocFormButton_Click(object sender, RoutedEventArgs e)
         {
-            //SocialFormationEdit socFormAdd = (SocialFormationEdit)_windowsManager
-            //    .CreateSocialFormationAddWindow();
+            SocFormEdit socFormAdd = (SocFormEdit)_windowsManager
+                .CreateSocFormAddWindow();
 
-            //socFormAdd.Show();
+            socFormAdd.Show();
         }
 
         private void UpdateSocFormsButton_Click(object sender, RoutedEventArgs e)

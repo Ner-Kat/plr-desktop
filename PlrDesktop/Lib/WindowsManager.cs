@@ -21,6 +21,8 @@ namespace PlrDesktop.Lib
         private List<IPlrCardWindow> _locationEditWindows = new();
         private List<IPlrCardWindow> _raceDetailsWindows = new();
         private List<IPlrCardWindow> _raceEditWindows = new();
+        private List<IPlrCardWindow> _socFormDetailsWindows = new();
+        private List<IPlrCardWindow> _socFormEditWindows = new();
 
 
         public WindowsManager(IApiClients apiClients)
@@ -35,6 +37,8 @@ namespace PlrDesktop.Lib
                 return _locationDetailsWindows;
             if (window is RaceEdit)
                 return _raceDetailsWindows;
+            if (window is SocFormEdit)
+                return _socFormDetailsWindows;
 
             return null;
         }
@@ -50,6 +54,10 @@ namespace PlrDesktop.Lib
                 return _raceDetailsWindows;
             if (typeof(WType) == typeof(RaceEdit))
                 return _raceEditWindows;
+            if (typeof(WType) == typeof(SocFormDetails))
+                return _socFormDetailsWindows;
+            if (typeof(WType) == typeof(SocFormEdit))
+                return _socFormEditWindows;
 
             return null;
         }
@@ -92,6 +100,8 @@ namespace PlrDesktop.Lib
                  window = new LocationDetails(_apiClients, this, id);
             if (typeof(WType) == typeof(RaceDetails))
                 window = new RaceDetails(_apiClients, this, id);
+            if (typeof(WType) == typeof(SocFormDetails))
+                window = new SocFormDetails(_apiClients, this, id);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
             return window;
@@ -132,6 +142,8 @@ namespace PlrDesktop.Lib
                 window = new LocationEdit(_apiClients, this, dataCard as Location);
             if (typeof(WType) == typeof(RaceEdit))
                 window = new RaceEdit(_apiClients, this, dataCard as Race);
+            if (typeof(WType) == typeof(SocFormEdit))
+                window = new SocFormEdit(_apiClients, this, dataCard as SocialFormation);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
             return window;
@@ -180,6 +192,29 @@ namespace PlrDesktop.Lib
         {
             var window = CreateEditWindow<RaceEdit>(null);
             window.Closed += (object sender, EventArgs e) => MainWindow.UpdateRacesList();
+
+            return window;
+        }
+
+
+        public Window CreateSocFormEditWindow(SocialFormation socForm)
+        {
+            var window = CreateEditWindow<SocFormEdit>(socForm);
+            window.Closed += TryUpdateDetailsWindow;
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateSocFormsList();
+
+            return window;
+        }
+
+        public Window CreateSocFormDetailsWindow(int id)
+        {
+            return CreateDetailsWindow<SocFormDetails>(id);
+        }
+
+        public Window CreateSocFormAddWindow()
+        {
+            var window = CreateEditWindow<SocFormEdit>(null);
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateSocFormsList();
 
             return window;
         }

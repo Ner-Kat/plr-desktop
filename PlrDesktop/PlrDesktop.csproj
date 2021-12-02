@@ -50,6 +50,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Windows\SocFormDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SocFormEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\RaceEdit.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -59,6 +65,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Windows\SocFormDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SocFormEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\RaceEdit.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

@@ -20,7 +20,7 @@ using System.IO;
 namespace PlrDesktop.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для LocationEdit.xaml
+    /// Логика взаимодействия для RaceEdit.xaml
     /// </summary>
     public partial class RaceEdit : Window, IPlrCardWindow
     {
