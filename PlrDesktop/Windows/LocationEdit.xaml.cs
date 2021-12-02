@@ -30,7 +30,7 @@ namespace PlrDesktop.Windows
         private IWindowsManager _windowsManager;
 
         private ObservableCollection<Location> _avalibleParentLocs = new();
-        private CollectionViewSource _avParetnLocsView = new();
+        private CollectionViewSource _avParentLocsView = new();
 
         private bool _addMode = true;
 
@@ -77,9 +77,9 @@ namespace PlrDesktop.Windows
         {
             UpdateCardData();
 
-            _avParetnLocsView.Source = _avalibleParentLocs;
-            _avParetnLocsView.Filter += AvaliableParentLocs_Filter;
-            ParentLocComboBox.ItemsSource = _avParetnLocsView.View;
+            _avParentLocsView.Source = _avalibleParentLocs;
+            _avParentLocsView.Filter += AvaliableParentLocs_Filter;
+            ParentLocComboBox.ItemsSource = _avParentLocsView.View;
         }
 
         private void AvaliableParentLocs_Filter(object sender, FilterEventArgs e)
@@ -163,7 +163,7 @@ namespace PlrDesktop.Windows
 
         private void ParentLocFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _avParetnLocsView.View.Refresh();
+            _avParentLocsView.View.Refresh();
             ParentLocComboBox.UpdateLayout();
         }
     }

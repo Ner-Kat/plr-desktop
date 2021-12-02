@@ -194,18 +194,18 @@ namespace PlrDesktop.Windows
             var selectedItem = RacesDataGrid.SelectedCells[0].Item;
             var selectedRace = (Race)selectedItem;
 
-            //RaceDetails raceDetails = (RaceDetails)_windowsManager
-            //    .CreateRaceDetailsWindow(selectedRace.Id.Value);
+            RaceDetails raceDetails = (RaceDetails)_windowsManager
+                .CreateRaceDetailsWindow(selectedRace.Id.Value);
 
-            //raceDetails.Show();
+            raceDetails.Show();
         }
 
         private void AddRaceButton_Click(object sender, RoutedEventArgs e)
         {
-            //RaceEdit raceAdd = (RaceEdit)_windowsManager
-            //    .CreateRaceAddWindow();
+            RaceEdit raceAdd = (RaceEdit)_windowsManager
+                .CreateRaceAddWindow();
 
-            //raceAdd.Show();
+            raceAdd.Show();
         }
 
         private void UpdateRacesButton_Click(object sender, RoutedEventArgs e)

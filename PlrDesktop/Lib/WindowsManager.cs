@@ -19,6 +19,8 @@ namespace PlrDesktop.Lib
 
         private List<IPlrCardWindow> _locationDetailsWindows = new();
         private List<IPlrCardWindow> _locationEditWindows = new();
+        private List<IPlrCardWindow> _raceDetailsWindows = new();
+        private List<IPlrCardWindow> _raceEditWindows = new();
 
 
         public WindowsManager(IApiClients apiClients)
@@ -31,6 +33,8 @@ namespace PlrDesktop.Lib
         {
             if (window is LocationEdit)
                 return _locationDetailsWindows;
+            if (window is RaceEdit)
+                return _raceDetailsWindows;
 
             return null;
         }
@@ -42,6 +46,10 @@ namespace PlrDesktop.Lib
                 return _locationDetailsWindows;
             if (typeof(WType) == typeof(LocationEdit))
                 return _locationEditWindows;
+            if (typeof(WType) == typeof(RaceDetails))
+                return _raceDetailsWindows;
+            if (typeof(WType) == typeof(RaceEdit))
+                return _raceEditWindows;
 
             return null;
         }
@@ -82,6 +90,8 @@ namespace PlrDesktop.Lib
             Window window = null;
             if (typeof(WType) == typeof(LocationDetails))
                  window = new LocationDetails(_apiClients, this, id);
+            if (typeof(WType) == typeof(RaceDetails))
+                window = new RaceDetails(_apiClients, this, id);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
             return window;
@@ -120,10 +130,10 @@ namespace PlrDesktop.Lib
             Window window = null;
             if (typeof(WType) == typeof(LocationEdit))
                 window = new LocationEdit(_apiClients, this, dataCard as Location);
+            if (typeof(WType) == typeof(RaceEdit))
+                window = new RaceEdit(_apiClients, this, dataCard as Race);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
-            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateLocationsList();
-
             return window;
         }
 
@@ -133,6 +143,8 @@ namespace PlrDesktop.Lib
         {
             var window = CreateEditWindow<LocationEdit>(location);
             window.Closed += TryUpdateDetailsWindow;
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateLocationsList();
+
             return window;
         }
 
@@ -144,6 +156,31 @@ namespace PlrDesktop.Lib
         public Window CreateLocationAddWindow()
         {
             var window = CreateEditWindow<LocationEdit>(null);
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateLocationsList();
+
+            return window;
+        }
+
+
+        public Window CreateRaceEditWindow(Race race)
+        {
+            var window = CreateEditWindow<RaceEdit>(race);
+            window.Closed += TryUpdateDetailsWindow;
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateRacesList();
+
+            return window;
+        }
+
+        public Window CreateRaceDetailsWindow(int id)
+        {
+            return CreateDetailsWindow<RaceDetails>(id);
+        }
+
+        public Window CreateRaceAddWindow()
+        {
+            var window = CreateEditWindow<RaceEdit>(null);
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateRacesList();
+
             return window;
         }
     }
