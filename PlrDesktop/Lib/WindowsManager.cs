@@ -23,6 +23,8 @@ namespace PlrDesktop.Lib
         private List<IPlrCardWindow> _raceEditWindows = new();
         private List<IPlrCardWindow> _socFormDetailsWindows = new();
         private List<IPlrCardWindow> _socFormEditWindows = new();
+        private List<IPlrCardWindow> _characterDetailsWindows = new();
+        private List<IPlrCardWindow> _characterEditWindows = new();
 
 
         public WindowsManager(IApiClients apiClients)
@@ -39,6 +41,8 @@ namespace PlrDesktop.Lib
                 return _raceDetailsWindows;
             if (window is SocFormEdit)
                 return _socFormDetailsWindows;
+            if (window is CharacterEdit)
+                return _characterDetailsWindows;
 
             return null;
         }
@@ -58,6 +62,10 @@ namespace PlrDesktop.Lib
                 return _socFormDetailsWindows;
             if (typeof(WType) == typeof(SocFormEdit))
                 return _socFormEditWindows;
+            if (typeof(WType) == typeof(CharacterDetails))
+                return _characterDetailsWindows;
+            if (typeof(WType) == typeof(CharacterEdit))
+                return _characterEditWindows;
 
             return null;
         }
@@ -77,10 +85,14 @@ namespace PlrDesktop.Lib
                     windowsList.Remove(wnd);
                     break;
                 }
-                else if (wnd.GetId() == id)
+                else
                 {
-                    wndWin.Activate();
-                    return wndWin;
+                    var winId = wnd.GetId();
+                    if (winId is not null && winId == id)
+                    {
+                        wndWin.Activate();
+                        return wndWin;
+                    }
                 }
             }
 
@@ -102,6 +114,8 @@ namespace PlrDesktop.Lib
                 window = new RaceDetails(_apiClients, this, id);
             if (typeof(WType) == typeof(SocFormDetails))
                 window = new SocFormDetails(_apiClients, this, id);
+            if (typeof(WType) == typeof(CharacterDetails))
+                window = new CharacterDetails(_apiClients, this, id);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
             return window;
@@ -117,7 +131,8 @@ namespace PlrDesktop.Lib
             {
                 foreach (var detailsWindow in GetDetailByEditWindowsList(sender))
                 {
-                    if (detailsWindow.GetId() == id)
+                    var winId = detailsWindow.GetId();
+                    if (winId is not null && winId == id)
                         detailsWindow.UpdateCardData();
                 }
             }
@@ -144,12 +159,15 @@ namespace PlrDesktop.Lib
                 window = new RaceEdit(_apiClients, this, dataCard as Race);
             if (typeof(WType) == typeof(SocFormEdit))
                 window = new SocFormEdit(_apiClients, this, dataCard as SocialFormation);
+            if (typeof(WType) == typeof(CharacterEdit))
+                window = new CharacterEdit(_apiClients, this, dataCard as Character);
 
             GetWindowsList<WType>().Add(window as IPlrCardWindow);
             return window;
         }
 
 
+        // ########################### МЕТОДЫ ДЛЯ ЛОКАЦИЙ ########################### \\
 
         public Window CreateLocationEditWindow(Location location)
         {
@@ -173,6 +191,7 @@ namespace PlrDesktop.Lib
             return window;
         }
 
+        // ########################### МЕТОДЫ ДЛЯ РАС ########################### \\
 
         public Window CreateRaceEditWindow(Race race)
         {
@@ -196,6 +215,7 @@ namespace PlrDesktop.Lib
             return window;
         }
 
+        // ########################### МЕТОДЫ ДЛЯ СОЦ.ФОРМИРОВАНИЙ ########################### \\
 
         public Window CreateSocFormEditWindow(SocialFormation socForm)
         {
@@ -218,5 +238,30 @@ namespace PlrDesktop.Lib
 
             return window;
         }
+
+        // ########################### МЕТОДЫ ДЛЯ ПЕРСОНАЖЕЙ ########################### \\
+
+        public Window CreateCharacterEditWindow(Character character)
+        {
+            var window = CreateEditWindow<CharacterEdit>(character);
+            window.Closed += TryUpdateDetailsWindow;
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateCharactersList();
+
+            return window;
+        }
+
+        public Window CreateCharacterDetailsWindow(int id)
+        {
+            return CreateDetailsWindow<CharacterDetails>(id);
+        }
+
+        public Window CreateCharacterAddWindow()
+        {
+            var window = CreateEditWindow<CharacterEdit>(null);
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateCharactersList();
+
+            return window;
+        }
+
     }
 }

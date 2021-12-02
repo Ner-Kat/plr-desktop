@@ -137,7 +137,7 @@ namespace PlrDesktop.Windows
 
         public int? GetId()
         {
-            return _race.Id ?? null;
+            return _race is not null ? _race.Id : null;
         }
 
         //private void ClearParentRaceSelection_Click(object sender, RoutedEventArgs e)

@@ -50,6 +50,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Windows\CharacterDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CharacterEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\SocFormDetails.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -65,6 +71,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Windows\CharacterDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CharacterEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\SocFormDetails.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

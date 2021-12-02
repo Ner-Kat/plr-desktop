@@ -20,62 +20,67 @@ using System.IO;
 namespace PlrDesktop.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для SocFormEdit.xaml
+    /// Логика взаимодействия для CharacterEdit.xaml
     /// </summary>
-    public partial class SocFormEdit : Window, IPlrCardWindow
+    public partial class CharacterEdit : Window, IPlrCardWindow
     {
         private ApiClient _api;
-        private SocialFormation _socialFormation;
+        private Character _character;
         private RtbTextHandler _rtbTextHandler;
         private IWindowsManager _windowsManager;
 
+        private ObservableCollection<Character> _avalibleParentLocs = new();
+        private CollectionViewSource _avParentLocsView = new();
+
         private bool _addMode = true;
 
-        public SocFormEdit(IApiClients apiClients, IWindowsManager windowsManager, SocialFormation socForm)
+        public CharacterEdit(IApiClients apiClients, IWindowsManager windowsManager, Character location)
         {
             InitializeComponent();
 
-            _rtbTextHandler = new RtbTextHandler(SocFormDescField);
+            _rtbTextHandler = new RtbTextHandler(CharDescField);
 
             _api = apiClients.Default;
             _windowsManager = windowsManager;
-            _socialFormation = socForm;
+            _character = location;
         }
 
-        private async Task<List<SocialFormation>> GetAllSocForms()
+        private async Task<List<Character>> GetAllCharacters()
         {
-            List<SocialFormation> socForms = await _api.Methods.SocForms.List(null);
+            List<Character> characters = await _api.Methods.Chars.List(null);
 
-            if (_socialFormation is not null)
+            if (_character is not null)
             {
-                var selfLoc = socForms.FirstOrDefault(loc => loc.Id == _socialFormation.Id);
-                socForms.Remove(selfLoc);
+                var selfLoc = characters.FirstOrDefault(chr => chr.Id == _character.Id);
+                characters.Remove(selfLoc);
             }
 
-            return socForms;
+            return characters;
         }
 
-        private void SocFormEditWindow_Loaded(object sender, RoutedEventArgs e)
+        private void CharacterEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var editedSocForm = new SocialFormation()
+            var editedCharacter = new Character()
             {
-                Name = SocFormNameTextBox.Text,
-                Desc = _rtbTextHandler.GetAsString()
+                Name = CharNameTextBox.Text,
+                Desc = _rtbTextHandler.GetAsString(),
+                RaceId = 1,
+                GenderId = 1
             };
 
             if (_addMode)
             {
-                Task.Run(() => _api.Methods.SocForms.Add(editedSocForm));
+                Task.Run(() => _api.Methods.Chars.Add(editedCharacter));
             }
             else
             {
-                editedSocForm.Id = _socialFormation.Id;
-                Task.Run(() => _api.Methods.SocForms.Change(editedSocForm));
+                editedCharacter.Id = _character.Id;
+                Task.Run(() => _api.Methods.Chars.Change(editedCharacter));
             }
             
             this.Close();
@@ -99,24 +104,19 @@ namespace PlrDesktop.Windows
 
         public int? GetId()
         {
-            return _socialFormation is not null ? _socialFormation.Id : null;
+            return _character is not null ? _character.Id : null;
         }
-
-        //private void ClearSocFormCatSelection_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SocFormCatComboBox.SelectedIndex = -1;
-        //}
 
         public void UpdateCardData()
         {
-            if (_socialFormation is not null)
+            if (_character is not null)
             {
-                SocFormEditWindow.Title = _socialFormation.Name + " – изменение";
+                CharacterEditWindow.Title = _character.Name + " – изменение";
                 _addMode = false;
 
-                SocFormNameTextBox.Text = _socialFormation.Name;
-                SocFormDescField.Document.Blocks.Clear();
-                if (_rtbTextHandler.SetFromString(_socialFormation.Desc) is not null)
+                CharNameTextBox.Text = _character.Name;
+                CharDescField.Document.Blocks.Clear();
+                if (_rtbTextHandler.SetFromString(_character.Desc) is not null)
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
         }

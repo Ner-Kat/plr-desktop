@@ -293,18 +293,18 @@ namespace PlrDesktop.Windows
             var selectedItem = CharactersDataGrid.SelectedCells[0].Item;
             var selectedCharacter = (Character)selectedItem;
 
-            //CharacterDetails characterDetails = (CharacterDetails)_windowsManager
-            //    .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
+            CharacterDetails characterDetails = (CharacterDetails)_windowsManager
+                .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
 
-            //characterDetails.Show();
+            characterDetails.Show();
         }
 
         private void AddCharacterButton_Click(object sender, RoutedEventArgs e)
         {
-            //CharacterEdit characterAdd = (CharacterEdit)_windowsManager
-            //    .CreateCharacterAddWindow();
+            CharacterEdit characterAdd = (CharacterEdit)_windowsManager
+                .CreateCharacterAddWindow();
 
-            //characterAdd.Show();
+            characterAdd.Show();
         }
 
         private void UpdateCharactersButton_Click(object sender, RoutedEventArgs e)

@@ -137,7 +137,7 @@ namespace PlrDesktop.Windows
 
         public int? GetId()
         {
-            return _location.Id ?? null;
+            return _location is not null ? _location.Id : null;
         }
 
         private void ClearParentLocSelection_Click(object sender, RoutedEventArgs e)

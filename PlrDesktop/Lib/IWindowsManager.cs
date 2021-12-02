@@ -26,5 +26,10 @@ namespace PlrDesktop.Lib
         public Window CreateSocFormDetailsWindow(int id);
         public Window CreateSocFormEditWindow(SocialFormation socForm);
         public Window CreateSocFormAddWindow();
+
+
+        public Window CreateCharacterDetailsWindow(int id);
+        public Window CreateCharacterEditWindow(Character character);
+        public Window CreateCharacterAddWindow();
     }
 }
