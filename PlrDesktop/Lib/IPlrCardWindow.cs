@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace PlrDesktop.Lib
 {
-    public interface IHasId
+    public interface IPlrCardWindow
     {
         public int? GetId();
+
+        public void UpdateCardData();
     }
 }

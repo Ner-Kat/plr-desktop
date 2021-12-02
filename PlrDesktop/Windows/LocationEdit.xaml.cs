@@ -22,7 +22,7 @@ namespace PlrDesktop.Windows
     /// <summary>
     /// Логика взаимодействия для LocationEdit.xaml
     /// </summary>
-    public partial class LocationEdit : Window, IHasId
+    public partial class LocationEdit : Window, IPlrCardWindow
     {
         private ApiClient _api;
         private Location _location;
@@ -69,19 +69,7 @@ namespace PlrDesktop.Windows
 
         private void LocationEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_location is not null)
-            {
-                LocationEditWindow.Title = _location.Name + " – изменение";
-                _addMode = false;
-
-                LocNameTextBox.Text = _location.Name;
-                LocDescField.Document.Blocks.Clear();
-                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
-                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
-            }
-
-            SetParentLocationsList();
-            ParentLocComboBox.ItemsSource = _avalibleParentLocs;
+            UpdateCardData();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -132,6 +120,23 @@ namespace PlrDesktop.Windows
         private void ClearParentLocSelection_Click(object sender, RoutedEventArgs e)
         {
             ParentLocComboBox.SelectedIndex = -1;
+        }
+
+        public void UpdateCardData()
+        {
+            if (_location is not null)
+            {
+                LocationEditWindow.Title = _location.Name + " – изменение";
+                _addMode = false;
+
+                LocNameTextBox.Text = _location.Name;
+                LocDescField.Document.Blocks.Clear();
+                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
+                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
+            }
+
+            SetParentLocationsList();
+            ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
     }
 }

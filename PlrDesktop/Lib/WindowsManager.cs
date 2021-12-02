@@ -7,6 +7,7 @@ using System.Windows;
 using PlrDesktop.ApiInteraction;
 using PlrDesktop.Windows;
 using PlrDesktop.Datacards;
+using System.ComponentModel;
 
 namespace PlrDesktop.Lib
 {
@@ -14,9 +15,9 @@ namespace PlrDesktop.Lib
     {
         private IApiClients _apiClients;
 
-        public Window MainWindow { get; set; }
-        private List<IHasId> _locationDetailsWindows = new();
-        private List<IHasId> _locationEditWindows = new();
+        public MainWindow MainWindow { get; set; }
+        private List<IPlrCardWindow> _locationDetailsWindows = new();
+        private List<IPlrCardWindow> _locationEditWindows = new();
 
 
         public WindowsManager(IApiClients apiClients)
@@ -71,11 +72,34 @@ namespace PlrDesktop.Lib
 
             var window = new LocationEdit(_apiClients, this, location);
             _locationEditWindows.Add(window);
+
+            window.Closed += TryUpdateLocationDetailsWindow;
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateLocationsList();
+
             return window;
         }
+
+        private void TryUpdateLocationDetailsWindow(object sender, EventArgs e)
+        {
+            var window = sender as LocationEdit;
+            int? id = window is not null ? window.GetId() : null;
+
+            if (id is not null)
+            {
+                foreach (var locDetailsWindow in _locationDetailsWindows)
+                {
+                    if (locDetailsWindow.GetId() == id)
+                        locDetailsWindow.UpdateCardData();
+                }
+            }
+        }
+
         public Window CreateLocationAddWindow()
         {
             var window = new LocationEdit(_apiClients, this, null);
+
+            window.Closed += (object sender, EventArgs e) => MainWindow.UpdateLocationsList();
+
             return window;
         }
     }

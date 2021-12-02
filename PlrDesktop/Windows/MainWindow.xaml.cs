@@ -25,14 +25,20 @@ namespace PlrDesktop.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ApiClient _api;
+        private IWindowsManager _windowsManager;
+
         private ObservableCollection<Location> _locationsOc = new();
         private CollectionViewSource _locationsView = new();
 
-        private ObservableCollection<Race> _raceOc;
-        private ObservableCollection<SocialFormation> _socialFormationOc;
-        private ObservableCollection<Character> _characterOc;
-        private ApiClient _api;
-        private IWindowsManager _windowsManager;
+        private ObservableCollection<Race> _racesOc = new();
+        private CollectionViewSource _racesView = new();
+
+        private ObservableCollection<SocialFormation> _socialFormationsOc = new();
+        private CollectionViewSource _socialFormationsView = new();
+
+        private ObservableCollection<Character> _charactersOc = new();
+        private CollectionViewSource _charactersView = new();
 
         public MainWindow(IApiClients apiClients, IWindowsManager windowsManager)
         {
@@ -49,22 +55,58 @@ namespace PlrDesktop.Windows
             return locations;
         }
 
-        private async Task<List<Race>> GetRaceList()
+        private async Task<List<Race>> GetRacesList()
         {
             List<Race> races = await _api.Methods.Races.List(null);
             return races;
         }
 
-        private async Task<List<SocialFormation>> GetSocialFormationList()
+        private async Task<List<SocialFormation>> GetSocialFormationsList()
         {
             List<SocialFormation> socForm = await _api.Methods.SocForms.List(null);
             return socForm;
         }
 
-        private async Task<List<Character>> GetCharacterList()
+        private async Task<List<Character>> GetCharactersList()
         {
             List<Character> characters = await _api.Methods.Chars.List(null);
             return characters;
+        }
+
+        public void UpdateLocationsList()
+        {
+            _locationsOc.Clear();
+            foreach (var loc in Task.Run(() => GetLocationsList()).Result)
+            {
+                _locationsOc.Add(loc);
+            }
+        }
+
+        public void UpdateSocFormsList()
+        {
+            _socialFormationsOc.Clear();
+            foreach (var sf in Task.Run(() => GetSocialFormationsList()).Result)
+            {
+                _socialFormationsOc.Add(sf);
+            }
+        }
+
+        public void UpdateRacesList()
+        {
+            _racesOc.Clear();
+            foreach (var race in Task.Run(() => GetRacesList()).Result)
+            {
+                _racesOc.Add(race);
+            }
+        }
+
+        public void UpdateCharactersList()
+        {
+            _charactersOc.Clear();
+            foreach (var chr in Task.Run(() => GetCharactersList()).Result)
+            {
+                _charactersOc.Add(chr);
+            }
         }
 
         private void PrimaryWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,15 +118,24 @@ namespace PlrDesktop.Windows
             _locationsView.Filter += LocationsView_Filter;
             LocationsDataGrid.ItemsSource = _locationsView.View;
 
-            _raceOc = new ObservableCollection<Race>(Task.Run(() => GetRaceList()).Result);
-            RacesDataGrid.ItemsSource = _raceOc;
+            UpdateRacesList();
+            _racesView.Source = _racesOc;
+            _racesView.Filter += RacesView_Filter;
+            RacesDataGrid.ItemsSource = _racesView.View;
 
-            _socialFormationOc = new ObservableCollection<SocialFormation>(Task.Run(() => GetSocialFormationList()).Result);
-            SocFormsDataGrid.ItemsSource = _socialFormationOc;
+            UpdateSocFormsList();
+            _socialFormationsView.Source = _socialFormationsOc;
+            _socialFormationsView.Filter += SocialFormationsView_Filter;
+            SocFormsDataGrid.ItemsSource = _socialFormationsView.View;
 
-            _characterOc = new ObservableCollection<Character>(Task.Run(() => GetCharacterList()).Result);
-            CharactersDataGrid.ItemsSource = _characterOc;
+            UpdateCharactersList();
+            _charactersView.Source = _charactersOc;
+            _charactersView.Filter += CharactersView_Filter;
+            CharactersDataGrid.ItemsSource = _charactersView.View;
         }
+
+
+        // ########################### ОБРАБОТЧИКИ ДЛЯ ЛОКАЦИЙ ########################### \\
 
         private void LocationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -105,18 +156,9 @@ namespace PlrDesktop.Windows
             locationAdd.Show();
         }
 
-        public void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateLocationsList();
-        }
-
-        private void UpdateLocationsList()
-        {
-            _locationsOc.Clear();
-            foreach (var loc in Task.Run(() => GetLocationsList()).Result)
-            {
-                _locationsOc.Add(loc);
-            }
         }
 
         private void ClearLocLevelSelection_Click(object sender, RoutedEventArgs e)
@@ -141,5 +183,154 @@ namespace PlrDesktop.Windows
         {
             _locationsView.View.Refresh();
         }
+
+        // ########################### ————————————————— ########################### //
+
+
+        // ########################### ОБРАБОТЧИКИ ДЛЯ РАС ########################### \\
+
+        private void RacesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = RacesDataGrid.SelectedCells[0].Item;
+            var selectedRace = (Race)selectedItem;
+
+            //RaceDetails raceDetails = (RaceDetails)_windowsManager
+            //    .CreateRaceDetailsWindow(selectedRace.Id.Value);
+
+            //raceDetails.Show();
+        }
+
+        private void AddRaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            //RaceEdit raceAdd = (RaceEdit)_windowsManager
+            //    .CreateRaceAddWindow();
+
+            //raceAdd.Show();
+        }
+
+        private void UpdateRacesButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateRacesList();
+        }
+
+        private void RacesView_Filter(object sender, FilterEventArgs e)
+        {
+            Race race = e.Item as Race;
+
+            if (race is not null)
+            {
+                if (race.Name.ToLower().Contains(RaceFindTextBox.Text.ToLower()))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
+            }
+        }
+
+        private void RaceFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _racesView.View.Refresh();
+        }
+
+        // ########################### ————————————————— ########################### //
+
+
+        // ########################### ОБРАБОТЧИКИ ДЛЯ СОЦ.ФОРМИРОВАНИЙ ########################### \\
+
+        private void SocFormsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = SocFormsDataGrid.SelectedCells[0].Item;
+            var selectedSocialFormation = (SocialFormation)selectedItem;
+
+            //SocialFormationDetails socFormDetails = (SocialFormationDetails)_windowsManager
+            //    .CreateSocialFormationDetailsWindow(selectedSocialFormation.Id.Value);
+
+            //socFormDetails.Show();
+        }
+
+        private void AddSocFormButton_Click(object sender, RoutedEventArgs e)
+        {
+            //SocialFormationEdit socFormAdd = (SocialFormationEdit)_windowsManager
+            //    .CreateSocialFormationAddWindow();
+
+            //socFormAdd.Show();
+        }
+
+        private void UpdateSocFormsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateSocFormsList();
+        }
+
+        private void ClearSocFormCatSelection_Click(object sender, RoutedEventArgs e)
+        {
+           SocFormCatComboBox.SelectedIndex = -1;
+        }
+
+        private void SocialFormationsView_Filter(object sender, FilterEventArgs e)
+        {
+            SocialFormation socForm = e.Item as SocialFormation;
+
+            if (socForm is not null)
+            {
+                if (socForm.Name.ToLower().Contains(LocFindTextBox.Text.ToLower()))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
+            }
+        }
+
+        private void SocFormFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _socialFormationsView.View.Refresh();
+        }
+
+        // ########################### ————————————————— ########################### //
+
+
+        // ########################### ОБРАБОТЧИКИ ДЛЯ ПЕРСОНАЖЕЙ ########################### \\
+
+        private void CharactersDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = CharactersDataGrid.SelectedCells[0].Item;
+            var selectedCharacter = (Character)selectedItem;
+
+            //CharacterDetails characterDetails = (CharacterDetails)_windowsManager
+            //    .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
+
+            //characterDetails.Show();
+        }
+
+        private void AddCharacterButton_Click(object sender, RoutedEventArgs e)
+        {
+            //CharacterEdit characterAdd = (CharacterEdit)_windowsManager
+            //    .CreateCharacterAddWindow();
+
+            //characterAdd.Show();
+        }
+
+        private void UpdateCharactersButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCharactersList();
+        }
+
+        private void CharactersView_Filter(object sender, FilterEventArgs e)
+        {
+            Character chr = e.Item as Character;
+
+            if (chr is not null)
+            {
+                if (chr.Name.ToLower().Contains(CharFindTextBox.Text.ToLower()))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
+            }
+        }
+
+        private void CharFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _charactersView.View.Refresh();
+        }
+
+        // ########################### ————————————————— ########################### //
+
     }
 }

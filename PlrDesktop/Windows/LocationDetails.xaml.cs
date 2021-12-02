@@ -21,14 +21,14 @@ namespace PlrDesktop.Windows
     /// <summary>
     /// Логика взаимодействия для LocationDetails.xaml
     /// </summary>
-    public partial class LocationDetails : Window, IHasId
+    public partial class LocationDetails : Window, IPlrCardWindow
     {
         private ApiClient _api;
         private int _locId;
         private Location _location;
         private IWindowsManager _windowsManager;
         private RtbTextHandler _rtbTextHandler;
-        private ObservableCollection<Location> _subLocations;
+        private ObservableCollection<Location> _subLocations = new();
 
         public LocationDetails(IApiClients apiClients, IWindowsManager windowsManager, int locId)
         {
@@ -52,30 +52,7 @@ namespace PlrDesktop.Windows
 
         private void LocationDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _location = Task.Run(() => GetLocation(_locId)).Result;
-
-            if (_location is not null)
-            {
-                LocationDetailsWindow.Title = _location.Name + " – карточка";
-                LocationNameLabel.Content = _location.Name;
-
-                LocationDescription.Document.Blocks.Clear();
-                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
-                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
-
-                if (_location.ParentLoc is not null)
-                {
-                    ParentLocationLabel.Content = "Является частью локации " + _location.ParentLoc.Name;
-                    ParentLocationLabel.MouseLeftButtonUp += ParentLocationLabel_MouseLeftButtonUp;
-                }
-                else
-                {
-                    ParentLocationLabel.Content = "Корневая локация";
-                }
-
-                SetSublocations();
-                SublocationsList.ItemsSource = _subLocations;
-            }
+            UpdateCardData();
         }
 
         private void ParentLocationLabel_MouseLeftButtonUp(object sender, RoutedEventArgs e)
@@ -89,7 +66,7 @@ namespace PlrDesktop.Windows
 
         private void SetSublocations()
         {
-            _subLocations = new();
+            _subLocations.Clear();
             foreach (var loc in _location.Children)
             {
                 _subLocations.Add(loc);
@@ -116,6 +93,34 @@ namespace PlrDesktop.Windows
         public int? GetId()
         {
             return _location.Id ?? null;
+        }
+
+        public void UpdateCardData()
+        {
+            _location = Task.Run(() => GetLocation(_locId)).Result;
+
+            if (_location is not null)
+            {
+                LocationDetailsWindow.Title = _location.Name + " – карточка";
+                LocationNameLabel.Content = _location.Name;
+
+                LocationDescription.Document.Blocks.Clear();
+                if (_rtbTextHandler.SetFromString(_location.Desc) is not null)
+                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
+
+                if (_location.ParentLoc is not null)
+                {
+                    ParentLocationLabel.Content = "Является частью локации " + _location.ParentLoc.Name;
+                    ParentLocationLabel.MouseLeftButtonUp += ParentLocationLabel_MouseLeftButtonUp;
+                }
+                else
+                {
+                    ParentLocationLabel.Content = "Корневая локация";
+                }
+
+                SetSublocations();
+                SublocationsList.ItemsSource = _subLocations;
+            }
         }
     }
 }
