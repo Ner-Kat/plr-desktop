@@ -25,7 +25,9 @@ namespace PlrDesktop.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ObservableCollection<Location> _locationsOc;
+        private ObservableCollection<Location> _locationsOc = new();
+        private CollectionViewSource _locationsView = new();
+
         private ObservableCollection<Race> _raceOc;
         private ObservableCollection<SocialFormation> _socialFormationOc;
         private ObservableCollection<Character> _characterOc;
@@ -69,8 +71,10 @@ namespace PlrDesktop.Windows
         {
             PrimaryWindow.Title = "PLR";
 
-            _locationsOc = new ObservableCollection<Location>(Task.Run(() => GetLocationsList()).Result);
-            LocationsDataGrid.ItemsSource = _locationsOc;
+            UpdateLocationsList();
+            _locationsView.Source = _locationsOc;
+            _locationsView.Filter += LocationsView_Filter;
+            LocationsDataGrid.ItemsSource = _locationsView.View;
 
             _raceOc = new ObservableCollection<Race>(Task.Run(() => GetRaceList()).Result);
             RacesDataGrid.ItemsSource = _raceOc;
@@ -101,13 +105,41 @@ namespace PlrDesktop.Windows
             locationAdd.Show();
         }
 
-        private void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
+        public void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateLocationsList();
+        }
+
+        private void UpdateLocationsList()
         {
             _locationsOc.Clear();
             foreach (var loc in Task.Run(() => GetLocationsList()).Result)
             {
                 _locationsOc.Add(loc);
             }
+        }
+
+        private void ClearLocLevelSelection_Click(object sender, RoutedEventArgs e)
+        {
+            LocLevelComboBox.SelectedIndex = -1;
+        }
+
+        private void LocationsView_Filter(object sender, FilterEventArgs e)
+        {
+            Location loc = e.Item as Location;
+
+            if (loc is not null)
+            {
+                if (loc.Name.ToLower().Contains(LocFindTextBox.Text.ToLower()))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
+            }
+        }
+
+        private void LocFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _locationsView.View.Refresh();
         }
     }
 }

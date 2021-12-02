@@ -122,4 +122,12 @@
         <Setter Property="Background" Value="{StaticResource PlrBlack}"/>
     </Style>
 
+    <Style TargetType="StackPanel">
+        <Setter Property="Background" Value="{StaticResource PlrBlack}"/>
+    </Style>
+
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource PlrWhite}"/>
+    </Style>
+
 </ResourceDictionary>
