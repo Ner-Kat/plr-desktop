@@ -8,7 +8,7 @@ using PlrDesktop.Datacards;
 
 namespace PlrDesktop.Lib
 {
-    public interface IWindowsBuilder
+    public interface IWindowsManager
     {
         public Window MainWindow { get; set; }
 

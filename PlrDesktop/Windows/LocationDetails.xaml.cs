@@ -26,11 +26,11 @@ namespace PlrDesktop.Windows
         private ApiClient _api;
         private int _locId;
         private Location _location;
-        private IWindowsBuilder _windowsBuilder;
+        private IWindowsManager _windowsManager;
         private RtbTextHandler _rtbTextHandler;
         private ObservableCollection<Location> _subLocations;
 
-        public LocationDetails(IApiClients apiClients, IWindowsBuilder windowsBuilder, int locId)
+        public LocationDetails(IApiClients apiClients, IWindowsManager windowsManager, int locId)
         {
             InitializeComponent();
 
@@ -38,7 +38,7 @@ namespace PlrDesktop.Windows
 
             _api = apiClients.Default;
             _locId = locId;
-            _windowsBuilder = windowsBuilder;
+            _windowsManager = windowsManager;
         }
 
         private async Task<Location> GetLocation(int id)
@@ -82,7 +82,7 @@ namespace PlrDesktop.Windows
         {
             if (_location.ParentLocId is not null)
             {
-                var editWindow = _windowsBuilder.CreateLocationDetailsWindow(_location.ParentLocId.Value);
+                var editWindow = _windowsManager.CreateLocationDetailsWindow(_location.ParentLocId.Value);
                 editWindow.Show();
             }
         }
@@ -98,7 +98,7 @@ namespace PlrDesktop.Windows
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = _windowsBuilder.CreateLocationEditWindow(_location);
+            var editWindow = _windowsManager.CreateLocationEditWindow(_location);
             editWindow.Show();
         }
 
@@ -107,7 +107,7 @@ namespace PlrDesktop.Windows
             var selectedItem = SublocationsList.SelectedCells[0].Item;
             var selectedLocation = (Location)selectedItem;
 
-            LocationDetails locationDetails = (LocationDetails)_windowsBuilder
+            LocationDetails locationDetails = (LocationDetails)_windowsManager
                 .CreateLocationDetailsWindow(selectedLocation.Id.Value);
 
             locationDetails.Show();

@@ -32,7 +32,7 @@ namespace PlrDesktop
         private void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<IApiClients, ApiClients>();
-            services.AddSingleton<IWindowsBuilder, WindowsBuilder>();
+            services.AddSingleton<IWindowsManager, WindowsManager>();
 
             services.AddSingleton<MainWindow>();
         }

@@ -28,16 +28,18 @@ namespace PlrDesktop.Windows
         private Location _location;
         private ObservableCollection<Location> _avalibleParentLocs;
         private RtbTextHandler _rtbTextHandler;
+        private IWindowsManager _windowsManager;
 
         private bool _addMode = true;
 
-        public LocationEdit(IApiClients apiClients, Location location)
+        public LocationEdit(IApiClients apiClients, IWindowsManager windowsManager, Location location)
         {
             InitializeComponent();
 
             _rtbTextHandler = new RtbTextHandler(LocDescField);
 
             _api = apiClients.Default;
+            _windowsManager = windowsManager;
             _location = location;
         }
 

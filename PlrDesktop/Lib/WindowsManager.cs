@@ -10,7 +10,7 @@ using PlrDesktop.Datacards;
 
 namespace PlrDesktop.Lib
 {
-    public class WindowsBuilder : IWindowsBuilder
+    public class WindowsManager : IWindowsManager
     {
         private IApiClients _apiClients;
 
@@ -19,7 +19,7 @@ namespace PlrDesktop.Lib
         private List<IHasId> _locationEditWindows = new();
 
 
-        public WindowsBuilder(IApiClients apiClients)
+        public WindowsManager(IApiClients apiClients)
         {
             _apiClients = apiClients;
         }
@@ -69,13 +69,13 @@ namespace PlrDesktop.Lib
                 }
             }
 
-            var window = new LocationEdit(_apiClients, location);
+            var window = new LocationEdit(_apiClients, this, location);
             _locationEditWindows.Add(window);
             return window;
         }
         public Window CreateLocationAddWindow()
         {
-            var window = new LocationEdit(_apiClients, null);
+            var window = new LocationEdit(_apiClients, this, null);
             return window;
         }
     }

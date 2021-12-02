@@ -30,15 +30,15 @@ namespace PlrDesktop.Windows
         private ObservableCollection<SocialFormation> _socialFormationOc;
         private ObservableCollection<Character> _characterOc;
         private ApiClient _api;
-        private IWindowsBuilder _windowsBuilder;
+        private IWindowsManager _windowsManager;
 
-        public MainWindow(IApiClients apiClients, IWindowsBuilder windowsBuilder)
+        public MainWindow(IApiClients apiClients, IWindowsManager windowsManager)
         {
             InitializeComponent();
 
             _api = apiClients.Default;
-            _windowsBuilder = windowsBuilder;
-            _windowsBuilder.MainWindow = this;
+            _windowsManager = windowsManager;
+            _windowsManager.MainWindow = this;
         }
 
         private async Task<List<Location>> GetLocationsList()
@@ -87,7 +87,7 @@ namespace PlrDesktop.Windows
             var selectedItem = LocationsDataGrid.SelectedCells[0].Item;
             var selectedLocation = (Location)selectedItem;
 
-            LocationDetails locationDetails = (LocationDetails)_windowsBuilder
+            LocationDetails locationDetails = (LocationDetails)_windowsManager
                 .CreateLocationDetailsWindow(selectedLocation.Id.Value);
 
             locationDetails.Show();
@@ -95,7 +95,7 @@ namespace PlrDesktop.Windows
 
         private void AddLocationButton_Click(object sender, RoutedEventArgs e)
         {
-            LocationEdit locationAdd = (LocationEdit)_windowsBuilder
+            LocationEdit locationAdd = (LocationEdit)_windowsManager
                 .CreateLocationAddWindow();
 
             locationAdd.Show();
