@@ -32,7 +32,7 @@
         </RichTextBox>
 
         <Label x:Name="ParentLocationLabel" Content="Является частью локации..." Grid.Row="1" Margin="10,0,0,0" 
-               FontFamily="Arial" FontSize="13" BorderBrush="{StaticResource PlrWhiteDark}"/>
+               FontFamily="Arial" FontSize="13" Style="{StaticResource ClickableText}"/>
 
         <DataGrid x:Name="SublocationsList" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" AutoGenerateColumns="False" 
                   CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"

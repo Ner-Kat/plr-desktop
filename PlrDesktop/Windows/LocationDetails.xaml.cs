@@ -64,12 +64,26 @@ namespace PlrDesktop.Windows
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
 
                 if (_location.ParentLoc is not null)
-                    ParentLocationLabel.Content = "Является частью локации: " + _location.ParentLoc.Name;
+                {
+                    ParentLocationLabel.Content = "Является частью локации " + _location.ParentLoc.Name;
+                    ParentLocationLabel.MouseLeftButtonUp += ParentLocationLabel_MouseLeftButtonUp;
+                }
                 else
+                {
                     ParentLocationLabel.Content = "Корневая локация";
+                }
 
                 SetSublocations();
                 SublocationsList.ItemsSource = _subLocations;
+            }
+        }
+
+        private void ParentLocationLabel_MouseLeftButtonUp(object sender, RoutedEventArgs e)
+        {
+            if (_location.ParentLocId is not null)
+            {
+                var editWindow = _windowsBuilder.CreateLocationDetailsWindow(_location.ParentLocId.Value);
+                editWindow.Show();
             }
         }
 

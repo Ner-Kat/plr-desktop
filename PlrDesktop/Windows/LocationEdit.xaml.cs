@@ -54,17 +54,15 @@ namespace PlrDesktop.Windows
             return locations;
         }
 
-        private async Task<bool> SetParentLocationsList()
+        private void SetParentLocationsList()
         {
-            _avalibleParentLocs = new ObservableCollection<Location>(await GetAllLocations());
+            _avalibleParentLocs = new ObservableCollection<Location>(Task.Run(() => GetAllLocations()).Result);
 
             if (_location is not null && _location.ParentLoc is not null)
             {
                 var parentLoc = _avalibleParentLocs.FirstOrDefault(loc => loc.Id == _location.ParentLoc.Id);
                 ParentLocComboBox.SelectedItem = parentLoc;
             }
-
-            return true;
         }
 
         private void LocationEditWindow_Loaded(object sender, RoutedEventArgs e)
@@ -80,7 +78,7 @@ namespace PlrDesktop.Windows
                     RtbTextHandler.ShowError(_rtbTextHandler.LastException);
             }
 
-            Task.Run(() => SetParentLocationsList());
+            SetParentLocationsList();
             ParentLocComboBox.ItemsSource = _avalibleParentLocs;
         }
 
@@ -127,6 +125,11 @@ namespace PlrDesktop.Windows
         public int? GetId()
         {
             return _location.Id ?? null;
+        }
+
+        private void ClearParentLocSelection_Click(object sender, RoutedEventArgs e)
+        {
+            ParentLocComboBox.SelectedIndex = -1;
         }
     }
 }
