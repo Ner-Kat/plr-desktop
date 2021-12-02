@@ -53,7 +53,7 @@
                        DockPanel.Dock="Top" x:Name="ParentLocLabel" Content="Надлокация" 
                        FontWeight="Bold" FontFamily="Arial" FontSize="14" HorizontalAlignment="Center"/>
                 <TextBox x:Name="ParentLocFindTextBox" Grid.Row="1" Grid.Column="0"
-                         MinHeight="25" Margin="0,0,5,0"/>
+                         MinHeight="25" Margin="0,0,5,0" TextChanged="ParentLocFindTextBox_TextChanged"/>
                 <Grid Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

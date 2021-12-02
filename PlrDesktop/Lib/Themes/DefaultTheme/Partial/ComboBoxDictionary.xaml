@@ -29,7 +29,7 @@
     </ControlTemplate>
 
     <Style TargetType="ComboBoxItem">
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Foreground" Value="{StaticResource PlrWhite}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
@@ -39,7 +39,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource PlrBlackDark}"/>
-                            <Setter Property="Foreground" Value="{StaticResource PlrWhite}"/>
+                            <Setter Property="Foreground" Value="{StaticResource PlrWhiteDark}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

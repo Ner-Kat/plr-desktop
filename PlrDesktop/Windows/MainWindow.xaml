@@ -81,7 +81,7 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AddCharButton" Content="✚ Добавить персонажа" FontFamily="Arial" FontWeight="Bold" 
                                 FontSize="16" Click="AddCharacterButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
-                        <Button x:Name="UpdateCharactersButton" Content="🗘 Обновить список локаций" FontFamily="Arial" 
+                        <Button x:Name="UpdateCharactersButton" Content="🗘 Обновить список персонажей" FontFamily="Arial" 
                                 FontWeight="Bold" FontSize="16" Click="UpdateCharactersButton_Click" Margin="0,0,0,0" Grid.Row="1"
                                 Grid.Column="3" MinHeight="30"/>
                     </Grid>

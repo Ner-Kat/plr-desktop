@@ -26,9 +26,11 @@ namespace PlrDesktop.Windows
     {
         private ApiClient _api;
         private Location _location;
-        private ObservableCollection<Location> _avalibleParentLocs;
         private RtbTextHandler _rtbTextHandler;
         private IWindowsManager _windowsManager;
+
+        private ObservableCollection<Location> _avalibleParentLocs = new();
+        private CollectionViewSource _avParetnLocsView = new();
 
         private bool _addMode = true;
 
@@ -58,7 +60,11 @@ namespace PlrDesktop.Windows
 
         private void SetParentLocationsList()
         {
-            _avalibleParentLocs = new ObservableCollection<Location>(Task.Run(() => GetAllLocations()).Result);
+            _avalibleParentLocs.Clear();
+            foreach (var loc in Task.Run(() => GetAllLocations()).Result)
+            {
+                _avalibleParentLocs.Add(loc);
+            }
 
             if (_location is not null && _location.ParentLoc is not null)
             {
@@ -70,6 +76,23 @@ namespace PlrDesktop.Windows
         private void LocationEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            _avParetnLocsView.Source = _avalibleParentLocs;
+            _avParetnLocsView.Filter += AvaliableParentLocs_Filter;
+            ParentLocComboBox.ItemsSource = _avParetnLocsView.View;
+        }
+
+        private void AvaliableParentLocs_Filter(object sender, FilterEventArgs e)
+        {
+            Location loc = e.Item as Location;
+
+            if (loc is not null)
+            {
+                if (loc.Name.ToLower().Contains(ParentLocFindTextBox.Text.ToLower()))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -136,7 +159,12 @@ namespace PlrDesktop.Windows
             }
 
             SetParentLocationsList();
-            ParentLocComboBox.ItemsSource = _avalibleParentLocs;
+        }
+
+        private void ParentLocFindTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _avParetnLocsView.View.Refresh();
+            ParentLocComboBox.UpdateLayout();
         }
     }
 }
