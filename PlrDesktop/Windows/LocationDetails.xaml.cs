@@ -53,6 +53,8 @@ namespace PlrDesktop.Windows
         private void LocationDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            PlrWpfUtils.ClearDataGridSelection(SublocationsList);
         }
 
         private void ParentLocationLabel_MouseLeftButtonUp(object sender, RoutedEventArgs e)

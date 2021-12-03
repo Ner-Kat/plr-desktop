@@ -29,6 +29,9 @@ namespace PlrDesktop.Windows
         private IWindowsManager _windowsManager;
         private RtbTextHandler _rtbTextHandler;
 
+        private ObservableCollection<Character> _childrenOc = new();
+        private CollectionViewSource _childrenView = new();
+
         public CharacterDetails(IApiClients apiClients, IWindowsManager windowsManager, int charId)
         {
             InitializeComponent();
@@ -52,6 +55,11 @@ namespace PlrDesktop.Windows
         private void CharacterDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            _childrenView.Source = _childrenOc;
+            //_childrenView.Filter += 
+            ChildrenList.ItemsSource = _childrenView.View;
+            PlrWpfUtils.ClearDataGridSelection(ChildrenList);
 
             RaceLabel.MouseLeftButtonUp += RaceLabel_MouseLeftButtonUp;
             LocBirthLabel.MouseLeftButtonUp += LocBirthLabel_MouseLeftButtonUp;
@@ -218,6 +226,14 @@ namespace PlrDesktop.Windows
                     }
                     AltCharsPanel.UpdateLayout();
                 }
+
+                // Дети
+                if (_character.ChildrenIds is not null)
+                {
+                    _childrenOc.Clear();
+                    foreach (var child in _character.Children)
+                        _childrenOc.Add(child);
+                }
             }
         }
 
@@ -251,6 +267,17 @@ namespace PlrDesktop.Windows
             window.Show();
         }
 
+        private void ChildrenList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = ChildrenList.SelectedCells[0].Item;
+            var selectedCharacter = (Character)selectedItem;
+
+            CharacterDetails characterDetails = (CharacterDetails)_windowsManager
+                .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
+
+            characterDetails.Show();
+        }
+
         private string ColorDecToHex(int color)
         {
             char[] result = "000000".ToCharArray();
@@ -261,5 +288,18 @@ namespace PlrDesktop.Windows
 
             return "#FF" + new string(result);
         }
+
+        //private void ChildrenView_Filter(object sender, FilterEventArgs e)
+        //{
+        //    Character chr = e.Item as Character;
+
+        //    if (chr is not null)
+        //    {
+        //        if (chr.Name.ToLower().Contains(CharFindTextBox.Text.ToLower()))
+        //            e.Accepted = true;
+        //        else
+        //            e.Accepted = false;
+        //    }
+        //}
     }
 }

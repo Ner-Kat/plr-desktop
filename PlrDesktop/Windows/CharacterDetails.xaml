@@ -104,10 +104,11 @@
                     </DockPanel>
                 </Border>
 
-                <DataGrid x:Name="ChildrenList" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" DockPanel.Dock="Top"
-                  CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
-                  MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
-                  Focusable="False" HorizontalContentAlignment="Stretch" ColumnWidth="*" Width="Auto" Margin="1">
+                <DataGrid x:Name="ChildrenList" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" DockPanel.Dock="Top" 
+                          CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
+                          MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                          Focusable="False" HorizontalContentAlignment="Stretch" ColumnWidth="*" Width="Auto" Margin="1"
+                          MouseDoubleClick="ChildrenList_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ChildrenColumn" Binding="{Binding Name}" Header="Дети" CanUserResize="False" 
                                     CanUserReorder="False" IsReadOnly="True"/>

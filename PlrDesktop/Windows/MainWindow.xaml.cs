@@ -117,21 +117,25 @@ namespace PlrDesktop.Windows
             _locationsView.Source = _locationsOc;
             _locationsView.Filter += LocationsView_Filter;
             LocationsDataGrid.ItemsSource = _locationsView.View;
+            PlrWpfUtils.ClearDataGridSelection(LocationsDataGrid);
 
             UpdateRacesList();
             _racesView.Source = _racesOc;
             _racesView.Filter += RacesView_Filter;
             RacesDataGrid.ItemsSource = _racesView.View;
+            PlrWpfUtils.ClearDataGridSelection(RacesDataGrid);
 
             UpdateSocFormsList();
             _socialFormationsView.Source = _socialFormationsOc;
             _socialFormationsView.Filter += SocialFormationsView_Filter;
             SocFormsDataGrid.ItemsSource = _socialFormationsView.View;
+            PlrWpfUtils.ClearDataGridSelection(SocFormsDataGrid);
 
             UpdateCharactersList();
             _charactersView.Source = _charactersOc;
             _charactersView.Filter += CharactersView_Filter;
             CharactersDataGrid.ItemsSource = _charactersView.View;
+            PlrWpfUtils.ClearDataGridSelection(CharactersDataGrid);
         }
 
 
@@ -305,6 +309,15 @@ namespace PlrDesktop.Windows
                 .CreateCharacterAddWindow();
 
             characterAdd.Show();
+        }
+
+        private void RemoveCharacterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = CharactersDataGrid.SelectedCells[0].Item;
+            var selectedCharacter = (Character)selectedItem;
+
+            Task.Run(() => _api.Methods.Chars.Remove(selectedCharacter.Id.Value)).Wait();
+            UpdateCharactersList();
         }
 
         private void UpdateCharactersButton_Click(object sender, RoutedEventArgs e)
