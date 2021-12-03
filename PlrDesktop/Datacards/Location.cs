@@ -15,7 +15,8 @@ namespace PlrDesktop.Datacards
         public string Desc { get; set; } = null;
 
         private int? parentLocId = null;
-        public int? ParentLocId { 
+        public int? ParentLocId 
+        { 
             get
             {
                 return parentLocId;

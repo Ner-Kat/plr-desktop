@@ -52,6 +52,12 @@ namespace PlrDesktop.Windows
         private void CharacterDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            RaceLabel.MouseLeftButtonUp += RaceLabel_MouseLeftButtonUp;
+            LocBirthLabel.MouseLeftButtonUp += LocBirthLabel_MouseLeftButtonUp;
+            LocDeathLabel.MouseLeftButtonUp += LocDeathLabel_MouseLeftButtonUp;
+            FatherLabel.MouseLeftButtonUp += FatherLabel_MouseLeftButtonUp;
+            MotherLabel.MouseLeftButtonUp += MotherLabel_MouseLeftButtonUp;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -71,13 +77,189 @@ namespace PlrDesktop.Windows
 
             if (_character is not null)
             {
+                // Имя
                 CharacterDetailsWindow.Title = _character.Name + " – карточка";
                 CharacterNameLabel.Content = _character.Name;
 
-                CharacterDescription.Document.Blocks.Clear();
-                if (_rtbTextHandler.SetFromString(_character.Desc) is not null)
-                    RtbTextHandler.ShowError(_rtbTextHandler.LastException);
+                // Описание
+                if (_character.Desc is not null)
+                {
+                    CharacterDescription.Document.Blocks.Clear();
+                    if (_rtbTextHandler.SetFromString(_character.Desc) is not null)
+                        RtbTextHandler.ShowError(_rtbTextHandler.LastException);
+                }
+
+                // Цвета глаз и волос
+                if (_character.ColorHair is not null)
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(ColorDecToHex(_character.ColorHair.Value));
+                    ColorHairRect.Fill = new SolidColorBrush(color);
+                }
+                if (_character.ColorEyes is not null)
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(ColorDecToHex(_character.ColorEyes.Value));
+                    ColorEyesRect.Fill = new SolidColorBrush(color);
+                }
+
+                // Даты рождения и смерти
+                if (_character.DateBirth is not null)
+                {
+                    DateBirthLabel.Content = "Дата рождения: " + _character.DateBirth;
+                }
+                if (_character.DateDeath is not null)
+                {
+                    DateDeathLabel.Content = "Дата смерти: " + _character.DateDeath;
+                }
+
+                // Рост
+                if (_character.Growth is not null)
+                {
+                    GrowthLabel.Content = "Рост: " + _character.Growth.ToString();
+                }
+
+                // Раса
+                RaceLabel.MouseLeftButtonUp -= RaceLabel_MouseLeftButtonUp;
+                if (_character.RaceId is not null)
+                {
+                    RaceLabel.Content = "Раса: " + _character.Race.Name;
+                    RaceLabel.MouseLeftButtonUp += RaceLabel_MouseLeftButtonUp;
+                }
+                
+                // Отец и мать
+                FatherLabel.MouseLeftButtonUp -= FatherLabel_MouseLeftButtonUp;
+                if (_character.BioFatherId is not null)
+                {
+                    FatherLabel.Content = "Отец: " + _character.BioFather.Name;
+                    FatherLabel.MouseLeftButtonUp += FatherLabel_MouseLeftButtonUp;
+                }
+                MotherLabel.MouseLeftButtonUp -= MotherLabel_MouseLeftButtonUp;
+                if (_character.BioMotherId is not null)
+                {
+                    MotherLabel.Content = "Мать: " + _character.BioMother.Name;
+                    MotherLabel.MouseLeftButtonUp += MotherLabel_MouseLeftButtonUp;
+                }
+
+                // Места рождения и смерти
+                LocBirthLabel.MouseLeftButtonUp -= LocBirthLabel_MouseLeftButtonUp;
+                if (_character.LocBirthId is not null)
+                {
+                    LocBirthLabel.Content = "Родился в: " + _character.LocBirth.Name;
+                    LocBirthLabel.MouseLeftButtonUp += LocBirthLabel_MouseLeftButtonUp;
+                }
+                LocDeathLabel.MouseLeftButtonUp -= LocDeathLabel_MouseLeftButtonUp;
+                if (_character.LocDeathId is not null)
+                {
+                    LocDeathLabel.Content = "Умер в: " + _character.LocDeath.Name;
+                    LocDeathLabel.MouseLeftButtonUp += LocDeathLabel_MouseLeftButtonUp;
+                }
+
+                // Другие имена
+                if (_character.AltNames is not null && _character.AltNames.Count() > 0)
+                {
+                    string altNames = "Другие имена: ";
+                    foreach (var altName in _character.AltNames)
+                    {
+                        altNames += altName + ", ";
+                    }
+                    AltNamesLabel.Content = altNames.Remove(altNames.Length - 1);
+                }
+
+                // Титулы и звания
+                if (_character.Titles is not null && _character.Titles.Count() > 0)
+                {
+                    string titles = "Титулы и звания: ";
+                    foreach (var title in _character.Titles)
+                    {
+                        titles += title + ", ";
+                    }
+                    TitlesLabel.Content = titles.Remove(titles.Length - 1);
+                }
+
+                // Социальные формирования
+                if (_character.SocFormsIds is not null)
+                {
+                    foreach (var socForm in _character.SocForms)
+                    {
+                        var label = new Label()
+                        {
+                            Content = socForm.Name,
+                            Style = Application.Current.TryFindResource("ClickableDataLabel") as Style
+                        };
+
+                        label.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
+                        {
+                            var window = _windowsManager.CreateSocFormDetailsWindow(socForm.Id.Value);
+                            window.Show();
+                        };
+
+                        SocFormsPanel.Children.Add(label);
+                    }
+                    SocFormsPanel.UpdateLayout();
+                }
+
+                // Другие карточки личности
+                if (_character.AltCharsIds is not null)
+                {
+                    foreach (var altChar in _character.AltChars)
+                    {
+                        var label = new Label()
+                        {
+                            Content = altChar.Name,
+                            Style = Application.Current.TryFindResource("ClickableDataLabel") as Style
+                        };
+
+                        label.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
+                        {
+                            var window = _windowsManager.CreateCharacterDetailsWindow(altChar.Id.Value);
+                            window.Show();
+                        };
+
+                        AltCharsPanel.Children.Add(label);
+                    }
+                    AltCharsPanel.UpdateLayout();
+                }
             }
+        }
+
+        private void RaceLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var window = _windowsManager.CreateRaceDetailsWindow(_character.RaceId.Value);
+            window.Show();
+        }
+
+        private void LocBirthLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var window = _windowsManager.CreateLocationDetailsWindow(_character.LocBirthId.Value);
+            window.Show();
+        }
+
+        private void LocDeathLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var window = _windowsManager.CreateLocationDetailsWindow(_character.LocDeathId.Value);
+            window.Show();
+        }
+
+        private void FatherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioFatherId.Value);
+            window.Show();
+        }
+
+        private void MotherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioMotherId.Value);
+            window.Show();
+        }
+
+        private string ColorDecToHex(int color)
+        {
+            char[] result = "000000".ToCharArray();
+
+            string value = color.ToString("X");
+            for (int i = value.Length - 1; i >= 0; i--)
+                result[i] = value[i];
+
+            return "#FF" + new string(result);
         }
     }
 }

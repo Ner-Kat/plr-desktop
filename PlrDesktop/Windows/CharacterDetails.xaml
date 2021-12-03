@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlrDesktop.Windows"
         mc:Ignorable="d"
-        Title="CharacterDetails" Height="450" Width="800" Loaded="CharacterDetailsWindow_Loaded">
+        Title="CharacterDetails" Height="800" Width="800" Loaded="CharacterDetailsWindow_Loaded">
 
+    <Window.Resources>
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,22 +21,111 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="CharacterNameLabel" Content="Имя персонажа" HorizontalAlignment="Center" Margin="0,10,0,0" 
-               VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" 
-               HorizontalContentAlignment="Center"/>
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            <Label x:Name="CharacterNameLabel" Content="Имя персонажа" 
+               HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="18"
+               FontWeight="Bold" HorizontalContentAlignment="Center" />
+            <Label x:Name="GenderSymbolLabel" Content="M" Margin="10,10,0,0"
+                   BorderBrush="{StaticResource PlrWhiteDark}" BorderThickness="1" Foreground="{StaticResource PlrWhiteDark}"
+                   VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="9" Padding="2"/>
+        </DockPanel>
+        
+        <Button x:Name="EditButton" Content="⨳ Изменить" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"
+                HorizontalAlignment="Right"  Margin="0,10,10,5" VerticalAlignment="Center" Click="EditButton_Click" 
+                UseLayoutRounding="False" FontFamily="Arial" FontSize="14" Padding="10,5,10,5" />
 
-        <RichTextBox x:Name="CharacterDescription" Grid.Row="2" IsReadOnly="True" Margin="10,0,0,10" BorderBrush="{x:Null}" 
-                     BorderThickness="0,0,0,0">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Margin="10" Background="{StaticResource PlrBlackLite}">
+            <Label x:Name="AltNamesLabel" Content="Другие имена: " Style="{StaticResource DataLabel}"/>
+            <Label x:Name="TitlesLabel" Content="Титулы и звания: " Style="{StaticResource DataLabel}"/>
+            <Label x:Name="FatherLabel" Content="Отец: " Style="{StaticResource ClickableDataLabel}"/>
+            <Label x:Name="MotherLabel" Content="Мать: " Style="{StaticResource ClickableDataLabel}"/>
+
+            <Border x:Name="SocFormsBorder" BorderBrush="{StaticResource PlrTransparent}" BorderThickness="1" 
+                    Background="{StaticResource PlrTransparent}">
+                <WrapPanel x:Name="SocFormsPanel" Orientation="Horizontal" Background="{StaticResource PlrTransparent}">
+                    <Label x:Name="SocFormsLabel" Content="Соц. формирования: " Background="{StaticResource PlrTransparent}"/>
+                </WrapPanel>
+            </Border>
+
+            <Border x:Name="AltCharsBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="1" 
+                    Background="{StaticResource PlrTransparent}">
+                <WrapPanel x:Name="AltCharsPanel" Orientation="Horizontal" Background="{StaticResource PlrTransparent}">
+                    <Label x:Name="AltCharsLabel" Content="Другие карточки личности: " Background="{StaticResource PlrTransparent}"/>
+                </WrapPanel>
+            </Border>
+
+            <Border x:Name="AdditionsBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="1">
+                <DataGrid x:Name="AdditionsList" AutoGenerateColumns="False" BorderBrush="Black"
+                      CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False"
+                      MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                      Focusable="False" HorizontalContentAlignment="Stretch" Margin="5" ColumnWidth="*" Width="Auto"
+                          BorderThickness="1" HeadersVisibility="None">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="AdditionTypeColumn" Binding="{Binding Name}" Header="Поле" CanUserResize="False" 
+                                        CanUserReorder="False" IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="AdditionValueColumn" Binding="{Binding Value}" Header="Значение" CanUserResize="False" 
+                                        CanUserReorder="False" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="10,10,10,10" Background="{StaticResource PlrBlackLite}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <DockPanel LastChildFill="True" Background="{StaticResource PlrBlackLite}" Margin="5">
+
+                <Label x:Name="RaceLabel" Content="Раса: " Style="{StaticResource ClickableDataLabel}" DockPanel.Dock="Top"/>
+                <Label x:Name="GrowthLabel" Content="Рост: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"/>
+                <Label x:Name="DateBirthLabel" Content="Дата рождения: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"/>
+                <Label x:Name="DateDeathLabel" Content="Дата смерти: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"/>
+                <Label x:Name="LocBirthLabel" Content="Родился в: " Style="{StaticResource ClickableDataLabel}" DockPanel.Dock="Top"/>
+                <Label x:Name="LocDeathLabel" Content="Умер в: " Style="{StaticResource ClickableDataLabel}" DockPanel.Dock="Top"/>
+
+                <Border x:Name="ColorHairBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="1" 
+                        Background="{StaticResource PlrTransparent}" DockPanel.Dock="Top">
+                    <DockPanel Background="{StaticResource PlrTransparent}">
+                        <Label x:Name="ColorHairLabel" Content="Цвет волос: " Background="{StaticResource PlrTransparent}" 
+                               DockPanel.Dock="Top"/>
+                        <Rectangle x:Name="ColorHairRect" Fill="{StaticResource PlrTransparent}" DockPanel.Dock="Top"
+                                   MinHeight="20" Margin="3,2,3,2"/>
+                    </DockPanel>
+                </Border>
+
+                <Border x:Name="ColorEyesBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="1" 
+                        Background="{StaticResource PlrTransparent}" DockPanel.Dock="Top">
+                    <DockPanel Background="{StaticResource PlrTransparent}">
+                        <Label x:Name="ColorEyesLabel" Content="Цвет глаз: " Background="{StaticResource PlrTransparent}" 
+                               DockPanel.Dock="Top"/>
+                        <Rectangle x:Name="ColorEyesRect" Fill="{StaticResource PlrTransparent}" DockPanel.Dock="Top"
+                                   MinHeight="20" Margin="3,2,3,2"/>
+                    </DockPanel>
+                </Border>
+
+                <DataGrid x:Name="ChildrenList" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" DockPanel.Dock="Top"
+                  CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
+                  MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                  Focusable="False" HorizontalContentAlignment="Stretch" ColumnWidth="*" Width="Auto" Margin="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="ChildrenColumn" Binding="{Binding Name}" Header="Дети" CanUserResize="False" 
+                                    CanUserReorder="False" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+            </DockPanel>
+            
+        </Grid>
+        
+        <RichTextBox x:Name="CharacterDescription" Grid.Row="2" Grid.Column="0"
+                     IsReadOnly="True" Margin="10,10,10,10" BorderBrush="{x:Null}"  BorderThickness="0,0,0,0" >
             <FlowDocument>
                 <Paragraph>
                     <Run Text="Описание персонажа"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        
-        <Button x:Name="EditButton" Content="⨳ Изменить" HorizontalAlignment="Right" Grid.Column="1" Margin="0,10,10,5" 
-                VerticalAlignment="Center" Click="EditButton_Click" UseLayoutRounding="False" FontFamily="Arial" 
-                FontSize="14" Padding="10,5,10,5"/>
 
     </Grid>
 </Window>
