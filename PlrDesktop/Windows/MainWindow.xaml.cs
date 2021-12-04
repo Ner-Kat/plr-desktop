@@ -160,6 +160,15 @@ namespace PlrDesktop.Windows
             locationAdd.Show();
         }
 
+        private void RemoveLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = LocationsDataGrid.SelectedCells[0].Item;
+            var selectedLocation = (Location)selectedItem;
+
+            Task.Run(() => _api.Methods.Locs.Remove(selectedLocation.Id.Value)).Wait();
+            UpdateLocationsList();
+        }
+
         private void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateLocationsList();
@@ -212,6 +221,15 @@ namespace PlrDesktop.Windows
             raceAdd.Show();
         }
 
+        private void RemoveRaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = RacesDataGrid.SelectedCells[0].Item;
+            var selectedRace = (Race)selectedItem;
+
+            Task.Run(() => _api.Methods.Races.Remove(selectedRace.Id.Value)).Wait();
+            UpdateRacesList();
+        }
+
         private void UpdateRacesButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateRacesList();
@@ -257,6 +275,15 @@ namespace PlrDesktop.Windows
                 .CreateSocFormAddWindow();
 
             socFormAdd.Show();
+        }
+
+        private void RemoveSocFormButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = SocFormsDataGrid.SelectedCells[0].Item;
+            var selectedSocForm = (SocialFormation)selectedItem;
+
+            Task.Run(() => _api.Methods.SocForms.Remove(selectedSocForm.Id.Value)).Wait();
+            UpdateSocFormsList();
         }
 
         private void UpdateSocFormsButton_Click(object sender, RoutedEventArgs e)

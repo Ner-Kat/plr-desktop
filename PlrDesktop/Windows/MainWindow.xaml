@@ -74,11 +74,11 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AddCharButton" Content="✚ Добавить персонажа" FontFamily="Arial" FontWeight="Bold" 
@@ -169,16 +169,20 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AddLocationButton" Content="✚ Добавить локацию" FontFamily="Arial" FontWeight="Bold" 
                                 FontSize="16" Click="AddLocationButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
                         <Button x:Name="UpdateLocationsButton" Content="🗘 Обновить список локаций" FontFamily="Arial" 
                                 FontWeight="Bold" FontSize="16" Click="UpdateLocationsButton_Click" Margin="0,0,0,0" Grid.Row="1"
                                 Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveLocationButton" Content="🞫 Удалить локацию" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveLocationButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
                     </Grid>
 
                 </Grid>
@@ -258,16 +262,20 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AddSocFormButton" Content="✚ Добавить соц. формирование" FontFamily="Arial" FontWeight="Bold" 
                                 FontSize="16" Click="AddSocFormButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
                         <Button x:Name="UpdateSocFormsButton" Content="🗘 Обновить список соц. формирований" FontFamily="Arial" 
                                 FontWeight="Bold" FontSize="16" Click="UpdateSocFormsButton_Click" Margin="0,0,0,0" Grid.Row="1"
                                 Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveSocFormButton" Content="🞫 Удалить соц. формирование" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveSocFormButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
                     </Grid>
 
                 </Grid>
@@ -331,16 +339,20 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AddRaceButton" Content="✚ Добавить расу" FontFamily="Arial" FontWeight="Bold" 
                                 FontSize="16" Click="AddRaceButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
                         <Button x:Name="UpdateRacesButton" Content="🗘 Обновить список рас" FontFamily="Arial" 
                                 FontWeight="Bold" FontSize="16" Click="UpdateRacesButton_Click" Margin="0,0,0,0" Grid.Row="1"
                                 Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveRaceButton" Content="🞫 Удалить расу" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveRaceButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
                     </Grid>
 
                 </Grid>

@@ -98,7 +98,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<bool> Remove(int id)
         {
-            var request = new RequestString(MethodsAddress);
+            var request = new RequestString(MethodsAddress + "remove");
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -106,27 +106,27 @@ namespace PlrDesktop.ApiInteraction.Methods
             return result.StatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<List<Location>> SortedList(int? count, int? from = 0)
-        {
-            var request = new RequestString(MethodsAddress);
-            if (count.HasValue)
-            {
-                request.AddParam("count", count.Value);
-            }
-            if (from.HasValue)
-            {
-                request.AddParam("from", from.Value);
-            }
+        //public async Task<List<Location>> SortedList(int? count, int? from = 0)
+        //{
+        //    var request = new RequestString(MethodsAddress);
+        //    if (count.HasValue)
+        //    {
+        //        request.AddParam("count", count.Value);
+        //    }
+        //    if (from.HasValue)
+        //    {
+        //        request.AddParam("from", from.Value);
+        //    }
 
-            var result = await _server.GetAsync(request.GetUrl());
-            if (result.StatusCode == HttpStatusCode.OK)
-            {
-                List<Location> locations = JsonSerializer.Deserialize<List<Location>>(result.Content);
-                return locations;
-            }
+        //    var result = await _server.GetAsync(request.GetUrl());
+        //    if (result.StatusCode == HttpStatusCode.OK)
+        //    {
+        //        List<Location> locations = JsonSerializer.Deserialize<List<Location>>(result.Content);
+        //        return locations;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public async Task<List<Location>> Sublocations(int id)
         {

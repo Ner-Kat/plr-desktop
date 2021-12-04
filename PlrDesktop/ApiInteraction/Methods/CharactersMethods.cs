@@ -90,7 +90,7 @@ namespace PlrDesktop.ApiInteraction.Methods
 
         public async Task<bool> Remove(int id)
         {
-            var request = new RequestString(MethodsAddress);
+            var request = new RequestString(MethodsAddress, "remove");
             request.AddParam("id", id);
 
             var result = await _server.GetAsync(request.GetUrl());
@@ -98,41 +98,26 @@ namespace PlrDesktop.ApiInteraction.Methods
             return result.StatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<List<Character>> SortedList(int? count, int? from = 0)
-        {
-            var request = new RequestString(MethodsAddress);
-            if (count.HasValue)
-            {
-                request.AddParam("count", count.Value);
-            }
-            if (from.HasValue)
-            {
-                request.AddParam("from", from.Value);
-            }
+        //public async Task<List<Character>> SortedList(int? count, int? from = 0)
+        //{
+        //    var request = new RequestString(MethodsAddress);
+        //    if (count.HasValue)
+        //    {
+        //        request.AddParam("count", count.Value);
+        //    }
+        //    if (from.HasValue)
+        //    {
+        //        request.AddParam("from", from.Value);
+        //    }
 
-            var result = await _server.GetAsync(request.GetUrl());
-            if (result.StatusCode == HttpStatusCode.OK)
-            {
-                List<Character> characters = JsonSerializer.Deserialize<List<Character>>(result.Content);
-                return characters;
-            }
+        //    var result = await _server.GetAsync(request.GetUrl());
+        //    if (result.StatusCode == HttpStatusCode.OK)
+        //    {
+        //        List<Character> characters = JsonSerializer.Deserialize<List<Character>>(result.Content);
+        //        return characters;
+        //    }
 
-            return null;
-        }
-
-        public async Task<Character> GetShort(int id)
-        {
-            var request = new RequestString(MethodsAddress, "get");
-            request.AddParam("id", id);
-
-            var result = await _server.GetAsync(request.GetUrl());
-            if (result.StatusCode == HttpStatusCode.OK)
-            {
-                Character character = JsonSerializer.Deserialize<Character>(result.Content);
-                return character;
-            }
-
-            return null;
-        }
+        //    return null;
+        //}
     }
 }
