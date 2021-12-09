@@ -43,7 +43,7 @@ namespace PlrDesktop.Lib
             return DateTime.ParseExact(d, format, System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        public static string StrDateToApiDate(string dText)
+        public static string StrDateToApiDate(string dText, bool after = true)
         {
             if (dText.EndsWith('.'))
                 dText = dText[0..^1];
@@ -57,17 +57,25 @@ namespace PlrDesktop.Lib
             {
                 res += elem + "-";
             }
+            res = res[0..^1];
 
-            return res[0..^1];
+            if (!after)
+                return "-" + res;
+            return res;
         }
 
         public static string ApiDateToStrDate(string date)
         {
+            var sign = "";
             if (date.StartsWith('-'))
+            {
                 date = date[1..];
-            
-            string[] elems = date.Split('-');
+                sign = "-";
+            }
+
             string res = "";
+            string[] elems = date.Split('-');
+            elems[0] = sign + elems[0];
             foreach (var elem in elems.Reverse())
             {
                 if (!ContainsOnly(elem, '0'))

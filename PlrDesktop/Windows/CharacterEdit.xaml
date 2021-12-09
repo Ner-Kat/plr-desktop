@@ -34,9 +34,10 @@
             <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,5,0,0">
                 <TextBox x:Name="CharacterNameTextBox" Text="Имя персонажа" 
                          HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="18"
-                         FontWeight="Bold" HorizontalContentAlignment="Center" Width="500" Height="26" />
+                         FontWeight="Bold" HorizontalContentAlignment="Center" Width="500" Height="26"
+                         BorderBrush="{StaticResource PlrRed}" BorderThickness="0"/>
                 <ComboBox x:Name="GenderSymbolComboBox" Margin="10,0,0,0" MinWidth="160" MinHeight="24" 
-                          BorderBrush="{StaticResource PlrWhiteDark}" BorderThickness="1" VerticalAlignment="Center" 
+                          BorderBrush="{StaticResource PlrRed}" BorderThickness="0" VerticalAlignment="Center" 
                           VerticalContentAlignment="Center" Padding="2" DisplayMemberPath="Name"/>
             </DockPanel>
 
@@ -59,11 +60,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="FatherLabel" Content="Отец: " Style="{StaticResource ClickableDataLabel}"
                            Grid.Column="0"/>
                     <TextBox x:Name="FatherFindTextBox" Text="" Style="{StaticResource DarkTextBox}" Grid.Column="1" TextChanged="FatherFindTextBox_TextChanged"/>
                     <ComboBox x:Name="FatherComboBox" Grid.Column="2" DisplayMemberPath="Name"/>
+                    <Button x:Name="FatherSelectionDel" Grid.Column="3" Content="🞫" FontSize="16" MinWidth="20" BorderThickness="0" Click="FatherSelectionDel_Click"/>
                 </Grid>
 
                 <Grid Margin="0,3,3,0">
@@ -71,11 +74,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="MotherLabel" Content="Мать: " Style="{StaticResource ClickableDataLabel}"
                            Grid.Column="0"/>
                     <TextBox x:Name="MotherFindTextBox" Text="" Style="{StaticResource DarkTextBox}" Grid.Column="1" TextChanged="MotherFindTextBox_TextChanged"/>
                     <ComboBox x:Name="MotherComboBox" Grid.Column="2" DisplayMemberPath="Name"/>
+                    <Button x:Name="MotherSelectionDel" Grid.Column="3" Content="🞫" FontSize="16" MinWidth="20" BorderThickness="0" Click="MotherSelectionDel_Click"/>
                 </Grid>
 
                 <DockPanel LastChildFill="True">
@@ -214,7 +219,8 @@
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="RaceFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}" 
                                      TextChanged="RaceFindTextBox_TextChanged"/>
-                            <ComboBox x:Name="RaceFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                            <ComboBox x:Name="RaceFindComboBox" Grid.Column="1" DisplayMemberPath="Name"
+                                      BorderBrush="{StaticResource PlrRed}" BorderThickness="0"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
@@ -227,40 +233,52 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
                             <ComboBox Name="DateBirthSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0" FontSize="12"/>
                             <!--<hc:DatePicker x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>-->
                             <TextBox x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource DarkTextBox}" 
                                      TextChanged="DateBirthPicker_TextChanged"/>
+                            <Button x:Name="DateBirthSelectionDel" Grid.Column="2" Content="🞫" FontSize="16" 
+                                    MinWidth="20" BorderThickness="0" Click="DateBirthSelectionDel_Click"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
                             <ComboBox Name="DateDeathSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0" FontSize="12"/>
                             <TextBox x:Name="DateDeathPicker" Grid.Column="1" Style="{StaticResource DarkTextBox}" 
                                      TextChanged="DateDeathPicker_TextChanged"/>
+                            <Button x:Name="DateDeathSelectionDel" Grid.Column="2" Content="🞫" FontSize="16" 
+                                    MinWidth="20" BorderThickness="0" Click="DateDeathSelectionDel_Click"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="8*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="LocBirthFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}" 
                                      TextChanged="LocBirthFindTextBox_TextChanged"/>
                             <ComboBox x:Name="LocBirthFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                            <Button x:Name="LocBirthSelectionDel" Grid.Column="2" Content="🞫" FontSize="16" 
+                                    MinWidth="20" BorderThickness="0" Click="LocBirthSelectionDel_Click"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="8*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="LocDeathFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}"
                                      TextChanged="LocDeathFindTextBox_TextChanged"/>
                             <ComboBox x:Name="LocDeathFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                            <Button x:Name="LocDeathSelectionDel" Grid.Column="2" Content="🞫" FontSize="16" 
+                                    MinWidth="20" BorderThickness="0" Click="LocDeathSelectionDel_Click"/>
                         </Grid>
 
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">

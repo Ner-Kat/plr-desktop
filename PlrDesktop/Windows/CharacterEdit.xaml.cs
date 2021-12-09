@@ -225,11 +225,22 @@ namespace PlrDesktop.Windows
             DateBirthSign.ItemsSource = _signs;
             DateDeathSign.ItemsSource = _signs;
 
+            GenderSymbolComboBox.SelectedIndex = 0;
+
             UpdateCardData();
+
+            if (_racesOc.Count > 0)
+                RaceFindComboBox.SelectedIndex = 0;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (CharacterNameTextBox.Text is null || CharacterNameTextBox.Text.Length == 0)
+            {
+                CharacterNameTextBox.BorderThickness = new Thickness(2);
+                return;
+            }
+
             var editedChar = new Character()
             {
                 Name = CharacterNameTextBox.Text
@@ -246,36 +257,64 @@ namespace PlrDesktop.Windows
                 editedChar.Titles = ParseStringList(TitlesTextBox.Text);
 
             // Даты рождения и смерти
-            if (DateBirthPicker.Text.Length > 0)
+            if (DateBirthPicker.Text is not null)
             {
-                editedChar.DateBirth = ApiUtils.StrDateToApiDate(DateBirthPicker.Text);
-                if (DateBirthSign.SelectedIndex == 1)
-                    editedChar.DateBirth = "-" + editedChar.DateBirth;
+                if (DateBirthPicker.Text.Length == 0)
+                    editedChar.DateBirth = "";
+                else
+                    editedChar.DateBirth = ApiUtils.StrDateToApiDate(DateBirthPicker.Text,
+                        DateBirthSign.SelectedIndex == 0);
             }
-            if (DateDeathPicker.Text.Length > 0)
+            if (DateDeathPicker.Text is not null)
             {
-                editedChar.DateDeath = ApiUtils.StrDateToApiDate(DateDeathPicker.Text);
-                if (DateDeathSign.SelectedIndex == 1)
-                    editedChar.DateDeath = "-" + editedChar.DateDeath;
+                if (DateDeathPicker.Text.Length == 0)
+                    editedChar.DateDeath = "";
+                else
+                    editedChar.DateDeath = ApiUtils.StrDateToApiDate(DateDeathPicker.Text,
+                        DateDeathSign.SelectedIndex == 0);
             }
 
             // Пол и раса
             if (GenderSymbolComboBox.SelectedItem is not null)
+            {
                 editedChar.GenderId = (GenderSymbolComboBox.SelectedItem as Gender).Id;
+            }
+            else
+            {
+                GenderSymbolComboBox.BorderThickness = new Thickness(2);
+                return;
+            }
+
             if (RaceFindComboBox.SelectedItem is not null)
+            {
                 editedChar.RaceId = (RaceFindComboBox.SelectedItem as Race).Id;
+            }
+            else
+            {
+                RaceFindComboBox.BorderThickness = new Thickness(2);
+                return;
+            }
 
             // Локации смерти и рождения
             if (LocBirthFindComboBox.SelectedItem is not null)
                 editedChar.LocBirthId = (LocBirthFindComboBox.SelectedItem as Location).Id;
+            else
+                editedChar.LocBirthId = -1;
+
             if (LocDeathFindComboBox.SelectedItem is not null)
                 editedChar.LocDeathId = (LocDeathFindComboBox.SelectedItem as Location).Id;
+            else
+                editedChar.LocDeathId = -1;
 
             // Отец и мать
             if (FatherComboBox.SelectedItem is not null)
                 editedChar.BioFatherId = (FatherComboBox.SelectedItem as Character).Id;
+            else
+                editedChar.BioFatherId = -1;
             if (MotherComboBox.SelectedItem is not null)
                 editedChar.BioMotherId = (MotherComboBox.SelectedItem as Character).Id;
+            else
+                editedChar.BioMotherId = -1;
 
             // Дети
             if (_childrenOc.Count > 0)
@@ -753,6 +792,36 @@ namespace PlrDesktop.Windows
             }
 
             return newText;
+        }
+
+        private void FatherSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            FatherComboBox.SelectedIndex = -1;
+        }
+
+        private void MotherSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            MotherComboBox.SelectedIndex = -1;
+        }
+
+        private void DateBirthSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            DateBirthPicker.Text = "";
+        }
+
+        private void DateDeathSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            DateDeathPicker.Text = "";
+        }
+
+        private void LocBirthSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            LocBirthFindComboBox.SelectedIndex = -1;
+        }
+
+        private void LocDeathSelectionDel_Click(object sender, RoutedEventArgs e)
+        {
+            LocDeathFindComboBox.SelectedIndex = -1;
         }
     }
 }

@@ -9,6 +9,7 @@
     <SolidColorBrush x:Key="PlrBlueDark" Color="#282b42"/>
     <SolidColorBrush x:Key="PlrBlue" Color="#323974"/>
     <SolidColorBrush x:Key="PlrBlackDark" Color="#212121"/>
+    <SolidColorBrush x:Key="PlrRed" Color="#6C2828"/>
 
     <SolidColorBrush x:Key="PlrTransparent" Color="#272727" Opacity="0"/>
 
