@@ -42,5 +42,58 @@ namespace PlrDesktop.Lib
             format = format.PadLeft(format.Length + separatorInd, 'y');
             return DateTime.ParseExact(d, format, System.Globalization.CultureInfo.InvariantCulture);
         }
+
+        public static string StrDateToApiDate(string dText)
+        {
+            if (dText.EndsWith('.'))
+                dText = dText[0..^1];
+
+            string[] elems = dText.Split('.');
+            if (elems.Length == 0)
+                return null;
+
+            string res = "";
+            foreach (var elem in elems.Reverse())
+            {
+                res += elem + "-";
+            }
+
+            return res[0..^1];
+        }
+
+        public static string ApiDateToStrDate(string date)
+        {
+            if (date.StartsWith('-'))
+                date = date[1..];
+            
+            string[] elems = date.Split('-');
+            string res = "";
+            foreach (var elem in elems.Reverse())
+            {
+                if (!ContainsOnly(elem, '0'))
+                    res += elem + ".";
+            }
+
+            return res[0..^1];
+        }
+
+        public static bool ContainsOnly(string str, char s)
+        {
+            foreach (var c in str)
+                if (c != s)
+                    return false;
+
+            return true;
+        }
+
+        public static int ContainsCount(string str, char s)
+        {
+            int count = 0;
+            foreach (var c in str)
+                if (c == s)
+                    count++;
+
+            return count;
+        }
     }
 }

@@ -229,8 +229,10 @@
                                 <ColumnDefinition Width="5*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox Name="DateBirthSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0"/>
-                            <hc:DatePicker x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>
+                            <ComboBox Name="DateBirthSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0" FontSize="12"/>
+                            <!--<hc:DatePicker x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>-->
+                            <TextBox x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource DarkTextBox}" 
+                                     TextChanged="DateBirthPicker_TextChanged"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
@@ -238,8 +240,9 @@
                                 <ColumnDefinition Width="5*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox Name="DateDeathSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0"/>
-                            <hc:DatePicker x:Name="DateDeathPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>
+                            <ComboBox Name="DateDeathSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0" FontSize="12"/>
+                            <TextBox x:Name="DateDeathPicker" Grid.Column="1" Style="{StaticResource DarkTextBox}" 
+                                     TextChanged="DateDeathPicker_TextChanged"/>
                         </Grid>
                         <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
                             <Grid.ColumnDefinitions>
@@ -389,24 +392,6 @@
                                         CanUserReorder="False" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <!--<Grid Grid.Row="1" Background="{StaticResource PlrBlackLite}" Margin="0,0,0,5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox x:Name="AddChildFindTextBox" Grid.Column="1" Style="{StaticResource DarkTextBox}" TextChanged="AddChildFindTextBox_TextChanged"/>
-                    <ComboBox x:Name="AddChildFindComboBox" DisplayMemberPath="Name" Grid.Column="2"/>
-                    <Button x:Name="AddChildButton" Content="✚ Добавить"
-                                FontSize="14" Margin="0,0,0,0" Grid.Row="1" Grid.Column="3" MinHeight="25" Click="AddChildButton_Click"/>
-                    <Button x:Name="RemoveChildButton" Content="🞫 Удалить"
-                                FontSize="14" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="25" Click="RemoveChildButton_Click"/>
-                </Grid>-->
             </Grid>
 
             <Button x:Name="SaveButton" Content="Сохранить" Grid.Row="3" Grid.ColumnSpan="2" FontFamily="Arial" FontSize="16" 

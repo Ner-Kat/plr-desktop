@@ -1,22 +1,16 @@
-﻿using System;
+﻿using PlrDesktop.ApiInteraction;
+using PlrDesktop.Datacards;
+using PlrDesktop.Datacards.Utils;
+using PlrDesktop.Lib;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using PlrDesktop.Lib;
-using PlrDesktop.ApiInteraction;
-using PlrDesktop.Datacards;
-using PlrDesktop.Datacards.Utils;
-using System.Collections.ObjectModel;
-using System.IO;
 
 namespace PlrDesktop.Windows
 {
@@ -55,6 +49,16 @@ namespace PlrDesktop.Windows
         private List<IApiDataCard> _addedAltChars = new();
 
         private List<object> _signs = new() { new { Id = 0, Name = "От 0" }, new { Id = 1, Name = "До 0" } };
+
+        private static string _allowedDateSymbols = "01234567890.";
+        private delegate bool CheckOperation(char s, string text);
+        private static List<CheckOperation> checker = new()
+        {
+            (char s, string text) => _allowedDateSymbols.Contains(s),
+            (char s, string text) => !(text.EndsWith('.') && s == '.'),
+            (char s, string text) => !(text.Length == 0 && s == '.'),
+            (char s, string text) => !(s == '.' && ApiUtils.ContainsCount(text, '.') >= 2)
+        };
 
         private bool _addMode = true;
 
@@ -242,19 +246,19 @@ namespace PlrDesktop.Windows
                 editedChar.Titles = ParseStringList(TitlesTextBox.Text);
 
             // Даты рождения и смерти
-            if (DateBirthPicker.SelectedDate.HasValue)
+            if (DateBirthPicker.Text.Length > 0)
             {
-                editedChar.DateBirth = DateBirthPicker.SelectedDate.Value.ToString("yyyyyy-MM-dd");
+                editedChar.DateBirth = ApiUtils.StrDateToApiDate(DateBirthPicker.Text);
                 if (DateBirthSign.SelectedIndex == 1)
                     editedChar.DateBirth = "-" + editedChar.DateBirth;
             }
-            if (DateDeathPicker.SelectedDate.HasValue)
+            if (DateDeathPicker.Text.Length > 0)
             {
-                editedChar.DateDeath = DateDeathPicker.SelectedDate.Value.ToString("yyyyyy-MM-dd");
+                editedChar.DateDeath = ApiUtils.StrDateToApiDate(DateDeathPicker.Text);
                 if (DateDeathSign.SelectedIndex == 1)
                     editedChar.DateDeath = "-" + editedChar.DateDeath;
             }
-            
+
             // Пол и раса
             if (GenderSymbolComboBox.SelectedItem is not null)
                 editedChar.GenderId = (GenderSymbolComboBox.SelectedItem as Gender).Id;
@@ -432,33 +436,25 @@ namespace PlrDesktop.Windows
                 // Дата рождения и смерти
                 if (_character.DateBirth is not null)
                 {
-                    try
+                    string date = ApiUtils.ApiDateToStrDate(_character.DateBirth);
+                    if (date is not null)
                     {
-                        var date = ApiUtils.StrToDate(_character.DateBirth);
-                        DateBirthPicker.SelectedDate = date;
+                        DateBirthPicker.Text = date;
                         if (_character.DateBirth.StartsWith('-'))
                             DateBirthSign.SelectedIndex = 1;
-                    }
-                    catch
-                    {
-                        DateBirthPicker.SelectedDate = null;
                     }
                 }
                 if (_character.DateDeath is not null)
                 {
-                    try
+                    string date = ApiUtils.ApiDateToStrDate(_character.DateDeath);
+                    if (date is not null)
                     {
-                        var date = ApiUtils.StrToDate(_character.DateDeath);
-                        DateDeathPicker.SelectedDate = date;
+                        DateDeathPicker.Text = date;
                         if (_character.DateDeath.StartsWith('-'))
                             DateDeathSign.SelectedIndex = 1;
                     }
-                    catch
-                    {
-                        DateDeathPicker.SelectedDate = null;
-                    }
                 }
-                
+
                 // Цвет волос и глаз
                 if (_character.ColorHair is not null)
                 {
@@ -535,7 +531,7 @@ namespace PlrDesktop.Windows
         private void AddSocFormNameLabel(SocialFormation socForm)
         {
             var wrappPanel = WrapDataNameLabel(socForm);
-            
+
             var label = wrappPanel.Children[0] as Label;
             label.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
             {
@@ -594,7 +590,7 @@ namespace PlrDesktop.Windows
         private void DataPanels_AddedFilter(List<IApiDataCard> addedCards, FilterEventArgs e)
         {
             var card = e.Item as IApiDataCard;
-            
+
             if (card is not null)
             {
                 e.Accepted = !addedCards.Contains(card);
@@ -717,6 +713,46 @@ namespace PlrDesktop.Windows
         {
             ColorEyesRect.Fill = ColorEyesPicker.SelectedBrush;
             ColorEyesValueTextBox.Text = "#" + ColorEyesPicker.SelectedBrush.Color.ToString()[3..];
+        }
+
+
+        private void DateBirthPicker_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string newText = GetCheckedDateText(DateBirthPicker);
+
+            DateBirthPicker.Text = newText;
+            DateBirthPicker.CaretIndex = newText.Length;
+        }
+
+        private void DateDeathPicker_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string newText = GetCheckedDateText(DateDeathPicker);
+
+            DateDeathPicker.Text = newText;
+            DateDeathPicker.CaretIndex = newText.Length;
+        }
+
+        private bool IsValidDateSymbol(char s, string text)
+        {
+            foreach (var cond in checker)
+            {
+                if (!cond(s, text))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private string GetCheckedDateText(TextBox tb)
+        {
+            string newText = "";
+            foreach (var s in tb.Text)
+            {
+                if (IsValidDateSymbol(s, newText))
+                    newText += s;
+            }
+
+            return newText;
         }
     }
 }

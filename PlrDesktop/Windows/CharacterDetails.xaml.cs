@@ -112,12 +112,13 @@ namespace PlrDesktop.Windows
                 // Даты рождения и смерти
                 if (_character.DateBirth is not null)
                 {
-                    var date = ApiUtils.StrToDate(_character.DateBirth);
-                    DateBirthLabel.Content = "Дата рождения: " + WriteDateToString(_character.DateBirth);
+                    var date = ApiUtils.ApiDateToStrDate(_character.DateBirth);
+                    DateBirthLabel.Content = "Дата рождения: " + date;
                 }
                 if (_character.DateDeath is not null)
                 {
-                    DateDeathLabel.Content = "Дата смерти: " + WriteDateToString(_character.DateDeath);
+                    var date = ApiUtils.ApiDateToStrDate(_character.DateDeath);
+                    DateDeathLabel.Content = "Дата смерти: " + date;
                 }
 
                 // Рост
