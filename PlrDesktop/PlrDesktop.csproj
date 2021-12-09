@@ -2,8 +2,100 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <StartupObject>PlrDesktop.App</StartupObject>
+    <ApplicationIcon>Images\Icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\ToolbarIcons\AlignCenter.png" />
+    <None Remove="Images\ToolbarIcons\AlignJustify.png" />
+    <None Remove="Images\ToolbarIcons\AlignLeft.png" />
+    <None Remove="Images\ToolbarIcons\AlignRight.png" />
+    <None Remove="Images\ToolbarIcons\Bold.png" />
+    <None Remove="Images\ToolbarIcons\Copy.png" />
+    <None Remove="Images\ToolbarIcons\Cut.png" />
+    <None Remove="Images\ToolbarIcons\GrowFont.png" />
+    <None Remove="Images\ToolbarIcons\Italic.png" />
+    <None Remove="Images\ToolbarIcons\Paste.png" />
+    <None Remove="Images\ToolbarIcons\Redo.png" />
+    <None Remove="Images\ToolbarIcons\ShrinkFont.png" />
+    <None Remove="Images\ToolbarIcons\Underline.png" />
+    <None Remove="Images\ToolbarIcons\Undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Icon.ico" />
+    <Resource Include="Images\ToolbarIcons\AlignCenter.png" />
+    <Resource Include="Images\ToolbarIcons\AlignJustify.png" />
+    <Resource Include="Images\ToolbarIcons\AlignLeft.png" />
+    <Resource Include="Images\ToolbarIcons\AlignRight.png" />
+    <Resource Include="Images\ToolbarIcons\Bold.png" />
+    <Resource Include="Images\ToolbarIcons\Copy.png" />
+    <Resource Include="Images\ToolbarIcons\Cut.png" />
+    <Resource Include="Images\ToolbarIcons\GrowFont.png" />
+    <Resource Include="Images\ToolbarIcons\Italic.png" />
+    <Resource Include="Images\ToolbarIcons\Paste.png" />
+    <Resource Include="Images\ToolbarIcons\Redo.png" />
+    <Resource Include="Images\ToolbarIcons\ShrinkFont.png" />
+    <Resource Include="Images\ToolbarIcons\Underline.png" />
+    <Resource Include="Images\ToolbarIcons\Undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.3.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Windows\CharacterDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CharacterEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SocFormDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SocFormEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\RaceEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\RaceDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Windows\CharacterDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CharacterEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SocFormDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SocFormEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\RaceEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\RaceDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 
 </Project>

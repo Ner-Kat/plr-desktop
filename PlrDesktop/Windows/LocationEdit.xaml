@@ -1,0 +1,152 @@
+﻿<Window x:Name="LocationEditWindow" x:Class="PlrDesktop.Windows.LocationEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlrDesktop.Windows"
+        mc:Ignorable="d"
+        Title="LocationEdit" Height="450" Width="800" Loaded="LocationEditWindow_Loaded">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
+            <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
+            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="FontSize" Value ="14"></Setter>
+            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="OuterGrid">
+
+        <Grid x:Name="MainGrid" Margin="10,10,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                <DockPanel LastChildFill="True">
+                    <Label x:Name="LocNameLabel" Content="Название локации" FontWeight="Bold" FontFamily="Arial" FontSize="14"/>
+                    <TextBox x:Name="LocNameTextBox" Margin="5,0,0,0"/>
+                </DockPanel>
+            </DockPanel>
+
+            <Grid Grid.Row="0" Grid.Column="1" Margin="30,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       DockPanel.Dock="Top" x:Name="ParentLocLabel" Content="Надлокация" 
+                       FontWeight="Bold" FontFamily="Arial" FontSize="14" HorizontalAlignment="Center"/>
+                <TextBox x:Name="ParentLocFindTextBox" Grid.Row="1" Grid.Column="0"
+                         MinHeight="25" Margin="0,0,5,0" TextChanged="ParentLocFindTextBox_TextChanged"/>
+                <Grid Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="ParentLocComboBox" Grid.Column="0"
+                              MinHeight="25" DisplayMemberPath="Name" Width="Auto"/>
+                    <Button x:Name="ClearParentLocSelection" Foreground="{StaticResource PlrWhiteDark}"
+                            Background="{StaticResource PlrBlackDark}" BorderThickness="0"
+                            Height="25" Width="25" Margin="3,0,0,0" Content="X" Grid.Column="1" Click="ClearParentLocSelection_Click"/>
+                </Grid>
+            </Grid>
+            
+            <Label x:Name="LocDescLabel" Content="ОПИСАНИЕ ЛОКАЦИИ" Grid.ColumnSpan="2" Grid.Row="3" FontWeight="Bold" FontFamily="Arial" 
+                FontSize="14"/>
+
+            <DockPanel x:Name="TextEditingControlPanel" Grid.Row="4" Grid.ColumnSpan="2">
+
+                <ToolBar x:Name="TextEditingToolbar" Height="30" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" 
+                         Loaded="TextEditingToolbar_Loaded">
+                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Cut" ToolTip="Вырезать"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="..\Images\ToolbarIcons\Cut.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Copy" ToolTip="Копировать"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="..\Images\ToolbarIcons\Copy.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Paste" ToolTip="Вставить"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="..\Images\ToolbarIcons\Paste.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Undo" ToolTip="Отменить"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="..\Images\ToolbarIcons\Undo.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Redo" ToolTip="Повторить"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\Redo.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Жирный шрифт"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\Bold.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Курсив"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\Italic.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Подчёркнутый шрифт"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\Underline.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Увеличить размер шрифта"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\GrowFont.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Уменьшить размер шрифта"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\ShrinkFont.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignLeft" ToolTip="Выравнивание по левому краю"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\AlignLeft.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignCenter" ToolTip="Выравнивание по центру"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\AlignCenter.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignRight" ToolTip="Выравнивание по правому краю"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\AlignRight.png" Margin="1"/>
+                    </Button>
+                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignJustify" ToolTip="Выравнивание по ширине"
+                            Background="{StaticResource PlrBlackLite}">
+                        <Image Source="\Images\ToolbarIcons\AlignJustify.png" Margin="1"/>
+                    </Button>
+                </ToolBar>
+
+                <ScrollViewer>
+                    <RichTextBox x:Name="LocDescField" AcceptsTab="True" BorderThickness="0">
+                        <FlowDocument>
+                            <Paragraph Margin="0">
+                            
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </ScrollViewer>
+
+            </DockPanel>
+
+            <Button x:Name="SaveButton" Content="Сохранить" Grid.Row="5" Grid.ColumnSpan="2" FontFamily="Arial" FontSize="16" 
+                FontWeight="Bold" Click="SaveButton_Click" Margin="0,0,0,0" Padding="1,7,1,7"/>
+
+        </Grid>
+    </Grid>
+</Window>
