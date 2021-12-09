@@ -53,6 +53,12 @@ namespace PlrDesktop.Windows
         private void RaceDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            if (_race is null)
+            {
+                this.Close();
+                MessageBox.Show($"Не удалось загрузить данные расы с id={ _raceId }");
+            }
         }
 
         //private void ParentLocationLabel_MouseLeftButtonUp(object sender, RoutedEventArgs e)

@@ -35,10 +35,10 @@
                 UseLayoutRounding="False" FontFamily="Arial" FontSize="14" Padding="10,5,10,5" />
 
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Margin="10" Background="{StaticResource PlrBlackLite}">
-            <TextBox x:Name="AltNamesLabel" Text="Другие имена: "
-                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="30"/>
-            <TextBox x:Name="TitlesLabel" Text="Титулы и звания: "
-                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="30"/>
+            <TextBox x:Name="AltNamesLabel" Text="Другие имена: " Margin="0,3,0,3"
+                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="24"/>
+            <TextBox x:Name="TitlesLabel" Text="Титулы и звания: " Margin="0,3,0,3"
+                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="24"/>
             <Label x:Name="FatherLabel" Content="Отец: " Style="{StaticResource ClickableDataLabel}"/>
             <Label x:Name="MotherLabel" Content="Мать: " Style="{StaticResource ClickableDataLabel}"/>
 
@@ -120,15 +120,17 @@
             </DockPanel>
             
         </Grid>
-        
-        <RichTextBox x:Name="CharacterDescription" Grid.Row="2" Grid.Column="0"
-                     IsReadOnly="True" Margin="10,10,10,10" BorderBrush="{x:Null}"  BorderThickness="0,0,0,0" >
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="Описание персонажа"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+
+        <ScrollViewer Grid.Row="2" Grid.Column="0" Margin="10,10,10,10">
+            <RichTextBox x:Name="CharacterDescription" 
+                         IsReadOnly="True" BorderBrush="{x:Null}" BorderThickness="0,0,0,0">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Описание персонажа"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </ScrollViewer>
 
     </Grid>
 </Window>

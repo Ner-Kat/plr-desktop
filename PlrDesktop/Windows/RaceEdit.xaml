@@ -132,13 +132,15 @@
                     </Button>
                 </ToolBar>
 
-                <RichTextBox x:Name="RaceDescField" AcceptsTab="True" BorderThickness="0">
-                    <FlowDocument>
-                        <Paragraph Margin="0">
+                <ScrollViewer>
+                    <RichTextBox x:Name="RaceDescField" AcceptsTab="True" BorderThickness="0">
+                        <FlowDocument>
+                            <Paragraph Margin="0">
                             
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </ScrollViewer>
 
             </DockPanel>
 

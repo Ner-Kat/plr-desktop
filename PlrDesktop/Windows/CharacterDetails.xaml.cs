@@ -15,6 +15,7 @@ using PlrDesktop.Lib;
 using PlrDesktop.ApiInteraction;
 using PlrDesktop.Datacards;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace PlrDesktop.Windows
 {
@@ -56,7 +57,14 @@ namespace PlrDesktop.Windows
         {
             UpdateCardData();
 
+            if (_character is null)
+            {
+                this.Close();
+                MessageBox.Show($"Не удалось загрузить данные персонажа с id={ _charId }");
+            }
+
             _childrenView.Source = _childrenOc;
+            _childrenView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             //_childrenView.Filter += 
             ChildrenList.ItemsSource = _childrenView.View;
             PlrWpfUtils.ClearDataGridSelection(ChildrenList);

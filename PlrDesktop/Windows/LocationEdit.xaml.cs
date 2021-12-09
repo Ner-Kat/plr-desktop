@@ -16,6 +16,7 @@ using PlrDesktop.ApiInteraction;
 using PlrDesktop.Datacards;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.ComponentModel;
 
 namespace PlrDesktop.Windows
 {
@@ -83,6 +84,7 @@ namespace PlrDesktop.Windows
             UpdateCardData();
 
             _avParentLocsView.Source = _avalibleParentLocs;
+            _avParentLocsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _avParentLocsView.Filter += AvaliableParentLocs_Filter;
             ParentLocComboBox.ItemsSource = _avParentLocsView.View;
         }

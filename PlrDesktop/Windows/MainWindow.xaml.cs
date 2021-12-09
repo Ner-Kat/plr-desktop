@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using PlrDesktop.Lib;
+using System.ComponentModel;
 
 namespace PlrDesktop.Windows
 {
@@ -135,24 +136,28 @@ namespace PlrDesktop.Windows
 
             UpdateLocationsList();
             _locationsView.Source = _locationsOc;
+            _locationsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _locationsView.Filter += LocationsView_Filter;
             LocationsDataGrid.ItemsSource = _locationsView.View;
             PlrWpfUtils.ClearDataGridSelection(LocationsDataGrid);
 
             UpdateRacesList();
             _racesView.Source = _racesOc;
+            _racesView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _racesView.Filter += RacesView_Filter;
             RacesDataGrid.ItemsSource = _racesView.View;
             PlrWpfUtils.ClearDataGridSelection(RacesDataGrid);
 
             UpdateSocFormsList();
             _socialFormationsView.Source = _socialFormationsOc;
+            _socialFormationsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _socialFormationsView.Filter += SocialFormationsView_Filter;
             SocFormsDataGrid.ItemsSource = _socialFormationsView.View;
             PlrWpfUtils.ClearDataGridSelection(SocFormsDataGrid);
 
             UpdateCharactersList();
             _charactersView.Source = _charactersOc;
+            _charactersView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _charactersView.Filter += CharactersView_Filter;
             CharactersDataGrid.ItemsSource = _charactersView.View;
             PlrWpfUtils.ClearDataGridSelection(CharactersDataGrid);

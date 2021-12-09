@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace PlrDesktop.Windows
 {
@@ -182,39 +183,48 @@ namespace PlrDesktop.Windows
         private void CharacterEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _fatherView.Source = _charsOc;
+            _fatherView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _fatherView.Filter += (o, e) => DataCardView_NameFilter(FatherFindTextBox, e);
             FatherComboBox.ItemsSource = _fatherView.View;
 
             _altCharsView.Source = _charsOc;
+            _altCharsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _altCharsView.Filter += (o, e) => DataCardView_NameFilter(AltCharsFindTextBox, e);
             _altCharsView.Filter += (o, e) => DataPanels_AddedFilter(_addedAltChars, e);
             AltCharsFindComboBox.ItemsSource = _altCharsView.View;
 
             _childrenView.Source = _childrenOc;
+            _childrenView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             ChildrenList.ItemsSource = _childrenView.View;
 
             _childAddView.Source = _charsOc;
+            _childrenView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             //_childAddView.Filter += (o, e) => DataCardView_NameFilter(AddChildFindTextBox, e);
             _childAddView.Filter += Children_AddedFilter;
             //AddChildFindComboBox.ItemsSource = _childAddView.View;
 
             _motherView.Source = _charsOc;
+            _motherView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _motherView.Filter += (o, e) => DataCardView_NameFilter(MotherFindTextBox, e);
             MotherComboBox.ItemsSource = _motherView.View;
 
             _racesView.Source = _racesOc;
+            _racesView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _racesView.Filter += (o, e) => DataCardView_NameFilter(RaceFindTextBox, e);
             RaceFindComboBox.ItemsSource = _racesView.View;
 
             _locBirthView.Source = _locationsOc;
+            _locBirthView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _locBirthView.Filter += (o, e) => DataCardView_NameFilter(LocBirthFindTextBox, e);
             LocBirthFindComboBox.ItemsSource = _locBirthView.View;
 
             _locDeathView.Source = _locationsOc;
+            _locDeathView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _locDeathView.Filter += (o, e) => DataCardView_NameFilter(LocDeathFindTextBox, e);
             LocDeathFindComboBox.ItemsSource = _locDeathView.View;
 
             _socFormsView.Source = _socFormsOc;
+            _socFormsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             _socFormsView.Filter += (o, e) => DataCardView_NameFilter(SocFormFindTextBox, e);
             _socFormsView.Filter += (o, e) => DataPanels_AddedFilter(_addedSocForms, e);
             SocFormFindComboBox.ItemsSource = _socFormsView.View;

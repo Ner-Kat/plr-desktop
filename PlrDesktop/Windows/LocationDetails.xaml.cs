@@ -54,6 +54,12 @@ namespace PlrDesktop.Windows
         {
             UpdateCardData();
 
+            if (_location is null)
+            {
+                this.Close();
+                MessageBox.Show($"Не удалось загрузить данные локации с id={ _locId }");
+            }
+
             PlrWpfUtils.ClearDataGridSelection(SublocationsList);
         }
 

@@ -52,6 +52,12 @@ namespace PlrDesktop.Windows
         private void SocFormDetailsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
+
+            if (_socialFormation is null)
+            {
+                this.Close();
+                MessageBox.Show($"Не удалось загрузить данные соц. формирования с id={ _socFormId }");
+            }
         }
 
         //private void SocFormCatLabel_MouseLeftButtonUp(object sender, RoutedEventArgs e)

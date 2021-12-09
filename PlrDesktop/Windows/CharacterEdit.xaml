@@ -385,11 +385,13 @@
                         </Button>
                     </ToolBar>
 
-                    <RichTextBox x:Name="CharDescField" AcceptsTab="True" BorderThickness="0">
-                        <FlowDocument>
-                            <Paragraph Margin="0"/>
-                        </FlowDocument>
-                    </RichTextBox>
+                    <ScrollViewer>
+                        <RichTextBox x:Name="CharDescField" AcceptsTab="True" BorderThickness="0">
+                            <FlowDocument>
+                                <Paragraph Margin="0"/>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </ScrollViewer>
 
                 </DockPanel>
 
