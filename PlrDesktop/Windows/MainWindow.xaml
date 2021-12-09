@@ -1,0 +1,364 @@
+﻿<Window x:Name="PrimaryWindow" x:Class="PlrDesktop.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlrDesktop"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1200" Loaded="PrimaryWindow_Loaded">
+
+    <Window.Resources>
+    </Window.Resources>
+
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl x:Name="TabPanel" TabStripPlacement="Left" FontFamily="Arial" FontSize="14" FontWeight="Normal">
+
+            <!-- ###################################### ————————— ################################################# -->
+            <!-- ###################################### ПЕРСОНАЖИ ################################################# -->
+            <!-- ###################################### ————————— ################################################# -->
+
+            <TabItem x:Name="TabCharacters" Header="Персонажи" Height="50" IsSelected="True">
+                <Grid x:Name="TabCharactersGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Grid  Margin="0,5,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="CharFindLabel" Content="Поиск по имени: " VerticalAlignment="Center"
+                                       Grid.Column="0"/>
+                                <TextBox x:Name="CharFindTextBox" MinHeight="25" VerticalAlignment="Center"
+                                         Grid.Column="1" TextChanged="CharFindTextBox_TextChanged"/>
+                            </Grid>
+
+                        </Grid>
+                    </StackPanel>
+
+                    <DataGrid x:Name="CharactersDataGrid" AutoGenerateColumns="False" MouseDoubleClick="CharactersDataGrid_MouseDoubleClick" 
+                              CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" 
+                              MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single" 
+                              Focusable="False" Grid.Row="1" BorderBrush="Black" BorderThickness="0,2,0,0" Margin="0,0,-3,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="CharIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" 
+                                                CanUserReorder="False" IsReadOnly="True" MinWidth="40" 
+                                                CellStyle="{StaticResource DataGridCellId}"/>
+                            <DataGridTextColumn x:Name="CharNameColumn" Header="Имя персонажа" Binding="{Binding Name}" 
+                                                Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid x:Name="CharactersBottomGrid" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="10"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition MinHeight="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddCharButton" Content="✚ Добавить персонажа" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="AddCharacterButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
+                        <Button x:Name="UpdateCharactersButton" Content="🗘 Обновить список" FontFamily="Arial" 
+                                FontWeight="Bold" FontSize="16" Click="UpdateCharactersButton_Click" Margin="0,0,0,0" Grid.Row="1"
+                                Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveCharButton" Content="🞫 Удалить персонажа" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveCharacterButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            
+
+            <!-- ###################################### ——————— ################################################# -->
+            <!-- ###################################### ЛОКАЦИИ ################################################# -->
+            <!-- ###################################### ——————— ################################################# -->
+
+            <TabItem x:Name="TabLocations" Header="Локации" Height="50" IsSelected="False">
+                <Grid x:Name="TabLocationsGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Grid  Margin="0,5,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="LocFindLabel" Content="Поиск по названию: " VerticalAlignment="Center"
+                                       Grid.Column="0"/>
+                                <TextBox x:Name="LocFindTextBox" MinHeight="25" VerticalAlignment="Center"
+                                         Grid.Column="1" TextChanged="LocFindTextBox_TextChanged"/>
+                            </Grid>
+
+                            <CheckBox x:Name="IsOnlyRoot" Content="Только корневые локации" Grid.Column="2"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                            <Grid Grid.Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="LocLevelLabel" Content="«Уровень» локации: " Grid.Column="0"
+                                       VerticalAlignment="Center"/>
+                                <ComboBox x:Name="LocLevelComboBox" Grid.Column="1" VerticalAlignment="Center"
+                                          MinHeight="25"/>
+                                <Button x:Name="ClearLocLevelSelection" Foreground="{StaticResource PlrWhiteDark}" 
+                                        Background="{StaticResource PlrBlackDark}" BorderThickness="0" 
+                                        Height="25" Width="25" Margin="3,0,0,0" Content="X" Grid.Column="2" Click="ClearLocLevelSelection_Click"/>
+                            </Grid>
+                            
+                        </Grid>
+                    </StackPanel>
+
+                    <DataGrid x:Name="LocationsDataGrid" AutoGenerateColumns="False" MouseDoubleClick="LocationsDataGrid_MouseDoubleClick" 
+                              CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" 
+                              MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single" 
+                              Focusable="False" Grid.Row="1" BorderBrush="Black" BorderThickness="0,2,0,0" Margin="0,0,-3,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="LocIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" 
+                                                CanUserReorder="False" IsReadOnly="True" MinWidth="40" 
+                                                CellStyle="{StaticResource DataGridCellId}"/>
+                            <DataGridTextColumn x:Name="LocNameColumn" Header="Название локации" Binding="{Binding Name}" 
+                                                Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid x:Name="LocationsBottomGrid" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="10"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition MinHeight="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddLocationButton" Content="✚ Добавить локацию" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="AddLocationButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
+                        <Button x:Name="UpdateLocationsButton" Content="🗘 Обновить список локаций" FontFamily="Arial" 
+                                FontWeight="Bold" FontSize="16" Click="UpdateLocationsButton_Click" Margin="0,0,0,0" Grid.Row="1"
+                                Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveLocationButton" Content="🞫 Удалить локацию" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveLocationButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+
+            
+            <!-- ###################################### ———————————————— ################################################# -->
+            <!-- ###################################### СОЦ.ФОРМИРОВАНИЯ ################################################# -->
+            <!-- ###################################### ———————————————— ################################################# -->
+
+            <TabItem x:Name="TabSocForms" Header="Соц. формирования" Height="50" IsSelected="False">
+                <Grid x:Name="TabSocFormsGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Grid  Margin="0,5,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="SocFormFindLabel" Content="Поиск по названию: " VerticalAlignment="Center"
+                                       Grid.Column="0"/>
+                                <TextBox x:Name="SocFormFindTextBox" MinHeight="25" VerticalAlignment="Center"
+                                         Grid.Column="1" TextChanged="SocFormFindTextBox_TextChanged"/>
+                            </Grid>
+
+                            <Grid Grid.Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="SocFormCatLabel" Content="Категория: " Grid.Column="0"
+                                       VerticalAlignment="Center"/>
+                                <ComboBox x:Name="SocFormCatComboBox" Grid.Column="1" VerticalAlignment="Center"
+                                          MinHeight="25"/>
+                                <Button x:Name="ClearSocFormCatSelection" Foreground="{StaticResource PlrWhiteDark}" 
+                                        Background="{StaticResource PlrBlackDark}" BorderThickness="0" 
+                                        Height="25" Width="25" Margin="3,0,0,0" Content="X" Grid.Column="2" 
+                                        Click="ClearSocFormCatSelection_Click"/>
+                            </Grid>
+
+                        </Grid>
+                    </StackPanel>
+
+                    <DataGrid x:Name="SocFormsDataGrid" AutoGenerateColumns="False" MouseDoubleClick="SocFormsDataGrid_MouseDoubleClick" 
+                              CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" 
+                              MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single" 
+                              Focusable="False" Grid.Row="1" BorderBrush="Black" BorderThickness="0,2,0,0" Margin="0,0,-3,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="SocFormIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" 
+                                                CanUserReorder="False" IsReadOnly="True" MinWidth="40" 
+                                                CellStyle="{StaticResource DataGridCellId}"/>
+                            <DataGridTextColumn x:Name="SocFormNameColumn" Header="Социальное формирование" Binding="{Binding Name}" 
+                                                Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid x:Name="SocFormsBottomGrid" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="10"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition MinHeight="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddSocFormButton" Content="✚ Добавить соц. формирование" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="AddSocFormButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
+                        <Button x:Name="UpdateSocFormsButton" Content="🗘 Обновить список соц. формирований" FontFamily="Arial" 
+                                FontWeight="Bold" FontSize="16" Click="UpdateSocFormsButton_Click" Margin="0,0,0,0" Grid.Row="1"
+                                Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveSocFormButton" Content="🞫 Удалить соц. формирование" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveSocFormButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+
+            
+            <!-- ###################################### ———— ################################################ -->
+            <!-- ###################################### РАСЫ ################################################# -->
+            <!-- ###################################### ———— ################################################# -->
+
+            <TabItem x:Name="TabRaces" Header="Расы" Height="50" IsSelected="False">
+                <Grid x:Name="TabRacesGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Grid  Margin="0,5,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="RaceFindLabel" Content="Поиск по названию: " VerticalAlignment="Center"
+                                       Grid.Column="0"/>
+                                <TextBox x:Name="RaceFindTextBox" MinHeight="25" VerticalAlignment="Center"
+                                         Grid.Column="1" TextChanged="RaceFindTextBox_TextChanged"/>
+                            </Grid>
+
+                        </Grid>
+                    </StackPanel>
+
+                    <DataGrid x:Name="RacesDataGrid" AutoGenerateColumns="False" MouseDoubleClick="RacesDataGrid_MouseDoubleClick" 
+                              CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column" 
+                              MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single" 
+                              Focusable="False" Grid.Row="1" BorderBrush="Black" BorderThickness="0,2,0,0" Margin="0,0,-3,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="RaceIdColumn" Header="ID" Binding="{Binding Id}" CanUserResize="False" 
+                                                CanUserReorder="False" IsReadOnly="True" MinWidth="40" 
+                                                CellStyle="{StaticResource DataGridCellId}"/>
+                            <DataGridTextColumn x:Name="RaceNameColumn" Header="Название расы" Binding="{Binding Name}" 
+                                                Width="*" CanUserResize="False" CanUserReorder="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid x:Name="RacesBottomGrid" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="10"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition MinHeight="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddRaceButton" Content="✚ Добавить расу" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="AddRaceButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" MinHeight="30"/>
+                        <Button x:Name="UpdateRacesButton" Content="🗘 Обновить список рас" FontFamily="Arial" 
+                                FontWeight="Bold" FontSize="16" Click="UpdateRacesButton_Click" Margin="0,0,0,0" Grid.Row="1"
+                                Grid.Column="3" MinHeight="30"/>
+                        <Button x:Name="RemoveRaceButton" Content="🞫 Удалить расу" FontFamily="Arial" FontWeight="Bold" 
+                                FontSize="16" Click="RemoveRaceButton_Click" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="30"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</Window>
