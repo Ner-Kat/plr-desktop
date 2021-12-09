@@ -170,7 +170,7 @@ namespace PlrDesktop.Datacards
             }
             set
             {
-                bioFatherId = value;
+                bioMotherId = value;
                 bioMother = null;
             }
         }
@@ -221,13 +221,13 @@ namespace PlrDesktop.Datacards
 
         public string[] Titles { get; set; } = null;
 
-        //public string ColorHair { get; set; } = null;
+        public string ColorHair { get; set; } = null;
 
-        //public string ColorEyes { get; set; } = null;
+        public string ColorEyes { get; set; } = null;
 
-        public int? ColorHair { get; set; } = null;
+        //public int? ColorHair { get; set; } = null;
 
-        public int? ColorEyes { get; set; } = null;
+        //public int? ColorEyes { get; set; } = null;
 
         public string Desc { get; set; } = null;
 

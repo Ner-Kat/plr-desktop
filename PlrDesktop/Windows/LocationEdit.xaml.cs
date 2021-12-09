@@ -60,16 +60,21 @@ namespace PlrDesktop.Windows
 
         private void SetParentLocationsList()
         {
-            _avalibleParentLocs.Clear();
-            foreach (var loc in Task.Run(() => GetAllLocations()).Result)
-            {
-                _avalibleParentLocs.Add(loc);
-            }
+            var locs = Task.Run(() => GetAllLocations()).Result;
 
-            if (_location is not null && _location.ParentLoc is not null)
+            if (locs is not null)
             {
-                var parentLoc = _avalibleParentLocs.FirstOrDefault(loc => loc.Id == _location.ParentLoc.Id);
-                ParentLocComboBox.SelectedItem = parentLoc;
+                _avalibleParentLocs.Clear();
+                foreach (var loc in locs)
+                {
+                    _avalibleParentLocs.Add(loc);
+                }
+
+                if (_location is not null && _location.ParentLoc is not null)
+                {
+                    var parentLoc = _avalibleParentLocs.FirstOrDefault(loc => loc.Id == _location.ParentLoc.Id);
+                    ParentLocComboBox.SelectedItem = parentLoc;
+                }
             }
         }
 
@@ -106,17 +111,21 @@ namespace PlrDesktop.Windows
             var selectedParentLoc = ParentLocComboBox.SelectedItem;
             editedLocation.ParentLocId = selectedParentLoc is not null ? ((Location)selectedParentLoc).Id : null;
 
+            var result = false;
             if (_addMode)
             {
-                Task.Run(() => _api.Methods.Locs.Add(editedLocation));
+                result = Task.Run(() => _api.Methods.Locs.Add(editedLocation)).Result;
             }
             else
             {
                 editedLocation.Id = _location.Id;
-                Task.Run(() => _api.Methods.Locs.Change(editedLocation));
+                result = Task.Run(() => _api.Methods.Locs.Change(editedLocation)).Result;
             }
-            
-            this.Close();
+
+            if (!result)
+                MessageBox.Show("Произошла ошибка, данные не добавлены");
+            else
+                this.Close();
         }
 
         private void TextEditingToolbar_Loaded(object sender, RoutedEventArgs e)

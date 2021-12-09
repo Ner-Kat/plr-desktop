@@ -53,6 +53,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" 
                                       Grid.Column="2" Focusable="false" 
                                       IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" 

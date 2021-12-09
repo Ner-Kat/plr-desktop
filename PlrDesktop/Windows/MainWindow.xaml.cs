@@ -75,37 +75,57 @@ namespace PlrDesktop.Windows
 
         public void UpdateLocationsList()
         {
-            _locationsOc.Clear();
-            foreach (var loc in Task.Run(() => GetLocationsList()).Result)
+            var locs = Task.Run(() => GetLocationsList()).Result;
+
+            if (locs is not null)
             {
-                _locationsOc.Add(loc);
+                _locationsOc.Clear();
+                foreach (var loc in locs)
+                {
+                    _locationsOc.Add(loc);
+                }
             }
         }
 
         public void UpdateSocFormsList()
         {
-            _socialFormationsOc.Clear();
-            foreach (var sf in Task.Run(() => GetSocialFormationsList()).Result)
+            var socForms = Task.Run(() => GetSocialFormationsList()).Result;
+
+            if (socForms is not null)
             {
-                _socialFormationsOc.Add(sf);
+                _socialFormationsOc.Clear();
+                foreach (var sf in socForms)
+                {
+                    _socialFormationsOc.Add(sf);
+                }
             }
         }
 
         public void UpdateRacesList()
         {
-            _racesOc.Clear();
-            foreach (var race in Task.Run(() => GetRacesList()).Result)
+            var races = Task.Run(() => GetRacesList()).Result;
+
+            if (races is not null)
             {
-                _racesOc.Add(race);
+                _racesOc.Clear();
+                foreach (var race in races)
+                {
+                    _racesOc.Add(race);
+                }
             }
         }
 
         public void UpdateCharactersList()
         {
-            _charactersOc.Clear();
-            foreach (var chr in Task.Run(() => GetCharactersList()).Result)
+            var chars = Task.Run(() => GetCharactersList()).Result;
+
+            if (chars is not null)
             {
-                _charactersOc.Add(chr);
+                _charactersOc.Clear();
+                foreach (var chr in chars)
+                {
+                    _charactersOc.Add(chr);
+                }
             }
         }
 
@@ -162,11 +182,13 @@ namespace PlrDesktop.Windows
 
         private void RemoveLocationButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = LocationsDataGrid.SelectedCells[0].Item;
-            var selectedLocation = (Location)selectedItem;
+            var selectedLocation = LocationsDataGrid.SelectedItem as Location;
 
-            Task.Run(() => _api.Methods.Locs.Remove(selectedLocation.Id.Value)).Wait();
-            UpdateLocationsList();
+            if (selectedLocation is not null)
+            {
+                Task.Run(() => _api.Methods.Locs.Remove(selectedLocation.Id.Value)).Wait();
+                UpdateLocationsList();
+            }
         }
 
         private void UpdateLocationsButton_Click(object sender, RoutedEventArgs e)
@@ -223,11 +245,13 @@ namespace PlrDesktop.Windows
 
         private void RemoveRaceButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = RacesDataGrid.SelectedCells[0].Item;
-            var selectedRace = (Race)selectedItem;
+            var selectedRace = RacesDataGrid.SelectedItem as Race;
 
-            Task.Run(() => _api.Methods.Races.Remove(selectedRace.Id.Value)).Wait();
-            UpdateRacesList();
+            if (selectedRace is not null)
+            {
+                Task.Run(() => _api.Methods.Races.Remove(selectedRace.Id.Value)).Wait();
+                UpdateRacesList();
+            }
         }
 
         private void UpdateRacesButton_Click(object sender, RoutedEventArgs e)
@@ -279,11 +303,13 @@ namespace PlrDesktop.Windows
 
         private void RemoveSocFormButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = SocFormsDataGrid.SelectedCells[0].Item;
-            var selectedSocForm = (SocialFormation)selectedItem;
+            var selectedSocForm = SocFormsDataGrid.SelectedItem as SocialFormation;
 
-            Task.Run(() => _api.Methods.SocForms.Remove(selectedSocForm.Id.Value)).Wait();
-            UpdateSocFormsList();
+            if (selectedSocForm is not null)
+            {
+                Task.Run(() => _api.Methods.SocForms.Remove(selectedSocForm.Id.Value)).Wait();
+                UpdateSocFormsList();
+            }
         }
 
         private void UpdateSocFormsButton_Click(object sender, RoutedEventArgs e)
@@ -321,13 +347,14 @@ namespace PlrDesktop.Windows
 
         private void CharactersDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedItem = CharactersDataGrid.SelectedCells[0].Item;
-            var selectedCharacter = (Character)selectedItem;
+            var selectedCharacter = CharactersDataGrid.SelectedItem as Character;
 
-            CharacterDetails characterDetails = (CharacterDetails)_windowsManager
-                .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
-
-            characterDetails.Show();
+            if (selectedCharacter is not null)
+            {
+                CharacterDetails characterDetails = (CharacterDetails)_windowsManager
+                    .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
+                characterDetails.Show();
+            }
         }
 
         private void AddCharacterButton_Click(object sender, RoutedEventArgs e)
@@ -340,7 +367,7 @@ namespace PlrDesktop.Windows
 
         private void RemoveCharacterButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = CharactersDataGrid.SelectedCells[0].Item;
+            var selectedItem = CharactersDataGrid.SelectedItem;
             var selectedCharacter = (Character)selectedItem;
 
             Task.Run(() => _api.Methods.Chars.Remove(selectedCharacter.Id.Value)).Wait();

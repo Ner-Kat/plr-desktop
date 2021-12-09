@@ -100,23 +100,24 @@ namespace PlrDesktop.Windows
                 // Цвета глаз и волос
                 if (_character.ColorHair is not null)
                 {
-                    var color = (Color)ColorConverter.ConvertFromString(ColorDecToHex(_character.ColorHair.Value));
+                    var color = (Color)ColorConverter.ConvertFromString("#FF" + _character.ColorHair[1..]);
                     ColorHairRect.Fill = new SolidColorBrush(color);
                 }
                 if (_character.ColorEyes is not null)
                 {
-                    var color = (Color)ColorConverter.ConvertFromString(ColorDecToHex(_character.ColorEyes.Value));
+                    var color = (Color)ColorConverter.ConvertFromString("#FF" + _character.ColorEyes[1..]);
                     ColorEyesRect.Fill = new SolidColorBrush(color);
                 }
 
                 // Даты рождения и смерти
                 if (_character.DateBirth is not null)
                 {
-                    DateBirthLabel.Content = "Дата рождения: " + _character.DateBirth;
+                    var date = ApiUtils.StrToDate(_character.DateBirth);
+                    DateBirthLabel.Content = "Дата рождения: " + WriteDateToString(_character.DateBirth);
                 }
                 if (_character.DateDeath is not null)
                 {
-                    DateDeathLabel.Content = "Дата смерти: " + _character.DateDeath;
+                    DateDeathLabel.Content = "Дата смерти: " + WriteDateToString(_character.DateDeath);
                 }
 
                 // Рост
@@ -169,7 +170,7 @@ namespace PlrDesktop.Windows
                     {
                         altNames += altName + ", ";
                     }
-                    AltNamesLabel.Content = altNames.Remove(altNames.Length - 1);
+                    AltNamesLabel.Text = altNames.Remove(altNames.Length - 2);
                 }
 
                 // Титулы и звания
@@ -180,10 +181,14 @@ namespace PlrDesktop.Windows
                     {
                         titles += title + ", ";
                     }
-                    TitlesLabel.Content = titles.Remove(titles.Length - 1);
+                    TitlesLabel.Text = titles.Remove(titles.Length - 2);
                 }
 
                 // Социальные формирования
+                UIElement socFormsTitle = SocFormsPanel.Children[0];
+                SocFormsPanel.Children.Clear();
+                SocFormsPanel.Children.Add(socFormsTitle);
+
                 if (_character.SocFormsIds is not null)
                 {
                     foreach (var socForm in _character.SocForms)
@@ -206,6 +211,10 @@ namespace PlrDesktop.Windows
                 }
 
                 // Другие карточки личности
+                UIElement altCharsTitle = AltCharsPanel.Children[0];
+                AltCharsPanel.Children.Clear();
+                AltCharsPanel.Children.Add(altCharsTitle);
+
                 if (_character.AltCharsIds is not null)
                 {
                     foreach (var altChar in _character.AltChars)
@@ -237,6 +246,23 @@ namespace PlrDesktop.Windows
             }
         }
 
+        private string WriteDateToString(string dt)
+        {
+            var date = ApiUtils.StrToDate(dt);
+            if (date.HasValue)
+            {
+                var dv = date.Value;
+                var res = $"{dv.Day} {dv.ToString("MMMM")} ";
+                if (dt.StartsWith('-'))
+                    res += "-";
+                res += $"{dv.Year}";
+
+                return res;
+            }
+
+            return "";
+        }
+
         private void RaceLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var window = _windowsManager.CreateRaceDetailsWindow(_character.RaceId.Value);
@@ -257,14 +283,20 @@ namespace PlrDesktop.Windows
 
         private void FatherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioFatherId.Value);
-            window.Show();
+            if (_character.BioFatherId.HasValue)
+            {
+                var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioFatherId.Value);
+                window.Show();
+            }
         }
 
         private void MotherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioMotherId.Value);
-            window.Show();
+            if (_character.BioMotherId.HasValue)
+            {
+                var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioMotherId.Value);
+                window.Show();
+            }
         }
 
         private void ChildrenList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -272,34 +304,13 @@ namespace PlrDesktop.Windows
             var selectedItem = ChildrenList.SelectedCells[0].Item;
             var selectedCharacter = (Character)selectedItem;
 
-            CharacterDetails characterDetails = (CharacterDetails)_windowsManager
-                .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
+            if (selectedCharacter is not null)
+            {
+                CharacterDetails characterDetails = (CharacterDetails)_windowsManager
+                    .CreateCharacterDetailsWindow(selectedCharacter.Id.Value);
 
-            characterDetails.Show();
+                characterDetails.Show();
+            }
         }
-
-        private string ColorDecToHex(int color)
-        {
-            char[] result = "000000".ToCharArray();
-
-            string value = color.ToString("X");
-            for (int i = value.Length - 1; i >= 0; i--)
-                result[i] = value[i];
-
-            return "#FF" + new string(result);
-        }
-
-        //private void ChildrenView_Filter(object sender, FilterEventArgs e)
-        //{
-        //    Character chr = e.Item as Character;
-
-        //    if (chr is not null)
-        //    {
-        //        if (chr.Name.ToLower().Contains(CharFindTextBox.Text.ToLower()))
-        //            e.Accepted = true;
-        //        else
-        //            e.Accepted = false;
-        //    }
-        //}
     }
 }

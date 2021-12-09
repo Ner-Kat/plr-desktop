@@ -45,55 +45,10 @@ namespace PlrDesktop.Windows
             _race = race;
         }
 
-        //private async Task<List<Race>> GetAllRaces()
-        //{
-        //    List<Race> races = await _api.Methods.Races.List(null);
-
-        //    if (_race is not null)
-        //    {
-        //        var selfLoc = races.FirstOrDefault(loc => loc.Id == _race.Id);
-        //        races.Remove(selfLoc);
-        //    }
-
-        //    return races;
-        //}
-
-        //private void SetParentLocationsList()
-        //{
-        //    _avalibleParentRaces.Clear();
-        //    foreach (var race in Task.Run(() => GetAllRaces()).Result)
-        //    {
-        //        _avalibleParentRaces.Add(race);
-        //    }
-
-        //    if (_race is not null && _race.ParentRace is not null)
-        //    {
-        //        var parentLoc = _avalibleParentRaces.FirstOrDefault(loc => loc.Id == _race.ParentRace.Id);
-        //        ParentRaceComboBox.SelectedItem = parentLoc;
-        //    }
-        //}
-
         private void RaceEditWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateCardData();
-
-            //_avParentRacesView.Source = _avalibleParentRaces;
-            //_avParentRacesView.Filter += AvaliableParentRaces_Filter;
-            //ParentRaceComboBox.ItemsSource = _avParentRacesView.View;
         }
-
-        //private void AvaliableParentRaces_Filter(object sender, FilterEventArgs e)
-        //{
-        //    Race race = e.Item as Race;
-
-        //    if (race is not null)
-        //    {
-        //        if (race.Name.ToLower().Contains(ParentRaceFindTextBox.Text.ToLower()))
-        //            e.Accepted = true;
-        //        else
-        //            e.Accepted = false;
-        //    }
-        //}
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -103,20 +58,21 @@ namespace PlrDesktop.Windows
                 Desc = _rtbTextHandler.GetAsString()
             };
 
-            //var selectedParentRace = ParentRaceComboBox.SelectedItem;
-            //editedRace.ParentLocId = selectedParentRace is not null ? ((Race)selectedParentRace).Id : null;
-
+            var result = false;
             if (_addMode)
             {
-                Task.Run(() => _api.Methods.Races.Add(editedRace));
+                result = Task.Run(() => _api.Methods.Races.Add(editedRace)).Result;
             }
             else
             {
                 editedRace.Id = _race.Id;
-                Task.Run(() => _api.Methods.Races.Change(editedRace));
+                result = Task.Run(() => _api.Methods.Races.Change(editedRace)).Result;
             }
-            
-            this.Close();
+
+            if (!result)
+                MessageBox.Show("Произошла ошибка, данные не добавлены");
+            else
+                this.Close();
         }
 
         private void TextEditingToolbar_Loaded(object sender, RoutedEventArgs e)

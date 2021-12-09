@@ -1,134 +1,418 @@
-﻿<Window x:Name="CharacterEditWindow" x:Class="PlrDesktop.Windows.CharacterEdit"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlrDesktop.Windows"
+        xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="CharacterEditWindow" x:Class="PlrDesktop.Windows.CharacterEdit"
         mc:Ignorable="d"
-        Title="CharacterEdit" Height="450" Width="800" Loaded="CharacterEditWindow_Loaded">
+        Title="CharacterEdit" Height="800" Width="1100" Loaded="CharacterEditWindow_Loaded">
 
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-            <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
-            <Setter Property="Width" Value="30"></Setter>
-            <Setter Property="FontSize" Value ="14"></Setter>
-            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
+            <Setter Property="FontFamily" Value="Palatino Linotype"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="FontSize" Value ="14"/>
+            <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
         </Style>
     </Window.Resources>
 
     <Grid x:Name="OuterGrid">
 
-        <Grid x:Name="MainGrid" Margin="10,10,10,10">
+        <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+            <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,5,0,0">
+                <TextBox x:Name="CharacterNameTextBox" Text="Имя персонажа" 
+                         HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="18"
+                         FontWeight="Bold" HorizontalContentAlignment="Center" Width="500" Height="26" />
+                <ComboBox x:Name="GenderSymbolComboBox" Margin="10,0,0,0" MinWidth="160" MinHeight="24" 
+                          BorderBrush="{StaticResource PlrWhiteDark}" BorderThickness="1" VerticalAlignment="Center" 
+                          VerticalContentAlignment="Center" Padding="2" DisplayMemberPath="Name"/>
+            </DockPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Margin="10" Background="{StaticResource PlrBlackLite}">
+                <StackPanel Orientation="Vertical" Margin="3,3,3,3">
+                    <Label x:Name="AltNamesLabel" Content="Другие имена: " Style="{StaticResource DataLabel}"/>
+                    <TextBox x:Name="AltNamesTextBox" Text="" Style="{StaticResource DarkTextBox}"
+                             MinHeight="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"
+                             VerticalContentAlignment="Top" HorizontalContentAlignment="Left" Height="Auto" FontSize="13"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="3,3,3,3">
+                    <Label x:Name="TitlesLabel" Content="Титулы и звания: " Style="{StaticResource DataLabel}"/>
+                    <TextBox x:Name="TitlesTextBox" Text="" Style="{StaticResource DarkTextBox}"
+                             MinHeight="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"
+                             VerticalContentAlignment="Top" HorizontalContentAlignment="Left" Height="Auto" FontSize="13"/>
+                </StackPanel>
+
+                <Grid Margin="0,3,3,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="FatherLabel" Content="Отец: " Style="{StaticResource ClickableDataLabel}"
+                           Grid.Column="0"/>
+                    <TextBox x:Name="FatherFindTextBox" Text="" Style="{StaticResource DarkTextBox}" Grid.Column="1" TextChanged="FatherFindTextBox_TextChanged"/>
+                    <ComboBox x:Name="FatherComboBox" Grid.Column="2" DisplayMemberPath="Name"/>
+                </Grid>
+
+                <Grid Margin="0,3,3,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="MotherLabel" Content="Мать: " Style="{StaticResource ClickableDataLabel}"
+                           Grid.Column="0"/>
+                    <TextBox x:Name="MotherFindTextBox" Text="" Style="{StaticResource DarkTextBox}" Grid.Column="1" TextChanged="MotherFindTextBox_TextChanged"/>
+                    <ComboBox x:Name="MotherComboBox" Grid.Column="2" DisplayMemberPath="Name"/>
+                </Grid>
+
                 <DockPanel LastChildFill="True">
-                    <Label x:Name="CharNameLabel" Content="Имя персонажа" FontWeight="Bold" FontFamily="Arial" FontSize="14"/>
-                    <TextBox x:Name="CharNameTextBox" Margin="5,0,0,0"/>
+                    <Border x:Name="SocFormsBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="3" 
+                            Background="{StaticResource PlrTransparent}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="28"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" MaxHeight="80">
+                                <WrapPanel x:Name="SocFormsPanel" Orientation="Horizontal" Background="{StaticResource PlrTransparent}">
+                                    <Label x:Name="SocFormsLabel" Content="Соц. формирования: " Background="{StaticResource PlrTransparent}"
+                                        Width="Auto"/>
+                                </WrapPanel>
+                            </ScrollViewer>
+
+                            <TextBox x:Name="SocFormFindTextBox" Grid.Row="1" Grid.Column="0" Style="{StaticResource DarkTextBox}"
+                                        MinHeight="25" TextChanged="SocFormFindTextBox_TextChanged"/>
+                            <ComboBox x:Name="SocFormFindComboBox" Grid.Row="1" Grid.Column="1" MinHeight="25"
+                                        DisplayMemberPath="Name"/>
+                            <Button x:Name="SocFormAdd" Grid.Row="1" Grid.Column="2" Width="25" Content="✚"
+                                    Background="{StaticResource PlrBlackDark}" BorderThickness="0" Margin="3,0,0,0" 
+                                    Click="SocFormAdd_Click"/>
+                        </Grid>
+                    </Border>
                 </DockPanel>
-            </DockPanel>
 
-            <Grid Grid.Row="0" Grid.Column="1" Margin="30,10,10,10">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                <DockPanel LastChildFill="True">
+                    <Border x:Name="AltCharsBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="3" 
+                            Background="{StaticResource PlrTransparent}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="28"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" MaxHeight="80">
+                                <WrapPanel x:Name="AltCharsPanel" Orientation="Horizontal" Background="{StaticResource PlrTransparent}"
+                                       Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                       MaxHeight="80">
+                                    <Label x:Name="AltCharsLabel" Content="Другие карточки личности: " Background="{StaticResource PlrTransparent}"
+                                       Width="Auto"/>
+                                </WrapPanel>
+                            </ScrollViewer>
+
+                            <TextBox x:Name="AltCharsFindTextBox" Grid.Row="1" Grid.Column="0" Style="{StaticResource DarkTextBox}"
+                                         MinHeight="25" TextChanged="AltCharsFindTextBox_TextChanged"/>
+                            <ComboBox x:Name="AltCharsFindComboBox" Grid.Row="1" Grid.Column="1" MinHeight="25"
+                                      DisplayMemberPath="Name"/>
+                            <Button x:Name="AltCharsAdd" Grid.Row="1" Grid.Column="2" Width="25" Content="✚"
+                                    Background="{StaticResource PlrBlackDark}" BorderThickness="0" Margin="3,0,0,0" 
+                                    Click="AltCharsAdd_Click"/>
+                        </Grid>
+                    </Border>
+                </DockPanel>
+
+                <!--<Border x:Name="AdditionsBorder" BorderBrush="{StaticResource PlrBlackLite}" BorderThickness="1">
+                    <DataGrid x:Name="AdditionsList" AutoGenerateColumns="False" BorderBrush="Black"
+                      CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False"
+                      MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                      Focusable="False" HorizontalContentAlignment="Stretch" Margin="5" ColumnWidth="*" Width="Auto"
+                          BorderThickness="1" HeadersVisibility="None">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="AdditionTypeColumn" Binding="{Binding Name}" Header="Поле" CanUserResize="False" 
+                                        CanUserReorder="False" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="AdditionValueColumn" Binding="{Binding Value}" Header="Значение" CanUserResize="False" 
+                                        CanUserReorder="False" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>-->
+            </StackPanel>
+
+            <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                
-            </Grid>
-            
-            <Label x:Name="CharDescLabel" Content="ОПИСАНИЕ ПЕРСОНАЖА" Grid.ColumnSpan="2" Grid.Row="3" FontWeight="Bold" 
-                   FontFamily="Arial" FontSize="14"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <DockPanel x:Name="TextEditingControlPanel" Grid.Row="4" Grid.ColumnSpan="2">
+                <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="1" Margin="5,10,5,10" Background="{StaticResource PlrBlackLite}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                <ToolBar x:Name="TextEditingToolbar" Height="30" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" 
+                    <DockPanel LastChildFill="True" Background="{StaticResource PlrBlackLite}" Margin="5">
+
+                        <Label x:Name="RaceLabel" Content="Раса: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right"/>
+                        <Label x:Name="GrowthLabel" Content="Рост: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="DateBirthLabel" Content="Дата рождения: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="DateDeathLabel" Content="Дата смерти: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="LocBirthLabel" Content="Родился в: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="LocDeathLabel" Content="Умер в: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="ColorHairLabel" Content="Цвет волос: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <Label x:Name="ColorEyesLabel" Content="Цвет глаз: " Style="{StaticResource DataLabel}" DockPanel.Dock="Top"
+                           Height="30" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+
+                    </DockPanel>
+
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="1" Margin="5,10,10,10" Background="{StaticResource PlrBlackLite}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" Background="{StaticResource PlrBlackLite}" Margin="5">
+
+                        <Grid DockPanel.Dock="Top" Height="30" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="RaceFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}" 
+                                     TextChanged="RaceFindTextBox_TextChanged"/>
+                            <ComboBox x:Name="RaceFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="GrowthTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Name="DateBirthSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0"/>
+                            <hc:DatePicker x:Name="DateBirthPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Name="DateDeathSign" Grid.Column="0" DisplayMemberPath="Name" SelectedIndex="0"/>
+                            <hc:DatePicker x:Name="DateDeathPicker" Grid.Column="1" Style="{StaticResource PlrDatePicker}"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="LocBirthFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}" 
+                                     TextChanged="LocBirthFindTextBox_TextChanged"/>
+                            <ComboBox x:Name="LocBirthFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="LocDeathFindTextBox" Text="" Grid.Column="0" Style="{StaticResource DarkTextBox}"
+                                     TextChanged="LocDeathFindTextBox_TextChanged"/>
+                            <ComboBox x:Name="LocDeathFindComboBox" Grid.Column="1" DisplayMemberPath="Name"/>
+                        </Grid>
+
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="ColorHairValueTextBox" Grid.Column="0" Style="{StaticResource DarkTextBox}" IsReadOnly="True"/>
+                            <Border x:Name="ColorHairBorder" BorderBrush="{StaticResource PlrBlack}" BorderThickness="2" 
+                                    Background="{StaticResource PlrBlack}" DockPanel.Dock="Top" Height="30" Grid.Column="1">
+                                <Rectangle x:Name="ColorHairRect" Fill="{StaticResource PlrTransparent}"
+                                           MinHeight="20" Margin="3,2,3,2" MouseLeftButtonUp="ColorHairRect_MouseLeftButtonUp"/>
+                            </Border>
+
+                            <Popup x:Name="ColorHairPopup" StaysOpen="True" Placement="Mouse" IsOpen="False">
+                                <hc:ColorPicker x:Name="ColorHairPicker" Background="{StaticResource PlrBlack}"
+                                                BorderBrush="{StaticResource PlrBlackDark}" Margin="-1"
+                                                SelectedColorChanged="ColorHairPicker_SelectedColorChanged" Height="295"/>
+                            </Popup>
+
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Height="30"  Margin="0,3,0,0" Background="{StaticResource PlrBlackLite}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="ColorEyesValueTextBox" Grid.Column="0" Style="{StaticResource DarkTextBox}" IsReadOnly="True"/>
+                            <Border x:Name="ColorEyesBorder" BorderBrush="{StaticResource PlrBlack}" BorderThickness="2" 
+                                    Background="{StaticResource PlrBlack}" DockPanel.Dock="Top" Height="30" Grid.Column="1">
+                                <Rectangle x:Name="ColorEyesRect" Fill="{StaticResource PlrTransparent}"
+                                           MinHeight="20" Margin="3,2,3,2" MouseLeftButtonUp="ColorEyesRect_MouseLeftButtonUp"/>
+                            </Border>
+
+                            <Popup x:Name="ColorEyesPopup" StaysOpen="True" Placement="Mouse" IsOpen="False">
+                                <hc:ColorPicker x:Name="ColorEyesPicker" Background="{StaticResource PlrBlack}"
+                                                BorderBrush="{StaticResource PlrBlackDark}" Margin="-1"
+                                                SelectedColorChanged="ColorEyesPicker_SelectedColorChanged" Height="295"/>
+                            </Popup>
+                        </Grid>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <DockPanel x:Name="TextEditingControlPanel" Margin="5,0,10,10" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+
+                    <ToolBar x:Name="TextEditingToolbar" Height="30" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" 
                          Loaded="TextEditingToolbar_Loaded">
-                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Cut" ToolTip="Вырезать"
+                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Cut" ToolTip="Вырезать"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="..\Images\ToolbarIcons\Cut.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Copy" ToolTip="Копировать"
+                            <Image Source="..\Images\ToolbarIcons\Cut.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Copy" ToolTip="Копировать"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="..\Images\ToolbarIcons\Copy.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Paste" ToolTip="Вставить"
+                            <Image Source="..\Images\ToolbarIcons\Copy.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Paste" ToolTip="Вставить"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="..\Images\ToolbarIcons\Paste.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Undo" ToolTip="Отменить"
+                            <Image Source="..\Images\ToolbarIcons\Paste.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Undo" ToolTip="Отменить"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="..\Images\ToolbarIcons\Undo.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Redo" ToolTip="Повторить"
+                            <Image Source="..\Images\ToolbarIcons\Undo.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="ApplicationCommands.Redo" ToolTip="Повторить"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\Redo.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Жирный шрифт"
+                            <Image Source="\Images\ToolbarIcons\Redo.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Жирный шрифт"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\Bold.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Курсив"
+                            <Image Source="\Images\ToolbarIcons\Bold.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Курсив"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\Italic.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Подчёркнутый шрифт"
+                            <Image Source="\Images\ToolbarIcons\Italic.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Подчёркнутый шрифт"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\Underline.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Увеличить размер шрифта"
+                            <Image Source="\Images\ToolbarIcons\Underline.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Увеличить размер шрифта"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\GrowFont.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Уменьшить размер шрифта"
+                            <Image Source="\Images\ToolbarIcons\GrowFont.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Уменьшить размер шрифта"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\ShrinkFont.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignLeft" ToolTip="Выравнивание по левому краю"
+                            <Image Source="\Images\ToolbarIcons\ShrinkFont.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignLeft" ToolTip="Выравнивание по левому краю"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\AlignLeft.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignCenter" ToolTip="Выравнивание по центру"
+                            <Image Source="\Images\ToolbarIcons\AlignLeft.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignCenter" ToolTip="Выравнивание по центру"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\AlignCenter.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignRight" ToolTip="Выравнивание по правому краю"
+                            <Image Source="\Images\ToolbarIcons\AlignCenter.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignRight" ToolTip="Выравнивание по правому краю"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\AlignRight.png" Margin="1"/>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignJustify" ToolTip="Выравнивание по ширине"
+                            <Image Source="\Images\ToolbarIcons\AlignRight.png" Margin="1"/>
+                        </Button>
+                        <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.AlignJustify" ToolTip="Выравнивание по ширине"
                             Background="{StaticResource PlrBlackLite}">
-                        <Image Source="\Images\ToolbarIcons\AlignJustify.png" Margin="1"/>
-                    </Button>
-                </ToolBar>
+                            <Image Source="\Images\ToolbarIcons\AlignJustify.png" Margin="1"/>
+                        </Button>
+                    </ToolBar>
 
-                <RichTextBox x:Name="CharDescField" AcceptsTab="True" BorderThickness="0">
-                    <FlowDocument>
-                        <Paragraph Margin="0">
-                            
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
+                    <RichTextBox x:Name="CharDescField" AcceptsTab="True" BorderThickness="0">
+                        <FlowDocument>
+                            <Paragraph Margin="0"/>
+                        </FlowDocument>
+                    </RichTextBox>
 
-            </DockPanel>
+                </DockPanel>
 
-            <Button x:Name="SaveButton" Content="Сохранить" Grid.Row="5" Grid.ColumnSpan="2" FontFamily="Arial" FontSize="16" 
-                FontWeight="Bold" Click="SaveButton_Click" Margin="0,0,0,0" Padding="1,7,1,7"/>
+            </Grid>
 
+            <Grid Background="{StaticResource PlrBlackLite}" Grid.Row="2" Grid.Column="0" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid x:Name="ChildrenList" AutoGenerateColumns="False" Grid.Row="0"
+                              CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" HeadersVisibility="Column"
+                              MinRowHeight="30" CanUserReorderColumns="False" CanUserResizeColumns="False" SelectionMode="Single"
+                              Focusable="False" HorizontalContentAlignment="Stretch" ColumnWidth="*" Width="Auto" Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="ChildrenColumn" Binding="{Binding Name}" Header="Дети" CanUserResize="False" 
+                                        CanUserReorder="False" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--<Grid Grid.Row="1" Background="{StaticResource PlrBlackLite}" Margin="0,0,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="AddChildFindTextBox" Grid.Column="1" Style="{StaticResource DarkTextBox}" TextChanged="AddChildFindTextBox_TextChanged"/>
+                    <ComboBox x:Name="AddChildFindComboBox" DisplayMemberPath="Name" Grid.Column="2"/>
+                    <Button x:Name="AddChildButton" Content="✚ Добавить"
+                                FontSize="14" Margin="0,0,0,0" Grid.Row="1" Grid.Column="3" MinHeight="25" Click="AddChildButton_Click"/>
+                    <Button x:Name="RemoveChildButton" Content="🞫 Удалить"
+                                FontSize="14" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" MinHeight="25" Click="RemoveChildButton_Click"/>
+                </Grid>-->
+            </Grid>
+
+            <Button x:Name="SaveButton" Content="Сохранить" Grid.Row="3" Grid.ColumnSpan="2" FontFamily="Arial" FontSize="16" 
+                FontWeight="Bold" Click="SaveButton_Click" Padding="1,7,1,7"/>
         </Grid>
+
     </Grid>
+
 </Window>

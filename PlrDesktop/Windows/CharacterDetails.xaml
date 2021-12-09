@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlrDesktop.Windows"
         mc:Ignorable="d"
-        Title="CharacterDetails" Height="800" Width="800" Loaded="CharacterDetailsWindow_Loaded">
+        Title="CharacterDetails" Height="800" Width="900" Loaded="CharacterDetailsWindow_Loaded">
 
     <Window.Resources>
     </Window.Resources>
@@ -13,7 +13,7 @@
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,8 +35,10 @@
                 UseLayoutRounding="False" FontFamily="Arial" FontSize="14" Padding="10,5,10,5" />
 
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Margin="10" Background="{StaticResource PlrBlackLite}">
-            <Label x:Name="AltNamesLabel" Content="Другие имена: " Style="{StaticResource DataLabel}"/>
-            <Label x:Name="TitlesLabel" Content="Титулы и звания: " Style="{StaticResource DataLabel}"/>
+            <TextBox x:Name="AltNamesLabel" Text="Другие имена: "
+                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="30"/>
+            <TextBox x:Name="TitlesLabel" Text="Титулы и звания: "
+                     Height="Auto" TextWrapping="Wrap" IsReadOnly="True" FontSize="14" MinHeight="30"/>
             <Label x:Name="FatherLabel" Content="Отец: " Style="{StaticResource ClickableDataLabel}"/>
             <Label x:Name="MotherLabel" Content="Мать: " Style="{StaticResource ClickableDataLabel}"/>
 

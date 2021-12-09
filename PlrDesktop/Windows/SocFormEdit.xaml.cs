@@ -68,17 +68,21 @@ namespace PlrDesktop.Windows
                 Desc = _rtbTextHandler.GetAsString()
             };
 
+            var result = false;
             if (_addMode)
             {
-                Task.Run(() => _api.Methods.SocForms.Add(editedSocForm));
+                result = Task.Run(() => _api.Methods.SocForms.Add(editedSocForm)).Result;
             }
             else
             {
                 editedSocForm.Id = _socialFormation.Id;
-                Task.Run(() => _api.Methods.SocForms.Change(editedSocForm));
+                result = Task.Run(() => _api.Methods.SocForms.Change(editedSocForm)).Result;
             }
-            
-            this.Close();
+
+            if (!result)
+                MessageBox.Show("Произошла ошибка, данные не добавлены");
+            else
+                this.Close();
         }
 
         private void TextEditingToolbar_Loaded(object sender, RoutedEventArgs e)

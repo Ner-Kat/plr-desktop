@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol"
                     xmlns:local="clr-namespace:PlrDesktop">
 
     <ResourceDictionary.MergedDictionaries>
@@ -7,6 +8,7 @@
         <ResourceDictionary Source="Partial/TabItemDictionary.xaml"/>
         <ResourceDictionary Source="Partial/DataGridDictionary.xaml"/>
         <ResourceDictionary Source="Partial/ComboBoxDictionary.xaml"/>
+        <ResourceDictionary Source="Partial/DatePickerDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="Window">
@@ -98,6 +100,11 @@
         <Setter Property="Padding" Value="2,0,2,0"/>
     </Style>
 
+    <Style x:Key="DarkTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Background" Value="{StaticResource PlrBlackDark}"/>
+        <Setter Property="Foreground" Value="{StaticResource PlrWhiteDark}"/>
+    </Style>
+
     <Style TargetType="RichTextBox">
         <Setter Property="Background" Value="{StaticResource PlrBlackLite}"/>
         <Setter Property="Foreground" Value="{StaticResource PlrWhite}"/>
@@ -135,11 +142,11 @@
         <Setter Property="BorderBrush" Value="{StaticResource PlrBlackLite}"/>
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
-    
+
     <Style x:Key="ClickableDataLabel" TargetType="Label" BasedOn="{StaticResource ClickableText}">
         <Setter Property="Background" Value="{StaticResource PlrBlackLite}"/>
         <Setter Property="BorderBrush" Value="{StaticResource PlrBlackLite}"/>
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
-
+    
 </ResourceDictionary>
