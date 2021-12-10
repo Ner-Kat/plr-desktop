@@ -333,13 +333,13 @@ namespace PlrDesktop.Windows
             // Альтернативные имена
             if (_addedAltChars.Count > 0)
                 editedChar.AltCharsIds = GetIdsArray(_addedAltChars);
-            else if (_character.AltCharsIds is not null)
+            else if (_character is not null && _character.AltCharsIds is not null)
                 editedChar.AltCharsIds = new int[0];
 
             // Социальные формирования
             if (_addedSocForms.Count > 0)
                 editedChar.SocFormsIds = GetIdsArray(_addedSocForms);
-            else if (_character.SocFormsIds is not null)
+            else if (_character is not null && _character.SocFormsIds is not null)
                 editedChar.SocFormsIds = new int[0];
 
             // Цвета волос и глаз
