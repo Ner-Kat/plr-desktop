@@ -239,7 +239,7 @@ namespace PlrDesktop.Windows
 
             UpdateCardData();
 
-            if (_racesOc.Count > 0)
+            if (_racesOc.Count > 0 && RaceFindComboBox.SelectedIndex == -1)
                 RaceFindComboBox.SelectedIndex = 0;
         }
 

@@ -274,25 +274,34 @@ namespace PlrDesktop.Windows
 
         private void RaceLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var window = _windowsManager.CreateRaceDetailsWindow(_character.RaceId.Value);
-            window.Show();
+            if (_character is not null && _character.RaceId.HasValue)
+            {
+                var window = _windowsManager.CreateRaceDetailsWindow(_character.RaceId.Value);
+                window.Show();
+            }
         }
 
         private void LocBirthLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var window = _windowsManager.CreateLocationDetailsWindow(_character.LocBirthId.Value);
-            window.Show();
+            if (_character is not null && _character.LocBirthId.HasValue)
+            {
+                var window = _windowsManager.CreateLocationDetailsWindow(_character.LocBirthId.Value);
+                window.Show();
+            }
         }
 
         private void LocDeathLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var window = _windowsManager.CreateLocationDetailsWindow(_character.LocDeathId.Value);
-            window.Show();
+            if (_character is not null && _character.LocDeathId.HasValue)
+            {
+                var window = _windowsManager.CreateLocationDetailsWindow(_character.LocDeathId.Value);
+                window.Show();
+            }
         }
 
         private void FatherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_character.BioFatherId.HasValue)
+            if (_character is not null && _character.BioFatherId.HasValue)
             {
                 var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioFatherId.Value);
                 window.Show();
@@ -301,7 +310,7 @@ namespace PlrDesktop.Windows
 
         private void MotherLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_character.BioMotherId.HasValue)
+            if (_character is not null && _character.BioMotherId.HasValue)
             {
                 var window = _windowsManager.CreateCharacterDetailsWindow(_character.BioMotherId.Value);
                 window.Show();
