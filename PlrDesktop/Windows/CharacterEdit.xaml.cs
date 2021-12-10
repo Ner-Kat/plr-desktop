@@ -625,6 +625,7 @@ namespace PlrDesktop.Windows
 
         private void DataCardView_NameFilter(TextBox filterTextBox, FilterEventArgs e)
         {
+            e.Accepted = true;
             var card = e.Item as IApiDataCard;
 
             if (card is not null)
@@ -640,7 +641,7 @@ namespace PlrDesktop.Windows
         {
             var card = e.Item as IApiDataCard;
 
-            if (card is not null)
+            if (card is not null && e.Accepted)
             {
                 e.Accepted = !addedCards.Contains(card);
             }
